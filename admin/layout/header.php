@@ -59,26 +59,11 @@
                     <input class="form-control me-sm-2" type="search" placeholder="Search">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <!-- signup modal button -->
-                        <button type="button" class="btn btn-primary formBtnPadding" data-bs-toggle="modal"
-                            data-bs-target="#signup">
-                            Signup
-                        </button>
-                    </li>
-                    <li class="nav-item">
-                        <!-- login modal button -->
-                        <button type="button" class="btn btn-primary formBtnPadding" data-bs-toggle="modal"
-                            data-bs-target="#login">
-                            Login
-                        </button>
-                    </li>
-                </ul>
+               
             </div>
         </div>
     </nav>
 
-   
+
 
     <div id="main_body">
