@@ -9,6 +9,8 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/bootswagger.css">
     <link rel="stylesheet" href="../css/custom.css">
+    <link rel="stylesheet" href="../css/sweetalert.css">
+    <script src="../js/sweetalert.js"></script>
     <style>
         .modal-content {
             background-color: white !important;
@@ -22,9 +24,10 @@
         .form-floating label {
             color: black !important;
         }
-        .formBtnPadding{
-           margin-left: 5px;
-           margin-right: 5px;
+
+        .formBtnPadding {
+            margin-left: 5px;
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -59,13 +62,15 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <!-- signup modal button -->
-                        <button type="button" class="btn btn-primary formBtnPadding" data-bs-toggle="modal" data-bs-target="#signup">
+                        <button type="button" class="btn btn-primary formBtnPadding" data-bs-toggle="modal"
+                            data-bs-target="#signup">
                             Signup
                         </button>
                     </li>
                     <li class="nav-item">
-                            <!-- login modal button -->
-                        <button type="button" class="btn btn-primary formBtnPadding" data-bs-toggle="modal" data-bs-target="#login">
+                        <!-- login modal button -->
+                        <button type="button" class="btn btn-primary formBtnPadding" data-bs-toggle="modal"
+                            data-bs-target="#login">
                             Login
                         </button>
                     </li>
@@ -84,28 +89,48 @@
                 </div>
                 <div class="modal-body">
                     <!-- Signup form -->
-                    <form>
+                    <form action="home.php" method="post">
                         <div class="form-floating mb-3">
-                            <input name="fname" type="text" class="form-control" id="floatingInputFName" placeholder="First Name">
+                            <input name="fname" type="text" class="form-control" id="floatingInputFName"
+                                placeholder="First Name">
                             <label for="floatingInputFName">First Name</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input name="lname" type="text" class="form-control" id="floatingInputLName" placeholder="Last Name">
+                            <input name="lname" type="text" class="form-control" id="floatingInputLName"
+                                placeholder="Last Name">
                             <label for="floatingInputLName">Last Name</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input name="email" type="email" class="form-control" id="floatingInputEmailSignup" placeholder="Email">
+                            <input name="email" type="email" class="form-control" id="floatingInputEmailSignup"
+                                placeholder="Email">
                             <label for="floatingInputEmailSignup">Email</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input name="password" type="password" class="form-control" id="floatingInputPasswordSignup" placeholder="Password">
+                            <input name="phone" type="text" class="form-control" id="floatingInputPhoneSignup"
+                                placeholder="Phone">
+                            <label for="floatingInputPhoneSignup">Phone</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input name="password" type="password" class="form-control" id="floatingInputPasswordSignup"
+                                placeholder="Password">
                             <label for="floatingInputPasswordSignup">Password</label>
                         </div>
+                        <div class="form-floating mb-3">
+                            <input name="district" type="text" class="form-control" id="floatingInputPasswordSignup"
+                                placeholder="District">
+                            <label for="floatingInputPasswordSignup">District</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input name="city" type="text" class="form-control" id="floatingInputPasswordSignup"
+                                placeholder="City">
+                            <label for="floatingInputPasswordSignup">City</label>
+                        </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Signup</button>
+                            <button type="submit" name="signup_submit" class="btn btn-primary">Signup</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </form>
+
                     <!-- Signup form ends -->
                 </div>
             </div>
@@ -126,13 +151,15 @@
                 </div>
                 <div class="modal-body">
                     <!-- Login form -->
-                    <form>
+                    <form action="home.php" method="post">
                         <div class="form-floating mb-3">
-                            <input name="email" type="email" class="form-control" id="floatingInputEmailLogin" placeholder="Email">
+                            <input name="email" type="email" class="form-control" id="floatingInputEmailLogin"
+                                placeholder="Email">
                             <label for="floatingInputEmailLogin">Email</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input name="password" type="password" class="form-control" id="floatingInputPasswordLogin" placeholder="Password">
+                            <input name="password" type="password" class="form-control" id="floatingInputPasswordLogin"
+                                placeholder="Password">
                             <label for="floatingInputPasswordLogin">Password</label>
                         </div>
                         <div class="modal-footer">
