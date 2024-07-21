@@ -1,0 +1,10 @@
+.card_float {
+    float: left;
+    margin: 5px;
+}
+
+@media screen and (max-width: 600px) {
+    .card_float {
+        margin-left: 40px;
+    }
+}
