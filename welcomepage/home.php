@@ -131,43 +131,44 @@ if (isset($_POST["signup_submit"])) {
 <!-- login back end -->
 
 <?php
-session_start(); // Start the session at the beginning
+// Start the session at the beginning
+session_start(); // Ensure session_start is at the beginning of the file
 
 if (isset($_POST["login_submit"])) {
-    $e = $_POST["email"];
-    $p = md5($_POST["password"]);
+  $e = $_POST["email"];
+  $p = md5($_POST["password"]);
 
-    // Assuming $conn is your database connection
-    $sql = "SELECT * FROM users WHERE email='$e' AND password='$p'";
-    $r = $conn->query($sql);
+  // Assuming $conn is your database connection
+  $sql = "SELECT * FROM users WHERE email='$e' AND password='$p'";
+  $r = $conn->query($sql);
 
-    if ($r->num_rows > 0) {
-        $row = $r->fetch_assoc();
+  if ($r->num_rows > 0) {
+    $row = $r->fetch_assoc();
 
-        $uid = $row['uid'];
-        $role = $row['role'];
+    $uid = $row['uid'];
+    $role = $row['role'];
 
-        // Set session variable
-        $_SESSION["users"] = $uid;
+    // Set session variable
+    $_SESSION["users"] = $uid;
 
-        // Redirect based on role
-        if ($role == 0) {
-            header("Location: ./admin/home.php");
-            exit();
-        }
-        if ($role == 1) {
-            header("Location: ./customer/home.php");
-            exit();
-        }
-    } else {
-        echo '<script>';
-        echo "Swal.fire({
+    // Redirect based on role
+    if ($role == 0) {
+      header("Location: ../admin/home.php");
+      exit();
+    }
+    if ($role == 1) {
+      header("Location: ../customer/home.php");
+      exit();
+    }
+  } else {
+    echo '<script>';
+    echo "Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Username or password is incorrect!',
             })";
-        echo '</script>';
-    }
+    echo '</script>';
+  }
 }
 
 $conn->close(); // Close the database connection
@@ -252,7 +253,7 @@ $conn->close(); // Close the database connection
             <label for="floatingInputPasswordLogin">Password</label>
           </div>
           <div class="modal-footer">
-            <button type="submit" name="login-submit" class="btn btn-primary">Login</button>
+            <button type="submit" name="login_submit" class="btn btn-primary">Login</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </form>
@@ -268,7 +269,9 @@ $conn->close(); // Close the database connection
 
 
 <div class="card card_float" style="width: 18rem;">
-  <img src="../demo.jpg" class="card-img-top" alt="...">
+  <img
+    src="https://images.unsplash.com/photo-1521093470119-a3acdc43374a?q=80&w=1651&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title">Card title</h5>
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
@@ -277,7 +280,9 @@ $conn->close(); // Close the database connection
   </div>
 </div>
 <div class="card card_float" style="width: 18rem;">
-  <img src="../demo.jpg" class="card-img-top" alt="...">
+  <img
+    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title">Card title</h5>
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.

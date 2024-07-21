@@ -5,6 +5,11 @@
 
 @media screen and (max-width: 600px) {
     .card_float {
-        margin-left: 40px;
+        margin-left: 10%;
+        
     }
+}
+.card-img, .card-img-bottom, .card-img-top {
+    width: 100%;
+    height: 250px;
 }

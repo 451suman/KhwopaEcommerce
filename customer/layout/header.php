@@ -46,6 +46,9 @@
                         <a class="nav-link active" href="./home.php">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link active" href="./products.php">Products</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" href="#">Category</a>
                     </li>
                     <li class="nav-item">
