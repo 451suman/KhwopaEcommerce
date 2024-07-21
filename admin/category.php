@@ -133,10 +133,10 @@ include "../database/db.php";
         <thead>
             <tr>
                 <th width="10%" >SN</th>
-                <th width="30%">Name</th>
+                <th width="35%">Name</th>
                 <th width="30%">Image</th>
 
-                <th width="30%">Actions</th>
+                <th width="25%">Actions</th>
             </tr>
         </thead>
         <tbody id="categoryTable">
@@ -156,7 +156,7 @@ include "../database/db.php";
                             <td> <img class="category_table_image" src="'.$row['c_img_url'].'" ></td>
                             <td>
                                 <!-- Edit Button -->
-                               <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#EDITCategoryModal" 
+                               <button style="width:100% !important; margin:2px;" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#EDITCategoryModal" 
                                         data-id="' . $row['cid'] . '" data-name="' . $row['c_name'] . '" data-url="' . $row['c_img_url'] . '">
                                     Edit
                                 </button>
@@ -164,7 +164,7 @@ include "../database/db.php";
                                 <!-- Delete Button -->
                                <form action="category.php" method="post">
                                     <input type="hidden" name="cid" value="' . $row["cid"] . '" id="">
-                                    <button type="submit" name="delete_category" class="btn btn-danger">Delete</button>
+                                    <button style="width:100% !important;margin:2px;" type="submit" name="delete_category" class="btn btn-danger">Delete</button>
                                 </form>
                                
                             </td>
