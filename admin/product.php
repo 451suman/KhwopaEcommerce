@@ -72,7 +72,7 @@ include "../database/db.php";
     //     $c_name = $_POST['c_name'];
     //     $cid = $_POST['cid'];
     //     $c_img_url = $_POST['c_img_url'];
-
+    
 
     //     $updateSql = "UPDATE categorys SET c_name = '$c_name', c_img_url = '$c_img_url' WHERE cid =  $cid";
     //     $result = $conn->query($updateSql);
@@ -180,8 +180,13 @@ include "../database/db.php";
                         <div class="mb-3">
                             <label for="ProductImageurl" class="form-label">Image URL Address</label>
                             <input type="url" name="url" class="form-control" id="ProductImageurl"
-                                placeholder="Paste Image Address Here" required>
-
+                                placeholder="Paste Image Address Here" value=""
+                                required>
+                        </div>
+                        <div class="col">
+                            <!-- Display product image -->
+                            <img id="productImage" style="height: 200px;" src="" alt="Product Image"
+                                class="img-fluid">
                         </div>
 
                         <button type="submit" name="Product_submit" class="btn btn-primary">Add Category</button>
@@ -212,13 +217,13 @@ include "../database/db.php";
         </thead>
         <tbody id="categoryTable">
             <?php
-           
-           $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_color, products.p_brand, products.p_description, products.p_price, products.p_stockQuantity, products.p_imageURL,
+
+            $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_color, products.p_brand, products.p_description, products.p_price, products.p_stockQuantity, products.p_imageURL,
            categorys.c_name
            FROM products
            INNER JOIN categorys ON products.cid = categorys.cid
            ORDER BY c_name ASC ";
-                $result = $conn->query($Selectsql);
+            $result = $conn->query($Selectsql);
             if ($result->num_rows > 0) {
                 $i = 1;
                 while ($row = $result->fetch_assoc()) {
@@ -232,17 +237,17 @@ include "../database/db.php";
                                 <td>' . $row['p_description'] . '</td>
                                 <td>' . $row['p_stockQuantity'] . '</td>
                                 <td>' . $row['p_price'] . '</td>
-                                <td><img class="category_table_image" src="' . $row['p_imageURL'] . '"></td>
+                                <td><img class="Product_table_image" src="' . $row['p_imageURL'] . '"></td>
                                 <td>
                                     <!-- Edit Button -->
-                                    <button style="width:100% !important; margin:2px;" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#EDITCategoryModal" 
-                                            data-id="' . $row['cid'] . '" data-name="' . $row['p_name'] . '" data-url="' . $row['p_imageURL'] . '">
-                                        Edit
-                                    </button>
+                                    <form action="product_edit.php" method="post" style="margin: 0;">
+                                        <input type="hidden" name="pid" value="' . $row["pid"] . '">
+                                        <button style="width:100% !important; margin:2px;" type="submit" name="edit_product_btn" class="btn btn-warning btn-sm">EDIT</button>
+                                    </form>
                                     <!-- Delete Button -->
                                     <form action="product.php" method="post" style="margin: 0;">
                                         <input type="hidden" name="pid" value="' . $row["pid"] . '">
-                                        <button style="width:100% !important; margin:2px;" type="submit" name="delete_product" class="btn btn-danger btn-sm">Delete</button>
+                                        <button style="width:100% !important; margin:2px;" type="submit" name="delete_product" class="btn btn-danger btn-sm">DELETE</button>
                                     </form>
                                 </td>
                             </tr>
@@ -258,6 +263,10 @@ include "../database/db.php";
 
 
 
-
-
+    <script>
+        document.getElementById('ProductImageurl').addEventListener('input', function () {
+            var imageUrl = this.value;
+            document.getElementById('productImage').src = imageUrl;
+        });
+    </script>
     <?php include "./layout/footer.php" ?>

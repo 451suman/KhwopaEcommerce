@@ -156,7 +156,8 @@ include "../database/db.php";
                             <td> <img class="category_table_image" src="'.$row['c_img_url'].'" ></td>
                             <td>
                                 <!-- Edit Button -->
-                               <button style="width:100% !important; margin:2px;" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#EDITCategoryModal" 
+                               <button style="width:100% !important; margin:2px;" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#EDITCategoryModal" 
                                         data-id="' . $row['cid'] . '" data-name="' . $row['c_name'] . '" data-url="' . $row['c_img_url'] . '">
                                     Edit
                                 </button>
