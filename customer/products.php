@@ -18,17 +18,19 @@ if ($result->num_rows > 0) {
   $i = 1;
   while ($row = $result->fetch_assoc()) {
     echo '
-    <div class="card card_float" style="width: 18rem;">
+    <div class="card card_float" style="width: 18rem; border:3px solid black;">
         <img src="'.$row['p_imageURL'].'" class="card-img-top" alt="Card image">
         <div class="card-body">
-            <h5 class="card-title"><strong>'.$row['p_name'].' </strong> </h5>
+            <h5 class="card-title"><p class="text-warning" style=" text-align: center;font-size: 20px;"><strong>'.$row['p_name'].' </strong> </p> </h5><hr>
             <p class="card-text">
               <strong> Brand=  </strong> '.$row['p_brand'].'<br> 
               <strong> Color=  </strong> '.$row['p_color'].'<br>
               <strong> Description = </strong> '.$row['p_description'].'
             </p>
-            <p class="card-text text-primary" style=" text-align: center;font-size: 20px;"><strong>
+            <hr>
+            <p class="card-text text-primary" style=" text-align: center; font-size: 20px;"><strong>
             price= '.$row['p_price'].'
+          
            </strong> </p>
             <a  href="#" class="btn btn-primary">Go somewhere</a>
         </div>
