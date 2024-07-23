@@ -15,12 +15,12 @@ if ($result->num_rows > 0) {
             <div class="card bg-secondary category_card_customer mb-3" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
-                <img src="' . htmlspecialchars($row['c_img_url']) . '" class="img-fluid rounded-start" alt="...">
+                <img src="' . $row['c_img_url'] . '" class="img-fluid rounded-start" alt="...">
                 </div>
                 <div class="col-md-8">
                 <div class="card-body">
-                    <p class="card-text"><strong>' . htmlspecialchars($row['c_name']) . '</strong></p>
-                    <form action="demo.php" method="get">
+                    <p class="card-text"><strong>' . $row['c_name'] . '</strong></p>
+                    <form action="products.php" method="get">
                         <input type="hidden" name="cid" value="' . $row['cid']. '">
                         <input type="submit" class="btn btn-primary" name="category_single" value="View">
                     </form>
