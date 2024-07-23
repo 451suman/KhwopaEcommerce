@@ -8,7 +8,7 @@ include "../database/db.php";
 
 <?php
 
-$Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_color, products.p_brand, products.p_description, products.p_price, products.p_stockQuantity, products.p_imageURL,
+$Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, products.p_price, products.p_stockQuantity, products.p_imageURL,
 categorys.c_name
 FROM products
 INNER JOIN categorys ON products.cid = categorys.cid
@@ -32,7 +32,7 @@ if ($result->num_rows > 0) {
             price= '.$row['p_price'].'
           
            </strong> </p>
-            <a  href="#" class="btn btn-primary">Go somewhere</a>
+            <a  href="product_single.php?pid='.$row['pid'].'" class="btn btn-primary">View Details</a>
         </div>
     </div>
 ';
@@ -43,7 +43,6 @@ if ($result->num_rows > 0) {
 
 ?>
 
-
-
+<form action=""></form>
 
 <?php include "./layout/footer.php" ?>

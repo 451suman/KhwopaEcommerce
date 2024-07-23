@@ -40,7 +40,25 @@ a {
         width: 70px;
     }
 }
-.Product_table_image{
+
+.category_card_customer {
+    float: left;
+    width: 182px;
+    margin: 5px;
+}
+
+@media screen and (max-width: 600px) {
+    .category_card_customer {
+        width: 128px;
+    }
+}
+
+.category_card_customer img {
+    height: 100px;
+    width: 100px;
+}
+
+.Product_table_image {
     height: 200px;
     width: 300px;
 }

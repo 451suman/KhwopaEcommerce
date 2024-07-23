@@ -12,7 +12,7 @@ include "../database/db.php";
 // data collected from product.php page 
 if(isset($_POST['edit_product_btn'])) {
     $pid = $_POST['pid'];
-    $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_color, products.p_brand, products.p_description, products.p_price, products.p_stockQuantity, products.p_imageURL, categorys.c_name FROM products INNER JOIN categorys ON products.cid = categorys.cid WHERE pid = $pid";
+    $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, products.p_description, products.p_price, products.p_stockQuantity, products.p_imageURL, categorys.c_name FROM products INNER JOIN categorys ON products.cid = categorys.cid WHERE pid = $pid";
     $result = $conn->query($Selectsql);
     
     if ($result->num_rows > 0) {
@@ -64,8 +64,8 @@ if(isset($_POST['edit_product_btn'])) {
         </div>
 
         <div class="mb-3">
-            <label for="Color" class="form-label">Color</label>
-            <input type="text" name="color" class="form-control" id="Color" value="<?php echo $product['p_color']; ?>" required>
+            <label for="Color" class="form-label">Model No</label>
+            <input type="text" name="model" class="form-control" id="Color" value="<?php echo $product['p_model']; ?>" required>
         </div>
 
         <div class="mb-3">
@@ -75,7 +75,9 @@ if(isset($_POST['edit_product_btn'])) {
 
         <div class="mb-3">
             <label for="Description" class="form-label">Description</label>
-            <input type="text" name="description" class="form-control" id="Description" value="<?php echo $product['p_description']; ?>" required>
+            <textarea class="form-control" name="description"  id="Description"  rows="3" required> <?php echo $product['p_description']; ?></textarea>
+
+            <!-- <input type="text" name="description" class="form-control" id="Description" value="" required> -->
         </div>
 
         <div class="mb-3">
