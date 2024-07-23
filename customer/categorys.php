@@ -1,43 +1,38 @@
-<?php 
+<?php
 include "./layout/header.php";
-
 include "./layout/customer_session.php";
 include "../database/db.php";
-?>
 
-<?php
-$Selectsql="SELECT * FROM categorys";
-$result=$conn ->query($Selectsql);
-if($result->num_rows>0)
-{
-    while($row=$result->fetch_assoc())
-    {
 
-        echo'
-            <div class="card  bg-secondary category_card_customer mb-3" style="max-width: 540px;">
+
+// Query to select categories
+$Selectsql = "SELECT * FROM categorys";
+$result = $conn->query($Selectsql);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo '
+            <div class="card bg-secondary category_card_customer mb-3" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
-                <img src="'.$row['c_img_url'].'" class="img-fluid rounded-start" alt="...">
+                <img src="' . htmlspecialchars($row['c_img_url']) . '" class="img-fluid rounded-start" alt="...">
                 </div>
                 <div class="col-md-8">
                 <div class="card-body">
-                   
-                    <p class="card-text"><strong>'.$row['c_name'].'</strong></p>
-                 
+                    <p class="card-text"><strong>' . htmlspecialchars($row['c_name']) . '</strong></p>
+                    <form action="demo.php" method="get">
+                        <input type="hidden" name="cid" value="' . htmlspecialchars($row['cid']) . '">
+                        <input type="submit" class="btn btn-primary" name="category_single" value="View">
+                    </form>
                 </div>
                 </div>
             </div>
             </div>
         ';
-
     }
+} else {
+    echo "No categories found.";
 }
 
-
+include "./layout/footer.php";
 ?>
-
-
-<button type="button" class="btn btn-primary"> <a href=""> View </a> </button>
-
-
-<?php include "./layout/footer.php" ?>
