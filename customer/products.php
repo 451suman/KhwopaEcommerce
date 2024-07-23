@@ -1,8 +1,8 @@
 <?php 
 include "./layout/header.php";
 include "./layout/customer_session.php";
-include "../database/db.php";
-// Ensure this path is correct
+
+
 
 if (isset($_GET['category_single']) && isset($_GET['cid'])) {
     $cid = $_GET['cid'];

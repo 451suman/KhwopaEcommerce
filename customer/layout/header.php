@@ -62,11 +62,12 @@
                     <input class="form-control me-sm-2" type="search" placeholder="Search">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
-                <button type="button" class="btn btn-danger" style="margin-left:10px;"><a href="./logout.php">Logout</a></button>
+                <button type="button" class="btn btn-danger" style="margin-left:10px;"><a
+                        href="./logout.php">Logout</a></button>
             </div>
         </div>
     </nav>
 
 
-        <?php include"function.php";?>
+    <?php include "function.php"; ?>
     <div id="main_body">

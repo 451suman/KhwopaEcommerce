@@ -1,4 +1,5 @@
 <?php
+include "../database/db.php";
 function category_product_display($cid, $conn)
 {
     $cid = intval($cid);
