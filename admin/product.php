@@ -15,7 +15,7 @@ include "../database/db.php";
         $pid = $_POST['pid'];
         $p_name = $_POST['p_name'];
         $category = $_POST['category'];
-        $color = $_POST['color'];
+        $model = $_POST['model'];
         $brand = $_POST['brand'];
         $description = $_POST['description'];
         $price = $_POST['price'];
@@ -24,7 +24,7 @@ include "../database/db.php";
 
         // Prepare the SQL statement
         $updateSql = "UPDATE products 
-                  SET p_name = ?, cid = ?, p_color = ?, p_brand = ?, p_description = ?, p_price = ?, p_stockQuantity = ?, p_imageURL = ? 
+                  SET p_name = ?, cid = ?, p_model = ?, p_brand = ?, p_description = ?, p_price = ?, p_stockQuantity = ?, p_imageURL = ? 
                   WHERE pid = ?";
 
         // Initialize a prepared statement
@@ -32,7 +32,7 @@ include "../database/db.php";
 
         if ($stmt) {
             // Bind parameters
-            $stmt->bind_param('sissssssi', $p_name, $category, $color, $brand, $description, $price, $stock, $imageURL, $pid);
+            $stmt->bind_param('sissssssi', $p_name, $category, $model, $brand, $description, $price, $stock, $imageURL, $pid);
 
             // Execute the statement
             if ($stmt->execute()) {
@@ -76,7 +76,7 @@ include "../database/db.php";
     if (isset($_POST["Product_submit"])) {
         $category = $_POST["category"];
         $p_name = $_POST["p_name"];
-        $color = $_POST["color"];
+        $model = $_POST["model"];
         $brand = $_POST["brand"];
         $description = $_POST["description"];
         $price = $_POST["price"];
@@ -85,8 +85,8 @@ include "../database/db.php";
         ;
 
 
-        $Insertsql = "INSERT INTO products (cid, p_name, p_color, p_brand, p_description, p_price, p_stockQuantity, p_imageURL)
-                             VALUES ('$category', '$p_name ', '$color', '$brand', '$description', '$price', '$stock', '$url')";
+        $Insertsql = "INSERT INTO products (cid, p_name, p_model, p_brand, p_description, p_price, p_stockQuantity, p_imageURL)
+                             VALUES ('$category', '$p_name ', '$model', '$brand', '$description', '$price', '$stock', '$url')";
         $result = $conn->query($Insertsql);
         if ($result) {
             echo '<script>';
@@ -177,8 +177,8 @@ include "../database/db.php";
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="Color" class="form-label">Color</label>
-                            <input type="text" name="color" class="form-control" id="Color" required>
+                            <label for="Color" class="form-label">Model No</label>
+                            <input type="text" name="model" class="form-control" id="Color" required>
                         </div>
 
                         <div class="mb-3">
@@ -188,7 +188,7 @@ include "../database/db.php";
 
                         <div class="mb-3">
                             <label for="Description" class="form-label">Description</label>
-                            <input type="text" name="description" class="form-control" id="Description" required>
+                            <input type="text" name="description" class="form-control" id="Description" maxlength="100" required>
                         </div>
 
                         <div class="mb-3">
@@ -227,7 +227,7 @@ include "../database/db.php";
                 <th width="5%">SN</th>
                 <th width="10%">Name</th>
                 <th width="10%">Category</th>
-                <th width="10%">Color</th>
+                <th width="10%">Model No</th>
                 <th width="10%">Brand</th>
                 <th width="20%">Description</th>
                 <th width="5%">Stock</th>
@@ -239,7 +239,7 @@ include "../database/db.php";
         <tbody id="categoryTable">
             <?php
 
-            $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_color, products.p_brand, products.p_description, products.p_price, products.p_stockQuantity, products.p_imageURL,
+            $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, products.p_description, products.p_price, products.p_stockQuantity, products.p_imageURL,
            categorys.c_name
            FROM products
            INNER JOIN categorys ON products.cid = categorys.cid
@@ -253,7 +253,7 @@ include "../database/db.php";
                                 <td>' . $i++ . '</td>
                                 <td>' . $row['p_name'] . '</td>
                                 <td>' . $row['c_name'] . '</td>
-                                <td>' . $row['p_color'] . '</td>
+                                <td>' . $row['p_model'] . '</td>
                                 <td>' . $row['p_brand'] . '</td>
                                 <td>' . $row['p_description'] . '</td>
                                 <td>' . $row['p_stockQuantity'] . '</td>
