@@ -23,7 +23,7 @@ if($result->num_rows>0)
                 <div class="card-body">
                    
                     <p class="card-text"><strong>'.$row['c_name'].'</strong></p>
-                  <button type="button" class="btn btn-primary">View</button>
+                 
                 </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@ if($result->num_rows>0)
 ?>
 
 
-
+<button type="button" class="btn btn-primary"> <a href=""> View </a> </button>
 
 
 <?php include "./layout/footer.php" ?>

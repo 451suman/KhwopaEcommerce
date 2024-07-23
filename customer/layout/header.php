@@ -68,5 +68,5 @@
     </nav>
 
 
-
+        <?php include "function.php"; ?>
     <div id="main_body">
