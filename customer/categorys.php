@@ -21,7 +21,7 @@ if ($result->num_rows > 0) {
                 <div class="card-body">
                     <p class="card-text"><strong>' . htmlspecialchars($row['c_name']) . '</strong></p>
                     <form action="demo.php" method="get">
-                        <input type="hidden" name="cid" value="' . htmlspecialchars($row['cid']) . '">
+                        <input type="hidden" name="cid" value="' . $row['cid']. '">
                         <input type="submit" class="btn btn-primary" name="category_single" value="View">
                     </form>
                 </div>

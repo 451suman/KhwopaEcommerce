@@ -25,6 +25,7 @@ function category_product_display($cid, $conn) {
         }
 
         $stmt->close();
+        $conn->close();
     } else {
         echo '<p>Error preparing the SQL statement.</p>';
     }
