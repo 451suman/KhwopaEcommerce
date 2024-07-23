@@ -1,6 +1,6 @@
 <?php include "./layout/header.php";
 include "../database/db.php";
 ?>
-about
+category
 
 <?php include "./layout/footer.php" ?>
