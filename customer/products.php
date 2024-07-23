@@ -21,15 +21,15 @@ if ($result->num_rows > 0) {
     <div class="card bg-secondary card_float " style="width: 18rem;">
         <img src="'.$row['p_imageURL'].'" class="card-img-top" alt="Card image">
         <div class="card-body">
-            <h5 class="card-title"><strong>'.$row['p_name'].' </strong> </h5>
+            <h5 class="card-title"><strong> '.$row['p_name'].' </strong> </h5>
             <p class="card-text">
               <strong> Brand=  </strong> '.$row['p_brand'].'<br> 
               <strong> Model no=  </strong> '.$row['p_model'].'<br>
                           </p>
             <p class="card-text" style=" text-align: center;font-size: 20px;"><strong>
-            price= '.$row['p_price'].'
+            price= Rs '.$row['p_price'].'
            </strong> </p>
-            <a  href="#" class="btn btn-primary">Go somewhere</a>
+            <a  href="product_single.php?pid='.$row['pid'].'" class="btn btn-primary">View Details</a>
         </div>
     </div>
 ';
@@ -40,6 +40,6 @@ if ($result->num_rows > 0) {
 
 ?>
 
-
+<form action=""></form>
 
 <?php include "./layout/footer.php" ?>

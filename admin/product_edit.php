@@ -75,7 +75,9 @@ if(isset($_POST['edit_product_btn'])) {
 
         <div class="mb-3">
             <label for="Description" class="form-label">Description</label>
-            <input type="text" name="description" class="form-control" id="Description" maxlength="100" value="<?php echo $product['p_description']; ?>" required>
+            <textarea class="form-control" name="description"  id="Description"  rows="3" required> <?php echo $product['p_description']; ?></textarea>
+
+            <!-- <input type="text" name="description" class="form-control" id="Description" value="" required> -->
         </div>
 
         <div class="mb-3">

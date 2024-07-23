@@ -142,7 +142,7 @@ include "../database/db.php";
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
+                    <h5 class="modal-title" id="addCategoryModalLabel">Add New Product</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -188,7 +188,8 @@ include "../database/db.php";
 
                         <div class="mb-3">
                             <label for="Description" class="form-label">Description</label>
-                            <input type="text" name="description" class="form-control" id="Description" maxlength="100" required>
+                            <textarea class="form-control" name="description"  id="Description"  rows="3" required></textarea>
+                            <!-- <input type="text" name="description" class="form-control" id="Description"  required> -->
                         </div>
 
                         <div class="mb-3">
