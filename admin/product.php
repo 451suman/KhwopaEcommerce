@@ -9,70 +9,110 @@ include "../database/db.php";
 
 
     <?php
-            // EDIT PRODUCT back end
-    if (isset($_POST['edit_product_submit'])) {
-        // Retrieve form data
-        $pid = $_POST['pid'];
-        $p_name = $_POST['p_name'];
-        $category = $_POST['category'];
-        $model = $_POST['model'];
-        $brand = $_POST['brand'];
-        $description = $_POST['description'];
-        $price = $_POST['price'];
-        $stock = $_POST['Stock'];
-        $imageURL = $_POST['url'];
+// EDIT PRODUCT back end
+if (isset($_POST['edit_product_submit'])) {
+    // Retrieve form data
+    $pid = $_POST['pid'];
+    $p_name = $_POST['p_name'];
+    $category = $_POST['category'];
+    $model = $_POST['model'];
+    $brand = $_POST['brand'];
+    $description = $_POST['description'];
+    $price = $_POST['price'];
+    $old_image = $_POST['old_image'];
+    $newimage = $_FILES["image_file"]["name"];
 
-        // Prepare the SQL statement
-        $updateSql = "UPDATE products 
-                  SET p_name = ?, cid = ?, p_model = ?, p_brand = ?, p_description = ?, p_price = ?, p_stockQuantity = ?, p_imageURL = ? 
-                  WHERE pid = ?";
+    if (!empty($_FILES["image_file"]["name"])) {
+        $file_name = $_FILES["image_file"]["name"];
+        $file_size = $_FILES["image_file"]["size"];
+        $file_tmp = $_FILES["image_file"]["tmp_name"];
+        $fileType = pathinfo($file_name, PATHINFO_EXTENSION);
 
-        // Initialize a prepared statement
-        $stmt = $conn->prepare($updateSql);
+        $newFileName = "product_image_" . time() . '.' . $fileType;
+        $destination = "../image/product/" . $newFileName;
 
-        if ($stmt) {
-            // Bind parameters
-            $stmt->bind_param('sissssssi', $p_name, $category, $model, $brand, $description, $price, $stock, $imageURL, $pid);
+        if ($file_size < 5242880) { // 5MB
+            if (move_uploaded_file($file_tmp, $destination)) {
+                $edit_image_file = $newFileName;
 
-            // Execute the statement
-            if ($stmt->execute()) {
-                echo '<script >';
-                echo 'swal.fire({
-                     icon: "success",
-                    title: "Wow!",
-                    text: "Update Sucessful",
-                   
-                }).then(function() {
-                    window.location = "product.php";
-                });';
-                echo '</script>';
+                // Delete old image
+                if (!empty($old_image)) {
+                    $old_img_path = '../image/product/' . $old_image;
+                    if (file_exists($old_img_path)) {
+                        unlink($old_img_path);
+                    }
+                }
             } else {
-                echo '<script >';
-                echo 'swal.fire({
-                     icon: "error",
-                    title: "Wow!",
-                    text: "Update Failed",
-                   
-                }).then(function() {
-                    window.location = "product.php";
-                });';
+                $edit_image_file = $old_image;
+                echo '<script>';
+                echo 'Swal.fire({
+                    icon: "error",
+                    title: "ERROR!",
+                    text: "Error moving uploaded file.",
+                })';
                 echo '</script>';
-
+                exit(); // Stop execution if file upload fails
             }
-
-            // Close the statement
-            $stmt->close();
         } else {
-            echo '<div class="alert alert-danger" role="alert">Error preparing the statement: ' . $conn->error . '</div>';
+            $edit_image_file = $old_image;
+            echo '<script>';
+            echo 'Swal.fire({
+                icon: "error",
+                title: "ERROR!",
+                text: "File size exceeds'.$edit_image_file.' the maximum limit.",
+            })';
+            echo '</script>';
+            exit(); // Stop execution if file size is too large
+        }
+    } else {
+        $edit_image_file = $old_image;
+    }
+
+    $updateSql = "UPDATE products 
+        SET p_name = ?, cid = ?, p_model = ?, p_brand = ?, p_description = ?, p_price = ?, p_image = ? 
+        WHERE pid = ?";
+
+    // Initialize a prepared statement
+    $stmt = $conn->prepare($updateSql);
+
+    if ($stmt) {
+        // Bind parameters
+        $stmt->bind_param('sisssssi', $p_name, $category, $model, $brand, $description, $price, $edit_image_file, $pid);
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            echo '<script>';
+            echo 'Swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: "Update successful.",
+            }).then(function() {
+                window.location = "product.php";
+            });';
+            echo '</script>';
+        } else {
+            echo '<script>';
+            echo 'Swal.fire({
+                icon: "error",
+                title: "ERROR!",
+                text: "Update failed: ' . addslashes($stmt->error) . '",
+            }).then(function() {
+                window.location = "product.php";
+            });';
+            echo '</script>';
         }
 
-        // Close the connection
-        $conn->close();
+        // Close the statement
+        $stmt->close();
+    } else {
+        echo '<div class="alert alert-danger" role="alert">Error preparing the statement: ' . htmlspecialchars($conn->error) . '</div>';
     }
-    ?>
+}
+?>
+
 
     <?php
-    // add prduct
+    // Add product
     if (isset($_POST["Product_submit"])) {
         $category = $_POST["category"];
         $p_name = $_POST["p_name"];
@@ -80,53 +120,102 @@ include "../database/db.php";
         $brand = $_POST["brand"];
         $description = $_POST["description"];
         $price = $_POST["price"];
-        $stock = $_POST["Stock"];
-        $url = $_POST["url"];
-        ;
 
+        // Check if file was uploaded
+        if (isset($_FILES["image_file"]) && $_FILES["image_file"]["error"] === UPLOAD_ERR_OK) {
+            $file_name = $_FILES["image_file"]["name"];
+            $file_size = $_FILES["image_file"]["size"];
+            $file_tmp = $_FILES["image_file"]["tmp_name"];
+            $fileType = pathinfo($file_name, PATHINFO_EXTENSION);
 
-        $Insertsql = "INSERT INTO products (cid, p_name, p_model, p_brand, p_description, p_price, p_stockQuantity, p_imageURL)
-                             VALUES ('$category', '$p_name ', '$model', '$brand', '$description', '$price', '$stock', '$url')";
-        $result = $conn->query($Insertsql);
-        if ($result) {
-            echo '<script>';
-            echo "Swal.fire({
-                    icon: 'success',
-                    text: 'Category added into Database Successfully.',
-                })";
-            echo '</script>';
+            $newFileName = "product_image_" . time() . '.' . $fileType;
+            $destination = "../image/product/" . $newFileName;
+
+            if ($file_size < 5242880) { // Max file size: 5MB
+                if (move_uploaded_file($file_tmp, $destination)) {
+                    $Insertsql = "INSERT INTO products (cid, p_name, p_model, p_brand, p_description, p_price, p_image)
+                              VALUES ('$category', '$p_name', '$model', '$brand', '$description', '$price', '$newFileName')";
+                    $result = $conn->query($Insertsql);
+
+                    if ($result) {
+                        echo '<script>';
+                        echo "Swal.fire({
+                        icon: 'success',
+                        text: 'Product added into Database Successfully.',
+                    })";
+                        echo '</script>';
+                    } else {
+                        echo '<script>';
+                        echo "Swal.fire({
+                        icon: 'error',
+                        text: 'Failed to add Product into Database.',
+                    })";
+                        echo '</script>';
+                    }
+                } else {
+                    echo '<script>';
+                    echo 'Swal.fire({
+                    icon: "error",
+                    title: "ERROR!",
+                    text: "Error moving uploaded file.",
+                })';
+                    echo '</script>';
+                }
+            } else {
+                echo '<script>';
+                echo 'Swal.fire({
+                icon: "error",
+                title: "ERROR!",
+                text: "File size exceeds the maximum limit.",
+            })';
+                echo '</script>';
+            }
         } else {
             echo '<script>';
-            echo "Swal.fire({
-                            icon: 'error',
-                            text: 'Failed to add Category into Database.',
-                        })";
+            echo 'Swal.fire({
+            icon: "error",
+            title: "ERROR!",
+            text: "No file uploaded or there was an error uploading the file.",
+        })';
             echo '</script>';
         }
-
     }
+
     // end add product
     
     // delete product
     if (isset($_POST['delete_product'])) {
         $pid = $_POST["pid"];
-        $deleteSql = "DELETE FROM products WHERE pid = $pid";
-        $result = $conn->query($deleteSql);
-        if ($result) {
-            echo '<script>';
-            echo "Swal.fire({
+        $imgSQL = "SELECT * FROM products WHERE pid = '$pid'";
+        $imgResult = $conn->query($imgSQL);
+        if ($imgResult->num_rows > 0) {
+            $row = $imgResult->fetch_assoc();
+            $img_name = $row['p_image'];
+            $folderPath = '../image/product/';
+            $filePath = $folderPath . $img_name;
+            if (file_exists($filePath)) {
+                if (unlink($filePath)) {
+                    $deleteSql = "DELETE FROM products WHERE pid = $pid";
+                    $result = $conn->query($deleteSql);
+                    if ($result) {
+                        echo '<script>';
+                        echo "Swal.fire({
                         icon: 'success',
                         text: 'Delete products form Database Successfully.',
                     })";
-            echo '</script>';
-        } else {
-            echo '<script>';
-            echo "Swal.fire({
+                        echo '</script>';
+                    } else {
+                        echo '<script>';
+                        echo "Swal.fire({
                         icon: 'error',
                         text: 'Delete products form Database Failed.',
                     })";
-            echo '</script>';
+                        echo '</script>';
+                    }
+                }
+            }
         }
+
     }
     // delete product end
     
@@ -146,7 +235,7 @@ include "../database/db.php";
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addCategoryForm" method="post" action="product.php">
+                    <form id="addCategoryForm" method="post" action="product.php" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="ProductName" class="form-label">Product Name</label>
                             <input type="text" name="p_name" class="form-control" id="ProductName" required>
@@ -188,7 +277,8 @@ include "../database/db.php";
 
                         <div class="mb-3">
                             <label for="Description" class="form-label">Description</label>
-                            <textarea class="form-control" name="description"  id="Description"  rows="3" required></textarea>
+                            <textarea class="form-control" name="description" id="Description" rows="3"
+                                required></textarea>
                             <!-- <input type="text" name="description" class="form-control" id="Description"  required> -->
                         </div>
 
@@ -196,21 +286,11 @@ include "../database/db.php";
                             <label for="price" class="form-label">Price</label>
                             <input type="number" name="price" class="form-control" id="price" required>
                         </div>
-
                         <div class="mb-3">
-                            <label for="Stock" class="form-label">Stock Quantity</label>
-                            <input type="number" name="Stock" class="form-control" id="Stock" required>
-                        </div>
+                            <label for="ProductImageurl" class="form-label">Upload Image</label>
+                            <input type="file" name="image_file" class="form-control" id="ProductImageurl"
+                                accept=".jpg,.png,.jpeg" required>
 
-
-                        <div class="mb-3">
-                            <label for="ProductImageurl" class="form-label">Image URL Address</label>
-                            <input type="url" name="url" class="form-control" id="ProductImageurl"
-                                placeholder="Paste Image Address Here" value="" required>
-                        </div>
-                        <div class="col">
-                            <!-- Display product image -->
-                            <img id="productImage" style="height: 200px;" src="" alt="Product Image" class="img-fluid">
                         </div>
 
                         <button type="submit" name="Product_submit" class="btn btn-primary">Add Category</button>
@@ -220,6 +300,9 @@ include "../database/db.php";
         </div>
     </div>
     <!-- Add Product Modal ends -->
+
+
+
 
     <!-- Product Table -->
     <table class="table table-bordered table-striped">
@@ -238,9 +321,12 @@ include "../database/db.php";
             </tr>
         </thead>
         <tbody id="categoryTable">
+
+
             <?php
 
-            $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, products.p_description, products.p_price, products.p_stockQuantity, products.p_imageURL,
+            $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand,
+             products.p_description, products.p_price,products.p_dateAndTime,products.p_image,
            categorys.c_name
            FROM products
            INNER JOIN categorys ON products.cid = categorys.cid
@@ -257,16 +343,16 @@ include "../database/db.php";
                                 <td>' . $row['p_model'] . '</td>
                                 <td>' . $row['p_brand'] . '</td>
                                 <td>' . $row['p_description'] . '</td>
-                                <td>' . $row['p_stockQuantity'] . '</td>
+                                <td>' . $row['p_dateAndTime'] . '</td>
                                 <td>' . $row['p_price'] . '</td>
-                                <td><img class="Product_table_image" src="' . $row['p_imageURL'] . '"></td>
+                                <td><img class="Product_table_image" src="../image/product/' . $row['p_image'] . '"></td>
                                 <td>
-                                    <!-- Edit Button -->
+                                   
                                     <form action="product_edit.php" method="post" style="margin: 0;">
                                         <input type="hidden" name="pid" value="' . $row["pid"] . '">
                                         <button style="width:100% !important; margin:2px;" type="submit" name="edit_product_btn" class="btn btn-warning btn-sm">EDIT</button>
                                     </form>
-                                    <!-- Delete Button -->
+                                    
                                     <form action="product.php" method="post" style="margin: 0;">
                                         <input type="hidden" name="pid" value="' . $row["pid"] . '">
                                         <button style="width:100% !important; margin:2px;" type="submit" name="delete_product" class="btn btn-danger btn-sm">DELETE</button>
