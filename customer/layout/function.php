@@ -10,18 +10,7 @@ function category_product_display($cid, $conn)
 
     $sql = "SELECT * FROM products WHERE cid = $cid";
     $result = $conn->query($sql);
-
-    if ($result) {
-        if ($result->num_rows > 0) {
-            return $result;
-        } else {
-            echo '<p>No products found for this category.</p>';
-            return null;
-        }
-    } else {
-        echo '<p>Error executing the SQL statement.</p>';
-        return null;
-    }
+    return $result;
 }
 
 function selectProducts($conn)
@@ -31,19 +20,8 @@ function selectProducts($conn)
     FROM products
     INNER JOIN categorys ON products.cid = categorys.cid
     ORDER BY categorys.c_name ASC";
-
     $result = $conn->query($Selectsql);
+    return $result;
 
-    if ($result) {
-        if ($result->num_rows > 0) {
-            return $result;
-        } else {
-            echo '<p>No products found.</p>';
-            return null;
-        }
-    } else {
-        echo '<p>Error executing the SQL statement.</p>';
-        return null;
-    }
 }
 ?>
