@@ -1,7 +1,7 @@
 <?php
 include "./layout/header.php";
 include "./layout/admin_session.php";
-include "../database/db.php";
+
 ?>
 
 <?php
@@ -30,7 +30,7 @@ if (isset($_POST['edit_product_btn'])) {
                 <div class="col">
                     <p style="background-color:black; color:white; font-size:20px;"> Edit Product Details</p>
                     <form method="post" action="product.php" enctype="multipart/form-data">
-                      
+
 
                         <div class="mb-3">
                             <label for="ProductName" class="form-label">Product Name</label>
@@ -54,7 +54,7 @@ if (isset($_POST['edit_product_btn'])) {
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="category" id="optionsRadios' . $row['cid'] . '" value="' . $row['cid'] . '" ' . ($row['cid'] == $product['cid'] ? 'checked' : '') . '>
                                 <label class="form-check-label" for="optionsRadios' . $row['cid'] . '">
-                                    ' . htmlspecialchars($row['c_name']) . '
+                                    ' . $row['c_name'] . '
                                 </label>
                             </div>
                         </div>
@@ -68,30 +68,30 @@ if (isset($_POST['edit_product_btn'])) {
                         <div class="mb-3">
                             <label for="Color" class="form-label">Model No</label>
                             <input type="text" name="model" class="form-control" id="Color"
-                                value="<?php echo htmlspecialchars($product['p_model']); ?>" required>
+                                value="<?php echo $product['p_model']; ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="Brand" class="form-label">Brand</label>
                             <input type="text" name="brand" class="form-control" id="Brand"
-                                value="<?php echo htmlspecialchars($product['p_brand']); ?>" required>
+                                value="<?php echo $product['p_brand']; ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="Description" class="form-label">Description</label>
                             <textarea class="form-control" name="description" id="Description" rows="3"
-                                required><?php echo htmlspecialchars($product['p_description']); ?></textarea>
+                                required><?php echo $product['p_description']; ?></textarea>
                         </div>
 
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>
                             <input type="number" name="price" class="form-control" id="price"
-                                value="<?php echo htmlspecialchars($product['p_price']); ?>" required>
+                                value="<?php echo $product['p_price']; ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="ProductImageurl" class="form-label">Upload New Image (Optional)</label>
-                            <input type="file" name="image_file" class="form-control" id="ProductImageurl"
+                            <input type="file" name="new_image_file" class="form-control" id="ProductImageurl"
                                 accept=".jpg,.png,.jpeg">
                         </div>
                         <input type="hidden" name="pid" value="<?php echo $product['pid']; ?>">
@@ -115,4 +115,3 @@ if (isset($_POST['edit_product_btn'])) {
 <?php
 include "./layout/footer.php";
 ?>
-

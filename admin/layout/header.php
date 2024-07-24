@@ -69,5 +69,5 @@
     </nav>
 
 
-
+    <?php include "adminFunction.php"; ?>
     <div id="main_body">

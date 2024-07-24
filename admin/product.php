@@ -1,114 +1,91 @@
 <?php include "./layout/header.php";
 include "./layout/admin_session.php";
-include "../database/db.php";
 ?>
-
 
 <div class="container mt-4">
     <h2>Product Management</h2>
-
-
     <?php
-// EDIT PRODUCT back end
-if (isset($_POST['edit_product_submit'])) {
-    // Retrieve form data
-    $pid = $_POST['pid'];
-    $p_name = $_POST['p_name'];
-    $category = $_POST['category'];
-    $model = $_POST['model'];
-    $brand = $_POST['brand'];
-    $description = $_POST['description'];
-    $price = $_POST['price'];
-    $old_image = $_POST['old_image'];
-    $newimage = $_FILES["image_file"]["name"];
+    // EDIT PRODUCT back end
+    if (isset($_POST['edit_product_submit'])) {
+        // Retrieve form data
+        $pid = $_POST['pid'];
+        $p_name = $_POST['p_name'];
+        $category = $_POST['category'];
+        $model = $_POST['model'];
+        $brand = $_POST['brand'];
+        $description = $_POST['description'];
+        $price = $_POST['price'];
+        $old_image = $_POST['old_image'];
 
-    if (!empty($_FILES["image_file"]["name"])) {
-        $file_name = $_FILES["image_file"]["name"];
-        $file_size = $_FILES["image_file"]["size"];
-        $file_tmp = $_FILES["image_file"]["tmp_name"];
-        $fileType = pathinfo($file_name, PATHINFO_EXTENSION);
+        $edit_image_file = $old_image; // Default to old image if no new image is uploaded
+    
+        if (!empty($_FILES["new_image_file"]["name"])) {
+            $file_name = $_FILES["new_image_file"]["name"];
+            $file_size = $_FILES["new_image_file"]["size"];
+            $file_tmp = $_FILES["new_image_file"]["tmp_name"];
+            $fileType = pathinfo($file_name, PATHINFO_EXTENSION);
 
-        $newFileName = "product_image_" . time() . '.' . $fileType;
-        $destination = "../image/product/" . $newFileName;
+            $newFileName = "product_image_" . time() . '.' . $fileType;
+            $destination = "../image/product/" . $newFileName;
 
-        if ($file_size < 5242880) { // 5MB
-            if (move_uploaded_file($file_tmp, $destination)) {
-                $edit_image_file = $newFileName;
+            $file_size_limit = 5242880; // 5MB
+            if ($file_size < $file_size_limit) {
+                if (move_uploaded_file($file_tmp, $destination)) {
+                    // Successfully moved the uploaded file
+                    $edit_image_file = $newFileName;
 
-                // Delete old image
-                if (!empty($old_image)) {
+                    // Delete old image
                     $old_img_path = '../image/product/' . $old_image;
-                    if (file_exists($old_img_path)) {
-                        unlink($old_img_path);
+                    if (file_exists($old_img_path) && $old_image !== $newFileName) {
+                        if (!unlink($old_img_path)) {
+                            $icon = "error";
+                            $msg = "Error deleting old uploaded image.";
+                            $loc = "product.php";
+                            msg($icon, $msg);
+                        }
                     }
+                } else {
+                    // Error moving the uploaded file
+                    $icon = "error";
+                    $msg = "Error moving uploaded image.";
+                    $loc = "product.php";
+                    msg_loc($icon, $msg, $loc);
+                    $edit_image_file = $old_image;
                 }
             } else {
+                // File size exceeds limit
+                $icon = "error";
+                $msg = "File size exceeds the 5MB limit.";
+                $loc = "product.php";
+                msg_loc($icon, $msg, $loc);
                 $edit_image_file = $old_image;
-                echo '<script>';
-                echo 'Swal.fire({
-                    icon: "error",
-                    title: "ERROR!",
-                    text: "Error moving uploaded file.",
-                })';
-                echo '</script>';
-                exit(); // Stop execution if file upload fails
             }
-        } else {
-            $edit_image_file = $old_image;
-            echo '<script>';
-            echo 'Swal.fire({
-                icon: "error",
-                title: "ERROR!",
-                text: "File size exceeds'.$edit_image_file.' the maximum limit.",
-            })';
-            echo '</script>';
-            exit(); // Stop execution if file size is too large
         }
-    } else {
-        $edit_image_file = $old_image;
-    }
 
-    $updateSql = "UPDATE products 
-        SET p_name = ?, cid = ?, p_model = ?, p_brand = ?, p_description = ?, p_price = ?, p_image = ? 
-        WHERE pid = ?";
+        // Prepare SQL statement for updating product
+        $updateSql = "UPDATE products 
+    SET p_name = ?, cid = ?, p_model = ?, p_brand = ?, p_description = ?, p_price = ?, p_image = ? 
+    WHERE pid = ?";
 
-    // Initialize a prepared statement
-    $stmt = $conn->prepare($updateSql);
-
-    if ($stmt) {
-        // Bind parameters
+        $stmt = $conn->prepare($updateSql);
         $stmt->bind_param('sisssssi', $p_name, $category, $model, $brand, $description, $price, $edit_image_file, $pid);
 
         // Execute the statement
         if ($stmt->execute()) {
-            echo '<script>';
-            echo 'Swal.fire({
-                icon: "success",
-                title: "Success!",
-                text: "Update successful.",
-            }).then(function() {
-                window.location = "product.php";
-            });';
-            echo '</script>';
+            $icon = "success";
+            $msg = "Update successful.";
+            msg($icon, $msg);
         } else {
-            echo '<script>';
-            echo 'Swal.fire({
-                icon: "error",
-                title: "ERROR!",
-                text: "Update failed: ' . addslashes($stmt->error) . '",
-            }).then(function() {
-                window.location = "product.php";
-            });';
-            echo '</script>';
+            $icon = "error";
+            $msg = "Update Failed.";
+            msg($icon, $msg);
         }
 
         // Close the statement
         $stmt->close();
-    } else {
-        echo '<div class="alert alert-danger" role="alert">Error preparing the statement: ' . htmlspecialchars($conn->error) . '</div>';
     }
-}
-?>
+    ?>
+
 
 
     <?php
@@ -138,51 +115,34 @@ if (isset($_POST['edit_product_submit'])) {
                     $result = $conn->query($Insertsql);
 
                     if ($result) {
-                        echo '<script>';
-                        echo "Swal.fire({
-                        icon: 'success',
-                        text: 'Product added into Database Successfully.',
-                    })";
-                        echo '</script>';
+                        $icon = "success";
+                        $msg = "Product added into Database Successfully.";
+                        msg($icon, $msg);
                     } else {
-                        echo '<script>';
-                        echo "Swal.fire({
-                        icon: 'error',
-                        text: 'Failed to add Product into Database.',
-                    })";
-                        echo '</script>';
+                        $icon = "error";
+                        $msg = "Failed to add Product into Database.";
+                        msg($icon, $msg);
+
                     }
                 } else {
-                    echo '<script>';
-                    echo 'Swal.fire({
-                    icon: "error",
-                    title: "ERROR!",
-                    text: "Error moving uploaded file.",
-                })';
-                    echo '</script>';
+                    $icon = "error";
+                    $msg = "Error moving uploaded file.";
+                    msg($icon, $msg);
                 }
             } else {
-                echo '<script>';
-                echo 'Swal.fire({
-                icon: "error",
-                title: "ERROR!",
-                text: "File size exceeds the maximum limit.",
-            })';
-                echo '</script>';
+                $icon = "error";
+                $msg = "File size exceeds the maximum limit.";
+                msg($icon, $msg);
             }
         } else {
-            echo '<script>';
-            echo 'Swal.fire({
-            icon: "error",
-            title: "ERROR!",
-            text: "No file uploaded or there was an error uploading the file.",
-        })';
-            echo '</script>';
+            $icon = "error";
+            $msg = "No file uploaded or there was an error uploading the file.";
+            msg($icon, $msg);
         }
     }
-
-    // end add product
-    
+    ?>
+    <!-- // end add product -->
+    <?php
     // delete product
     if (isset($_POST['delete_product'])) {
         $pid = $_POST["pid"];
@@ -198,19 +158,13 @@ if (isset($_POST['edit_product_submit'])) {
                     $deleteSql = "DELETE FROM products WHERE pid = $pid";
                     $result = $conn->query($deleteSql);
                     if ($result) {
-                        echo '<script>';
-                        echo "Swal.fire({
-                        icon: 'success',
-                        text: 'Delete products form Database Successfully.',
-                    })";
-                        echo '</script>';
+                        $icon = "success";
+                        $msg = "Delete products form Database Successfully.";
+                        msg($icon, $msg);
                     } else {
-                        echo '<script>';
-                        echo "Swal.fire({
-                        icon: 'error',
-                        text: 'Delete products form Database Failed.',
-                    })";
-                        echo '</script>';
+                        $icon = "error";
+                        $msg = "Delete products form Database Failed.";
+                        msg($icon, $msg);
                     }
                 }
             }
@@ -368,13 +322,7 @@ if (isset($_POST['edit_product_submit'])) {
             ?>
         </tbody>
     </table>
-    <script>
-        document.getElementById('ProductImageurl').addEventListener('input', function () {
-            var imageUrl = this.value;
-            document.getElementById('productImage').src = imageUrl;
-        });
 
-    </script>
 
 
 
