@@ -8,65 +8,56 @@ include "./layout/admin_session.php";
     <h2>Category Management</h2>
 
 
+
+
     <?php
 
-    // Edit/update category
-if (isset($_POST["edit_category_submit"])) {
-    $c_name = $_POST['c_name'];
-    $cid = $_POST['cid'];
-    $c_img_url = $_POST['c_img_url'];
 
-    // Sanitize inputs to prevent SQL injection
-    $c_name = $conn->real_escape_string($c_name);
-    $c_img_url = $conn->real_escape_string($c_img_url);
+    
 
-    $updateSql = "UPDATE categorys SET c_name = '$c_name', c_img_url = '$c_img_url' WHERE cid = $cid";
-    $result = $conn->query($updateSql);
-    if ($result) {
-        echo '<script>';
-        echo 'Swal.fire({
-                    icon: "success",
-                    title: "Updated Successfully!",
-                    text: "The category has been updated.",
-                }).then(function() {
-                    window.location = "category.php";
-                });';
-        echo '</script>';
-    } else {
-        echo '<script>';
-        echo 'Swal.fire({
-                    icon: "error",
-                    title: "Update Failed",
-                    text: "Failed to update the category.",
-                }).then(function() {
-                    window.location = "category.php";
-                });';
-        echo '</script>';
-    }
-}
+
     // add category
     if (isset($_POST["category_submit"])) {
         $c_name = $_POST["c_name"];
-        $url = $_POST["url"];
 
+        if (isset($_FILES["category_image"]["name"])) {
+            $file_name = $_FILES["category_image"]["name"];
+            $file_size = $_FILES["category_image"]["size"];
+            $file_tmp = $_FILES["category_image"]["tmp_name"];
+            $fileType = pathinfo($file_name, PATHINFO_EXTENSION);
 
-        $Insertsql = "INSERT INTO categorys (c_name,c_img_url) VALUES ( '$c_name','$url')";
-        $result = $conn->query($Insertsql);
-        if ($result) {
-            echo '<script>';
-            echo "Swal.fire({
-                    icon: 'success',
-                    text: 'Category added into Database Successfully.',
-                })";
-            echo '</script>';
+            $newFileName = "category_image_" . time() . '.' . $fileType;
+            $destination = "../image/category/" . $newFileName;
+
+            if ($file_size < 5242880) { // Max file size: 5MB
+                if (move_uploaded_file($file_tmp, $destination)) {
+                    $Insertsql = "INSERT INTO categorys (c_name,c_img) VALUES ( '$c_name','$newFileName')";
+                    $result = $conn->query($Insertsql);
+                    if ($result) {
+                        $icon = "success";
+                        $msg = "Category added into Database Successfully.";
+                        msg($icon, $msg);
+                    } else {
+                        $icon = "error";
+                        $msg = "Failed to add Category into Database..";
+                        msg($icon, $msg);
+                    }
+                } else {
+                    $icon = "error";
+                    $msg = "Error moving uploaded file.";
+                    msg($icon, $msg);
+                }
+            } else {
+                $icon = "error";
+                $msg = "File size exceeds the maximum limit.";
+                msg($icon, $msg);
+            }
         } else {
-            echo '<script>';
-            echo "Swal.fire({
-                            icon: 'error',
-                            text: 'Failed to add Category into Database.',
-                        })";
-            echo '</script>';
+            $icon = "error";
+            $msg = "No file uploaded or there was an error uploading the file.";
+            msg($icon, $msg);
         }
+
 
     }
     // end ad category
@@ -74,23 +65,32 @@ if (isset($_POST["edit_category_submit"])) {
     // delete category
     if (isset($_POST['delete_category'])) {
         $cid = $_POST["cid"];
-        $deleteSql = "DELETE FROM categorys WHERE cid = $cid";
-        $result = $conn->query($deleteSql);
-        if ($result) {
-            echo '<script>';
-            echo "Swal.fire({
-                        icon: 'success',
-                        text: 'Delete Category form Database Successfully.',
-                    })";
-            echo '</script>';
-        } else {
-            echo '<script>';
-            echo "Swal.fire({
-                        icon: 'error',
-                        text: 'Delete Category form Database Failed.',
-                    })";
-            echo '</script>';
+
+        $imgSQL = "SELECT * FROM categorys WHERE cid = $cid";
+        if ($imgResult = $conn->query($imgSQL)) {
+            $row = $imgResult->fetch_assoc();
+            $img_name = $row['c_img'];
+            $folderPath = '../image/category/';
+            $filePath = $folderPath . $img_name;
+            if (file_exists($filePath)) {
+                if (unlink($filePath)) {
+                    $deleteSql = "DELETE FROM categorys WHERE cid = $cid";
+                    $result = $conn->query($deleteSql);
+                    if ($result) {
+                        $icon = "success";
+                        $msg = "Delete Category form Database Successfully.";
+                        msg($icon, $msg);
+                    } else {
+                        $icon = "error";
+                        $msg = "Delete Category form Database Failed.";
+                        msg($icon, $msg);
+                    }
+                }
+            }
         }
+
+
+
     }
     // delete category end
     ?>
@@ -108,21 +108,18 @@ if (isset($_POST["edit_category_submit"])) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addCategoryForm" method="post" action="category.php">
+                    <form method="post" action="category.php" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="categoryName" class="form-label">Category Name</label>
                             <input type="text" name="c_name" class="form-control" id="categoryName" required>
                         </div>
                         <div class="mb-3">
-                            <label for="categoryurl" class="form-label">Image URL Address</label>
-                            <input type="url" name="url" class="form-control" id="categoryurl"
-                                placeholder="Paste Image Address Here" required>
+                            <label for="categoryurl" class="form-label">Upload Image</label>
+                            <input type="file" name="category_image" class="form-control" id="categoryImage"
+                                accept=".jpg,.png,.jpeg" required>
                         </div>
 
-                        <div class="col">
-                            <!-- Display product image -->
-                            <img id="productImage" style="height: 200px;" src="" alt="Product Image" class="img-fluid">
-                        </div>
+
 
                         <button type="submit" name="category_submit" class="btn btn-primary">Add Category</button>
                     </form>
@@ -151,11 +148,11 @@ if (isset($_POST["edit_category_submit"])) {
                 $i = 1;
                 while ($row = $result->fetch_assoc()) {
                     // Starting index
-                        echo '
+                    echo '
                         <tr>
                             <td>' . $i++ . '</td>
                             <td>' . $row['c_name'] . '</td>
-                            <td> <img class="category_table_image" src="' . $row['c_img_url'] . '" ></td>
+                            <td> <img class="category_table_image" src="../image/category/' . $row['c_img'] . '" ></td>
                             <td>
                                 <!-- Edit Button -->
                                <form action="category_edit.php" method="post">
@@ -179,11 +176,92 @@ if (isset($_POST["edit_category_submit"])) {
     </table>
 </div>
 
-<script>
-    document.getElementById('categoryurl').addEventListener('input', function () {
-        var imageUrl = this.value;
-        document.getElementById('productImage').src = imageUrl;
-    });
-</script>
+
+<!-- // Edit/update category -->
+<?php
+    if (isset($_POST["edit_category_submit"])) {
+      
+        // Sanitize input
+        $c_name =$_POST['c_name'];
+        $cid = $_POST['cid'];
+        $old_image = $_POST['old_image'];
+
+        $edit_image_file = $old_image;
+
+        if (!empty($_FILES["new_image_file"]["name"])) {
+            $file_name = $_FILES["new_image_file"]["name"];
+            $file_size = $_FILES["new_image_file"]["size"];
+            $file_tmp = $_FILES["new_image_file"]["tmp_name"];
+            $fileType = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+            $allowed_types = ['jpg', 'jpeg', 'png'];
+            if (in_array($fileType, $allowed_types)) {
+                $newFileName = "category_image_" . time() . '.' . $fileType;
+                $destination = "../image/category/" . $newFileName;
+
+                $file_size_limit = 5242880; // 5MB
+                if ($file_size <= $file_size_limit) {
+                    if (move_uploaded_file($file_tmp, $destination)) {
+                        // Successfully moved the uploaded file
+                        $edit_image_file = $newFileName;
+
+                        // Delete old image if it exists
+                        $old_img_path = '../image/category/' . $old_image;
+                        if (file_exists($old_img_path) && $old_image !== '') {
+                            if (!unlink($old_img_path)) {
+                                $icon = "error";
+                                $msg = "Error deleting old uploaded image.";
+                                $loc = "category.php";
+                                msg_loc($icon, $msg, $loc);
+                                exit;
+                            }
+                        }
+                    } else {
+                        // Error moving the uploaded file
+                        $icon = "error";
+                        $msg = "Error moving uploaded image.";
+                        $loc = "category.php";
+                        msg_loc($icon, $msg, $loc);
+                        exit;
+                    }
+                } else {
+                    // File size exceeds limit
+                    $icon = "error";
+                    $msg = "File size exceeds the 5MB limit.";
+                    $loc = "category.php";
+                    msg_loc($icon, $msg, $loc);
+                    exit;
+                }
+            } else {
+                // Invalid file type
+                $icon = "error";
+                $msg = "Invalid file type. Only jpg, jpeg, and png files are allowed.";
+                $loc = "category.php";
+                msg_loc($icon, $msg, $loc);
+                exit;
+            }
+        }
+
+        // Update category
+        $updateSql = "UPDATE categorys SET c_name = ?, c_img = ? WHERE cid = ?";
+        $stmt = $conn->prepare($updateSql);
+        $stmt->bind_param("ssi", $c_name, $edit_image_file, $cid);
+
+        if ($stmt->execute()) {
+            $icon = "success";
+            $msg = "The category has been updated.";
+            $loc = "category.php";
+            msg_loc($icon, $msg, $loc);
+        } else {
+            $icon = "error";
+            $msg = "Failed to update the category.";
+            $loc = "category.php";
+            msg_loc($icon, $msg, $loc);
+        }
+
+        $stmt->close();
+        $conn->close();
+    }
+    ?>
 
 <?php include "./layout/footer.php" ?>

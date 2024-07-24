@@ -36,7 +36,7 @@ include "./layout/admin_session.php";
 
                     // Delete old image
                     $old_img_path = '../image/product/' . $old_image;
-                    if (file_exists($old_img_path) && $old_image !== $newFileName) {
+                    if (file_exists($old_img_path)) {
                         if (!unlink($old_img_path)) {
                             $icon = "error";
                             $msg = "Error deleting old uploaded image.";
@@ -98,7 +98,7 @@ include "./layout/admin_session.php";
         $price = $_POST["price"];
 
         // Check if file was uploaded
-        if (isset($_FILES["image_file"]) && $_FILES["image_file"]["error"] === UPLOAD_ERR_OK) {
+        if (isset($_FILES["image_file"])) {
             $file_name = $_FILES["image_file"]["name"];
             $file_size = $_FILES["image_file"]["size"];
             $file_tmp = $_FILES["image_file"]["tmp_name"];
@@ -281,14 +281,13 @@ include "./layout/admin_session.php";
 
             $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, 
             products.p_description, products.p_price, products.p_dateAndTime, products.p_image,
-            categorys.c_name, stocks.pid AS stock_pid, stocks.sid, stocks.s_balanceQuantity
+            categorys.c_name, stocks.pid AS stock_pid, stocks.sid, stocks.s_entryDate, stocks.s_balanceQuantity
             FROM products
             INNER JOIN categorys ON products.cid = categorys.cid
             LEFT JOIN stocks ON products.pid = stocks.pid
-            ORDER BY products.p_dateAndTime DESC, stocks.s_balanceQuantity DESC
-            LIMIT 1";
+                      ORDER BY products.p_dateAndTime DESC, stocks.s_balanceQuantity DESC
+            ";
             $result = $conn->query($Selectsql);
-
             if ($result->num_rows > 0) {
                 $i = 1;
 
@@ -351,9 +350,4 @@ include "./layout/admin_session.php";
             ?>
         </tbody>
     </table>
-
-
-
-
-
     <?php include "./layout/footer.php" ?>

@@ -9,7 +9,7 @@ function msg($icon,$msg)
         icon: "'.$icon.'",
         text: "' . $msg . '"
     });
-</script>';
+    </script>';
    return ;
 }
 

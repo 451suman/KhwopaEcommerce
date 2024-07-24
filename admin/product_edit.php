@@ -1,7 +1,6 @@
 <?php
 include "./layout/header.php";
 include "./layout/admin_session.php";
-
 ?>
 
 <?php
@@ -23,12 +22,12 @@ if (isset($_POST['edit_product_btn'])) {
             <div class="row align-items-start">
                 <div class="col">
                     <!-- Display product image -->
-                    <p style="background-color:black; color:white; font-size:20px;"> Current Using Image</p>
+                    <p  class="alert-primary edit_headings" style="color:white; font-size:20px;"> Current Using Image</p>
                     <img id="productImage" src="../image/product/<?php echo $product['p_image']; ?>" alt="Product Image"
                         class="img-fluid">
                 </div>
                 <div class="col">
-                    <p style="background-color:black; color:white; font-size:20px;"> Edit Product Details</p>
+                    <p  class="alert-primary edit_headings" style="color:white; font-size:20px;"> Edit Product Details</p>
                     <form method="post" action="product.php" enctype="multipart/form-data">
 
 
@@ -110,7 +109,6 @@ if (isset($_POST['edit_product_btn'])) {
     }
 }
 ?>
-
 
 <?php
 include "./layout/footer.php";

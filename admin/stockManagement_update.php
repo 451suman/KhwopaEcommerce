@@ -63,14 +63,14 @@ if(isset($_POST['update_submit_stocks']))
 <div class="container text-center">
     <div class="row align-items-start">
         <div class="col">
-            <p class="alert-primary" style="color:white; font-size:20px;"><strong>Image</strong></p>
+            <p class="alert-primary edit_headings" style="color:white; font-size:20px;"><strong>Image</strong></p>
             <img id="productImage" src="../image/product/<?php echo $row['p_image']; ?>" alt="Product Image"
                 class="img-fluid">
         </div>
         <div class="col">
             <form method="post" action="stockManagement_update.php">
 
-                <p class="alert-primary" style="color:white; font-size:20px;"><strong>Insert Product Stock
+                <p class="alert-primary edit_headings" style="color:white; font-size:20px;"><strong>Insert Product Stock
                         Quantity</strong></p>
                 <p style="font-size:20px;"><strong>Product Name : </strong><?php echo $row['p_name']; ?></p>
                 <p style="font-size:20px;"><strong>Category Name : </strong><?php echo $row['c_name']; ?></p>
