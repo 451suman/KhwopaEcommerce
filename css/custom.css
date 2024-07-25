@@ -65,3 +65,7 @@ a {
 .edit_headings{
     margin-top: 5px;
 }
+.form_btn_stock{
+    float: left;
+    margin:5px
+}

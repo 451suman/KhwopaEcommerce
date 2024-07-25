@@ -1,35 +1,47 @@
 <?php
 include "../database/db.php";
-
-
-function msg($icon,$msg)
+function selectStocks($pid, $conn)
 {
-    echo '<script>
-    Swal.fire({
-        icon: "'.$icon.'",
-        text: "' . $msg . '"
-    });
-    </script>';
-   return ;
+    $pid = $conn->real_escape_string($pid);
+    $sql = "SELECT stocks.sid, stocks.pid, stocks.s_quantity, stocks.s_in_out, stocks.s_entryDate,
+                stocks.s_productPrice, products.cid, products.p_name, products.p_model, products.p_brand,
+                products.p_description, products.p_price, products.p_stocksQuantity, products.p_image, categorys.c_name
+            FROM stocks
+            INNER JOIN products ON products.pid = stocks.pid
+            INNER JOIN categorys ON products.cid = categorys.cid
+            WHERE stocks.pid = $pid";
+
+    $result = $conn->query($sql);
+    return $result;
 }
 
-function msg_loc($icon,$msg,$loc)
+function selectStocksBUY($pid, $conn)
 {
+    $pid = $conn->real_escape_string($pid);
+    $sql = "SELECT stocks.sid, stocks.pid, stocks.s_quantity, stocks.s_in_out, stocks.s_entryDate,
+                stocks.s_productPrice, products.cid, products.p_name, products.p_model, products.p_brand,
+                products.p_description, products.p_price, products.p_stocksQuantity, products.p_image, categorys.c_name
+            FROM stocks
+            INNER JOIN products ON products.pid = stocks.pid
+            INNER JOIN categorys ON products.cid = categorys.cid
+            WHERE stocks.pid = $pid AND stocks.s_in_out = 0";
 
-    echo '<script> 
-        Swal.fire({
-            
-            text: "' . $msg . '",
-            icon: "'.$icon.'",
-            confirmButtonText: "OK"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "' . $loc . '"; // Redirect to home page
-            }
-        });
-    </script>';
-    exit();
-
+    $result = $conn->query($sql);
+    return $result;
 }
 
+function selectStocksSELL($pid, $conn)
+{
+    $pid = $conn->real_escape_string($pid);
+    $sql = "SELECT stocks.sid, stocks.pid, stocks.s_quantity, stocks.s_in_out, stocks.s_entryDate,
+                stocks.s_productPrice, products.cid, products.p_name, products.p_model, products.p_brand,
+                products.p_description, products.p_price, products.p_stocksQuantity, products.p_image, categorys.c_name
+            FROM stocks
+            INNER JOIN products ON products.pid = stocks.pid
+            INNER JOIN categorys ON products.cid = categorys.cid
+            WHERE stocks.pid = $pid AND stocks.s_in_out = 1";
+
+    $result = $conn->query($sql);
+    return $result;
+}
 ?>

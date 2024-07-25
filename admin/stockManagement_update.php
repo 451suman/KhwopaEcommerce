@@ -7,17 +7,20 @@ include "./layout/admin_session.php";
 if(isset($_POST['update_submit_stocks']))
 {
     $pid=$_POST['pid'];
+    $p_price=$_POST['p_price'];
     $old_quantity=$_POST['old_quantity'];
     $addtional_quantity=$_POST['addtional_quantity'];
     $p_name=$_POST['p_name'];
     $new_quantity = $old_quantity + $addtional_quantity;
+    // echo $p_price;
     // echo $new_quantity;
     // echo "old stock= ".$old_quantity."new Stock= ".$addtional_quantity."<br>";
     // echo "after addition =" .$old_quantity + $addtional_quantity;
     // die();
-    $sql="INSERT INTO stocks (pid, s_quantity, s_entryDate, s_balanceQuantity) 
-    VALUES ('$pid', '$addtional_quantity', current_timestamp(), '$new_quantity')";
-    if($conn->query($sql))
+    $sqlStock="INSERT INTO stocks (pid, s_quantity, s_entryDate, s_productPrice	) 
+    VALUES ('$pid', '$addtional_quantity', current_timestamp(), '$p_price')";
+    $sqlProduct="UPDATE products SET p_stocksQuantity = '$new_quantity' WHERE pid = $pid";
+    if($conn->query($sqlStock) && $conn->query($sqlProduct))
     {
         $icon = "success";
         $msg = "Update Stock Of " . $p_name . " id Successfull";
@@ -41,16 +44,17 @@ if(isset($_POST['update_submit_stocks']))
         $sid = $_POST["sid"];
         $pid = $_POST["pid"];
         $s_quantity = $_POST["s_quantity"];
-        $s_balanceQuantity = $_POST["s_balanceQuantity"];
-        
-
+        $p_stocksQuantity = $_POST["p_stocksQuantity"];
+        // echo"sid= ".$sid." pid=" .$pid." quantity = ".$s_quantity." balance =".$p_stocksQuantity;
+        // die();
 
         $sql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand,
-                products.p_description, products.p_price,products.p_dateAndTime,products.p_image,
-                categorys.c_name
-                FROM products
-                INNER JOIN categorys ON products.cid = categorys.cid
-                ORDER BY p_dateAndTime DESC ";
+                            products.p_description, products.p_price, products.p_dateAndTime, products.p_image,products.p_stocksQuantity,
+                            categorys.c_name
+                            FROM products
+                            INNER JOIN categorys ON products.cid = categorys.cid
+                            WHERE products.pid =$pid
+                            ORDER BY p_dateAndTime DESC ";
                 if ($result = $conn->query($sql)) {
                     $row = $result->fetch_assoc();
                 }
@@ -81,7 +85,7 @@ if(isset($_POST['update_submit_stocks']))
                 
                 <div>
                     <label for="" class="form-label mt-4"><strong>Old Stock Quantity</strong></label>
-                    <input type="number" name="old_quantity" class="form-control" min="0" value="<?php echo $s_balanceQuantity;  ?>" readonly>
+                    <input type="number" name="old_quantity" class="form-control" min="0" value="<?php echo $p_stocksQuantity;  ?>" readonly>
                 </div>
                 <div>
                     <label for="" class="form-label mt-4"><strong>Enter a New Additional Stock Quantity</strong></label>
@@ -91,6 +95,7 @@ if(isset($_POST['update_submit_stocks']))
                 <br>
                 <input type="hidden" name="pid" value="<?php echo $pid; ?>" id="">
                 <input type="hidden" name="p_name" value="<?php echo $row['p_name']; ?>" id="">
+                <input type="hidden" name="p_price" value="<?php echo $row['p_price']; ?>" id="">
                 <button type='submit' name='update_submit_stocks' class='btn btn-primary'>update</button>
 
 

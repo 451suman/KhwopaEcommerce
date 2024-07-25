@@ -259,7 +259,7 @@ include "./layout/admin_session.php";
 
 
     <!-- Product Table -->
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
                 <th width="5%">SN</th>
@@ -277,88 +277,88 @@ include "./layout/admin_session.php";
         <tbody id="categoryTable">
 
 
-<?php
+            <?php
 
-$Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, 
-              products.p_description, products.p_price, products.p_dateAndTime, products.p_image,
-              categorys.c_name
-              FROM products
-              INNER JOIN categorys ON products.cid = categorys.cid
-              ORDER BY products.p_dateAndTime DESC";
-$result = $conn->query($Selectsql);
+            $Selectsql = "SELECT products.pid, products.p_stocksQuantity, products.cid, products.p_name, products.p_model, 
+            products.p_brand, products.p_description, products.p_price, products.p_dateAndTime, products.p_image,
+                categorys.c_name
+                FROM products
+                INNER JOIN categorys ON products.cid = categorys.cid
+                ORDER BY products.p_stocksQuantity ASC";
 
-if ($result->num_rows > 0) {
-    $i = 1;
+            $result = $conn->query($Selectsql);
+            if ($result->num_rows > 0) {
+                $i = 1;
 
-    while ($row = $result->fetch_assoc()) {
-        // Stock update button
-        $pid = $row['pid'];
+                while ($row = $result->fetch_assoc()) {
+                    echo '
+                            <tr>
+                                <td>' . $i++ . '</td>
+                                <td>' . $row['p_name'] . '</td>
+                                <td>' . $row['c_name'] . '</td>
+                                <td>' . $row['p_model'] . '</td>
+                                <td>' . $row['p_brand'] . '</td>
+                                <td>' . $row['p_description'] . '</td>
+                                <td>' . $row['p_stocksQuantity'] . '</td>
+                                <td>' . $row['p_price'] . '</td>
+                                <td><img class="Product_table_image" src="../image/product/' . $row['p_image'] . '"></td>
+                                <td>
+                                <!--   edit button-->
+                                    <form action="product_edit.php" method="post" style="margin: 0;">
+                                        <input type="hidden" name="pid" value="' . $row["pid"] . '">
+                                        <button style="width:100% !important; margin:2px;" type="submit" name="edit_product_btn" class="btn btn-warning btn-sm">EDIT</button>
+                                    </form>
+                                    <!--delete button-->
+                                    <form action="product.php" method="post" style="margin: 0;">
+                                        <input type="hidden" name="pid" value="' . $row["pid"] . '">
+                                        <button style="width:100% !important; margin:2px;" type="submit" name="delete_product" class="btn btn-danger btn-sm">DELETE</button>
+                                    </form>
+                                    ';
 
-        $stockSql = "SELECT products.pid, stocks.pid AS stock_pid, stocks.sid, stocks.s_quantity, stocks.s_entryDate, stocks.s_balanceQuantity 
-                     FROM stocks 
-                     INNER JOIN products ON products.pid = stocks.pid
-                     WHERE stocks.pid = $pid 
-                     ORDER BY stocks.s_entryDate DESC ,stocks.s_balanceQuantity DESC 
-                     LIMIT 1";
-        $check = $conn->query($stockSql);
-        
-        // Initialize $row2 to avoid undefined variable warning
-        $row2 = null;
-        
-        if ($check) {
-            $row2 = $check->fetch_assoc();
-        }
+                    //    <!-- stock update button-->
+                    $pid = $row['pid'];
 
-        echo '
-            <tr>
-                <td>' . $i++ . '</td>
-                <td>' . $row['p_name'] . '</td>
-                <td>' . $row['c_name'] . '</td>
-                <td>' . $row['p_model'] . '</td>
-                <td>' . $row['p_brand'] . '</td>
-                <td>' . $row['p_description'] . '</td>
-                <td>' . ($row2 && isset($row2['s_balanceQuantity']) ? ($row2['s_balanceQuantity'] > 0 ? $row2['s_balanceQuantity'] : 0) : 0) . '</td>
-                <td>' . $row['p_price'] . '</td>
-                <td><img class="Product_table_image" src="../image/product/' . $row['p_image'] . '"></td>
-                <td>
-                    <!-- edit button -->
-                    <form action="product_edit.php" method="post" style="margin: 0;">
-                        <input type="hidden" name="pid" value="' . $row["pid"] . '">
-                        <button style="width:100% !important; margin:2px;" type="submit" name="edit_product_btn" class="btn btn-warning btn-sm">EDIT</button>
+                    $stockSql = "SELECT * FROM `stocks` WHERE pid = $pid";
+                    $check = $conn->query($stockSql);
+                    if ($check->num_rows > 0) {
+                        $row2 = $check->fetch_assoc();
+                        echo ' <form action="stockManagement_update.php" method="post">
+                        <input type="hidden" name="pid" value="' . $row2["pid"] . '">
+                        <input type="hidden" name="sid" value="' . $row2["sid"] . '">
+                        <input type="hidden" name="s_quantity" value="' . $row2["s_quantity"] . '">
+                        <input type="hidden" name="p_stocksQuantity" value="' . $row["p_stocksQuantity"] . '">
+                      
+                        <button style="width:100% !important; margin:2px;" type="submit" name="update_stocks_btn" class="btn btn-primary btn-sm">Update Stocks</button>
                     </form>
-                    <!-- delete button -->
-                    <form action="product.php" method="post" style="margin: 0;">
+                    
+                    <form action="stockDetails.php" method="get" >
                         <input type="hidden" name="pid" value="' . $row["pid"] . '">
-                        <button style="width:100% !important; margin:2px;" type="submit" name="delete_product" class="btn btn-danger btn-sm">DELETE</button>
-                    </form>';
-        if ($row2) {
-            echo ' 
-                <!-- update stock button -->
-                <form action="stockManagement_update.php" method="post">
-                    <input type="hidden" name="pid" value="' . $row2["stock_pid"] . '">
-                    <input type="hidden" name="sid" value="' . $row2["sid"] . '">
-                    <input type="hidden" name="s_quantity" value="' . $row2["s_quantity"] . '">
-                    <input type="hidden" name="s_balanceQuantity" value="' . $row2["s_balanceQuantity"] . '">
-                    <button style="width:100% !important; margin:2px;" type="submit" name="update_stocks_btn" class="btn btn-primary btn-sm">Update Stocks</button>
-                </form>';
-        } else {
-            echo ' 
-                <!-- insert stock button -->
-                <form action="stockManagement.php" method="post">
-                    <input type="hidden" name="pid" value="' . $row["pid"] . '">
-                    <button style="width:100% !important; margin:2px;" type="submit" name="insert_stocks_btn" class="btn btn-primary btn-sm">Insert Stocks</button>
-                </form>';
-        }
-        echo "
-                </td>
-            </tr>";
-    }
-} else {
-    echo '<tr><td colspan="10" class="text-center">No products found</td></tr>';
-}
+                        <button style="width:100% !important; margin:2px;" type="submit" name="pid_product_page" 
+                        class="btn btn-primary btn-sm">VIEW Stocks</button>
+                    </form>
 
-$conn->close(); // Close the database connection
-?>
-</tbody>
+                    ';
+
+                    } else {
+                        echo ' <form action="stockManagement.php" method="post" >
+                                <input type="hidden" name="pid" value="' . $row["pid"] . '">
+                                <button style="width:100% !important; margin:2px;" type="submit" name="insert_stocks_btn" 
+                                class="btn btn-primary btn-sm">Insert Stocks</button>
+                            </form>';
+                    }
+                    echo "   
+                    
+
+
+                            </td>
+                                </tr>
+                        ";
+                }
+            } else {
+                echo '<tr><td colspan="10" class="text-center">No products found</td></tr>';
+            }
+            $conn->close(); // Close the database connection
+            ?>
+        </tbody>
     </table>
     <?php include "./layout/footer.php" ?>
