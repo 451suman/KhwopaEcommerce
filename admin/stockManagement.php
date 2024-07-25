@@ -11,7 +11,7 @@ if (isset($_POST['Insert_submit_stock'])) {
     $sql = "INSERT INTO stocks (sid, pid, s_quantity, s_entryDate, s_balanceQuantity) VALUES (NULL, '$pid', '$quantity', current_timestamp(), '$quantity')";
     if ($result = $conn->query($sql)) {
         $icon = "success";
-        $msg = "Insert SStock Of" . $p_name . " id Successfull";
+        $msg = "Insert Stock Of" . $p_name . " id Successfull";
         $loc = "product.php";
         msg_loc($icon, $msg, $loc);
     }
