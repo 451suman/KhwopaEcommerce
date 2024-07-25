@@ -322,7 +322,7 @@ include "./layout/admin_session.php";
                     $check = $conn->query($stockSql);
                     if ($check->num_rows > 0) {
                         $row2 = $check->fetch_assoc();
-                        echo ' <form action="stockManagement_update.php" method="post">
+                        echo ' <form action="stockManagement_update.php"  method="post">
                         <input type="hidden" name="pid" value="' . $row2["pid"] . '">
                         <input type="hidden" name="sid" value="' . $row2["sid"] . '">
                         <input type="hidden" name="s_quantity" value="' . $row2["s_quantity"] . '">
@@ -340,7 +340,7 @@ include "./layout/admin_session.php";
                     ';
 
                     } else {
-                        echo ' <form action="stockManagement.php" method="post" >
+                        echo ' <form action="stockManagement.php"   method="post" >
                                 <input type="hidden" name="pid" value="' . $row["pid"] . '">
                                 <button style="width:100% !important; margin:2px;" type="submit" name="insert_stocks_btn" 
                                 class="btn btn-primary btn-sm">Insert Stocks</button>
