@@ -2,13 +2,7 @@
 include "./layout/header.php";
 include "./layout/customer_session.php";
 
-// Ensure $uid is set and valid
-if (!isset($_SESSION["users"])) {
-    header("Location: ../welcomepage/home.php");
-    exit();
-}
 
-$uid = $_SESSION["users"];
 
 if (isset($_GET['conform_order_btn'])) {
     $shipping_address = $_GET['shipping_address'];
