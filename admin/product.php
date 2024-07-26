@@ -256,6 +256,12 @@ include "./layout/admin_session.php";
     <!-- Add Product Modal ends -->
 
 
+    <!-- short dropdown button -->
+    <form class="d-flex " action="" method="">
+        <input class="form-control bg-info me-sm-2" type="search" placeholder="Search">
+        <button class="btn btn-primary my-2 my-sm-0"  type="submit">Search</button>
+      </form>
+    <!-- short dropdown button -->
 
 
     <!-- Product Table -->
@@ -278,7 +284,7 @@ include "./layout/admin_session.php";
 
 
             <?php
-
+            
             $Selectsql = "SELECT products.pid, products.p_stocksQuantity, products.cid, products.p_name, products.p_model, 
             products.p_brand, products.p_description, products.p_price, products.p_dateAndTime, products.p_image,
                 categorys.c_name

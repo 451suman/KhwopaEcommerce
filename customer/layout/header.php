@@ -43,19 +43,19 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="./home.php">Home</a>
+                        <a class="nav-link active_nav" href="./home.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="./products.php">Products</a>
+                        <a class="nav-link active_nav" href="./products.php">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="./categorys.php">Categorys</a>
+                        <a class="nav-link active_nav" href="./categorys.php">Categorys</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="./aboutus.php">About us</a>
+                        <a class="nav-link active_nav" href="./aboutus.php">About us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Contact</a>
+                        <a class="nav-link active_nav" href="#">Contact</a>
                     </li>
                 </ul>
                 <form class="d-flex">

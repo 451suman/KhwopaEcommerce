@@ -1,3 +1,11 @@
+/* nav */
+.active_nav{
+    color: white !important;
+}
+.active_nav:hover{
+    color: rgb(0, 0, 0) !important;
+}
+
 .card_float {
     float: left;
     margin: 5px;

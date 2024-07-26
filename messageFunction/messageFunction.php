@@ -21,7 +21,7 @@ function msg_loc($icon,$msg,$loc)
             confirmButtonText: "OK"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "' . $loc . '"; // Redirect to home page
+                window.location.href = "' . $loc . '"; // Redirect to loc
             }
         });
     </script>';
