@@ -1,5 +1,7 @@
 <?php
 include "../database/db.php";
+
+// form category.php page bata -> products.php ma jancha
 function category_product_display($cid, $conn)
 {
     $cid = intval($cid);
@@ -13,7 +15,7 @@ function category_product_display($cid, $conn)
     return $result;
 }
 
-function selectProducts($conn)
+function selectProducts($conn) //from products.php page -> products.php ma jancha
 {
     $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, products.p_price,
      products.p_stocksQuantity, products.p_image,
