@@ -15,7 +15,8 @@ function category_product_display($cid, $conn)
 
 function selectProducts($conn)
 {
-    $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, products.p_price, products.p_stockQuantity, products.p_imageURL,
+    $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, products.p_price,
+     products.p_stocksQuantity, products.p_image,
     categorys.c_name
     FROM products
     INNER JOIN categorys ON products.cid = categorys.cid

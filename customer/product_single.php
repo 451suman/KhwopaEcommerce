@@ -21,7 +21,7 @@ if (isset($_GET["pid"])) {
     <div class="row">
         <div class="col-md-6">
             <div class="">
-                <img style="height:450px" src="<?php echo $row['p_imageURL']; ?>" class="d-block w-100"
+                <img style="height:450px" src="../image/product/<?php echo $row['p_image']; ?>" class="d-block w-100"
                     alt="Sweatshirt Image 1">
             </div>
         </div>

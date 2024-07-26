@@ -15,7 +15,7 @@ if ($result->num_rows > 0) {
             <div class="card bg-secondary category_card_customer mb-3" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
-                <img src="' . $row['c_img_url'] . '" class="img-fluid rounded-start" alt="...">
+                <img src="../image/category/' . $row['c_img'] . '" class="img-fluid rounded-start" alt="...">
                 </div>
                 <div class="col-md-8">
                 <div class="card-body">
