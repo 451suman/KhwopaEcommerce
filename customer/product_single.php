@@ -55,11 +55,11 @@ if (isset($_GET["pid"])) {
                 <input type="number" class="form-control bg-info" id="quantity" name="Quantity" min="1" max="<?php echo $row['p_stocksQuantity']; ?>" value="1">
             </div>
         </div>
+        <p id="totalprice" class="text-danger" style="font-size: 30px;"></p>
         <input type="hidden" name="pid" value="<?php echo $row['pid']; ?>">
         <button type="submit" class="btn btn-primary" name="BUT_IT">BUY IT</button>
     </div>
 </form>
-<p id="totalprice" class="text-danger" style="font-size: 30px;"></p>
 
 
       <div class="row mt-5">

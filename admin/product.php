@@ -256,26 +256,28 @@ include "./layout/admin_session.php";
     <!-- Add Product Modal ends -->
 
 
-    <!-- short dropdown button -->
+    <!-- Search  button -->
+    <div style="margin-bottom:5px">
     <form class="d-flex " action="" method="">
         <input class="form-control bg-info me-sm-2" type="search" placeholder="Search">
-        <button class="btn btn-primary my-2 my-sm-0"  type="submit">Search</button>
+        <button class="btn btn-primary my-2 my-sm-0"   type="submit">Search</button>
       </form>
-    <!-- short dropdown button -->
+    </div>
+    <!-- Search  button -->
 
 
     <!-- Product Table -->
     <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
-                <th width="5%">SN</th>
-                <th width="10%">Name</th>
-                <th width="10%">Category</th>
-                <th width="10%">Model No</th>
-                <th width="10%">Brand</th>
-                <th width="20%">Description</th>
+                <th width="2%">SN</th>
+                <th width="5%">Name</th>
+                <th width="5%">Category</th>
+                <th width="5%">Model No</th>
+                <th width="5%">Brand</th>
+                <th width="47%">Description</th>
                 <th width="5%">Balance Quantity</th>
-                <th width="10%">Price</th>
+                <th width="5%">Price</th>
                 <th width="10%">Image</th>
                 <th width="10%">Actions</th>
             </tr>
@@ -297,6 +299,7 @@ include "./layout/admin_session.php";
                 $i = 1;
 
                 while ($row = $result->fetch_assoc()) {
+                    // substr($row['p_description'], 0, 100) display only 100 character
                     echo '
                             <tr>
                                 <td>' . $i++ . '</td>
@@ -304,7 +307,7 @@ include "./layout/admin_session.php";
                                 <td>' . $row['c_name'] . '</td>
                                 <td>' . $row['p_model'] . '</td>
                                 <td>' . $row['p_brand'] . '</td>
-                                <td>' . $row['p_description'] . '</td>
+                            <td><p>' . substr($row['p_description'], 0, 300) . '...</p></td>
                                 <td>' . $row['p_stocksQuantity'] . '</td>
                                 <td>' . $row['p_price'] . '</td>
                                 <td><img class="Product_table_image" src="../image/product/' . $row['p_image'] . '"></td>
