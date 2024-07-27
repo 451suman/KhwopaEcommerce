@@ -14,8 +14,8 @@ if (isset($_GET['conform_order_btn'])) {
     $p_stocksQuantity = $_GET['p_stocksQuantity'];
     $leftStockQuantity = $p_stocksQuantity - $quantity;  //update stocks in product table
 
-        $order_insert = "INSERT INTO orders (uid, pid, o_totalAmount, o_shippingAddress, o_orderStatus, o_quantity, o_date)
-     VALUES (' $uid', ' $pid', '$total_price', ' $shipping_address', 'pending', '$quantity', current_timestamp())";
+        $order_insert = "INSERT INTO orders (uid, pid, o_totalAmount, o_shippingAddress, o_orderStatus, o_quantity)
+     VALUES (' $uid', ' $pid', '$total_price', ' $shipping_address', 'pending', '$quantity')";
 
        
 

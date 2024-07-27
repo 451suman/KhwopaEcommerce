@@ -55,6 +55,9 @@
                         <a class="nav-link active_nav" href="./aboutus.php">About us</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link active_nav" href="./orderDetailTable.php">Order Details</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active_nav" href="#">Contact</a>
                     </li>
                 </ul>
