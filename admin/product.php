@@ -231,7 +231,7 @@ include "./layout/admin_session.php";
 
                         <div class="mb-3">
                             <label for="Description" class="form-label">Description</label>
-                            <textarea class="form-control" name="description" id="Description" rows="3"
+                            <textarea class="form-control" name="description" id="Description" rows="3" placeholder="describe about products, like size,color etc"
                                 required></textarea>
                             <!-- <input type="text" name="description" class="form-control" id="Description"  required> -->
                         </div>

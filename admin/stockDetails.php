@@ -77,8 +77,7 @@ if ($result) {
             <th scope="col">Total Quantity</th>
             <th scope="col">Stock BUY/SELL</th>
             <th scope="col">Entry Date</th>
-            <th scope="col">Total Price</th>
-        </tr>
+            </tr>
     </thead>
     <tbody>
         <?php
@@ -110,8 +109,7 @@ if ($result) {
                         <td>' . $row['s_quantity'] . '</td>
                         <td>' . $inOutText . '</td>
                         <td>' . $row['s_entryDate'] . '</td>
-                        <td>' . $row['s_productPrice'] . '</td>
-                    </tr>
+                        </tr>
                     ';
             }
         } else {
