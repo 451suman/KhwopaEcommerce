@@ -34,7 +34,7 @@ if ($result) {
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
-                <div class="">
+                <div  style="border:1px solid black !important" class="">
                     <img style="height:450px" src="../image/product/<?php echo $row['p_image']; ?>" class="d-block w-100"
                         alt="Product Image">
                 </div>

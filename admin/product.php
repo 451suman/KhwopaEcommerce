@@ -370,4 +370,5 @@ include "./layout/admin_session.php";
             ?>
         </tbody>
     </table>
+    
     <?php include "./layout/footer.php" ?>

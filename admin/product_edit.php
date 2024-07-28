@@ -20,7 +20,7 @@ if (isset($_POST['edit_product_btn'])) {
 
         <div class="container text-center">
             <div class="row align-items-start">
-                <div class="col">
+                <div class="col" style="border:1px solid black !important">
                     <!-- Display product image -->
                     <p  class="alert-primary edit_headings" style="color:white; font-size:20px;"> Current Using Image</p>
                     <img id="productImage" src="../image/product/<?php echo $product['p_image']; ?>" alt="Product Image"

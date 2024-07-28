@@ -14,25 +14,25 @@ if (isset($_GET['conform_order_btn'])) {
     $p_stocksQuantity = $_GET['p_stocksQuantity'];
     $leftStockQuantity = $p_stocksQuantity - $quantity;  //update stocks in product table
 
-        $order_insert = "INSERT INTO orders (uid, pid, o_totalAmount, o_shippingAddress, o_orderStatus, o_quantity)
+    $order_insert = "INSERT INTO orders (uid, pid, o_totalAmount, o_shippingAddress, o_orderStatus, o_quantity)
      VALUES (' $uid', ' $pid', '$total_price', ' $shipping_address', 'pending', '$quantity')";
 
-       
 
-       
-        $orderRes = $conn->query($order_insert);
-       
-        if ($orderRes) {
-            $icon = "success";
-            $msg = "Order confirmed.Delivery will be in 2 - 3 days.";
-            $loc = "orderDetailTable.php";
-            msg_loc($icon, $msg, $loc);
-        } else {
-            $icon = "success";
-            $msg = "Order failed.";
-            $loc = "products.php";
-            msg_loc($icon, $msg, $loc);
-        }
+
+
+    $orderRes = $conn->query($order_insert);
+
+    if ($orderRes) {
+        $icon = "success";
+        $msg = "Order confirmed.Delivery will be in 2 - 3 days.";
+        $loc = "orderDetailTable.php";
+        msg_loc($icon, $msg, $loc);
+    } else {
+        $icon = "success";
+        $msg = "Order failed.";
+        $loc = "products.php";
+        msg_loc($icon, $msg, $loc);
+    }
 
 
 

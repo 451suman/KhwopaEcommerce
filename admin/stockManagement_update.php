@@ -66,7 +66,7 @@ if(isset($_POST['update_submit_stocks']))
 
 <div class="container text-center">
     <div class="row align-items-start">
-        <div class="col">
+        <div class="col"  style="border:1px solid black !important">
             <p class="alert-primary edit_headings" style="color:white; font-size:20px;"><strong>Image</strong></p>
             <img id="productImage" src="../image/product/<?php echo $row['p_image']; ?>" alt="Product Image"
                 class="img-fluid">

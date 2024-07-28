@@ -18,9 +18,7 @@
     }
 }
 
-.card-img,
-.card-img-bottom,
-.card-img-top {
+.card-img,.card-img-bottom,.card-img-top {
     width: 100%;
     height: 250px;
 }
@@ -77,4 +75,9 @@ a {
 .form_btn_stock{
     float: left;
     margin:5px
+}
+
+
+#main_body{
+min-height: 593px !important;
 }

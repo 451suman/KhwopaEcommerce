@@ -33,7 +33,9 @@ include "./layout/customer_session.php";
        orders.o_date, products.pid, products.p_name
        FROM orders
        INNER JOIN products ON products.pid = orders.pid
-       WHERE orders.uid = $uid";
+       WHERE orders.uid = $uid
+       ORDER BY orders.o_date DESC
+       ";
 
         $result = $conn->query($sql);
         if ($result && $result->num_rows > 0) {
