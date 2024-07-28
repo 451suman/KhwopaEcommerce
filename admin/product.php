@@ -275,8 +275,8 @@ include "./layout/admin_session.php";
                 <th width="5%">Category</th>
                 <th width="5%">Model No</th>
                 <th width="5%">Brand</th>
-                <th width="47%">Description</th>
-                <th width="5%">Balance Quantity</th>
+                <th width="42%">Description</th>
+                <th width="10%">Stock Left</th>
                 <th width="5%">Price</th>
                 <th width="10%">Image</th>
                 <th width="10%">Actions</th>

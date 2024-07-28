@@ -41,16 +41,30 @@ include "./layout/customer_session.php";
             while ($row = $result->fetch_assoc()) {
 
                 // if o_orderstatus == pendinng then display pending with red color else displau complete with green color 
-                $pending_complete = ($row['o_orderStatus'] == "pending") ?
-                    '<p style="color:red;font-size:20px;"><strong>' . $row['o_orderStatus'] . '</strong></p>' :
-                    '<p style="color:green;font-size:20px;">' . $row['o_orderStatus'] . '</strong></p>';
+                $pending_complete = '';
+                if ($row['o_orderStatus'] == "pending") {
+                    $pending_complete = '<p style="font-size:20px;" class="text-warning"><strong>' . $row['o_orderStatus'] . '</strong></p>';
+                } elseif ($row['o_orderStatus'] == "conformed") {
+                    $pending_complete = '<p style="font-size:20px;" class="text-primary"><strong>' . $row['o_orderStatus'] . '</strong></p>';
+                } elseif ($row['o_orderStatus'] == "completed") {
+                    $pending_complete = '<p style="font-size:20px;" class="text-success"><strong>' . $row['o_orderStatus'] . '</strong></p>';
+                }
+                $pending_complete_msg = '';
+                if ($row['o_orderStatus'] == "pending") {
+                    $pending_complete_msg = '<p style="font-size:10px;" class="text-warning">Wating to conform yout order</p>';
+                } elseif ($row['o_orderStatus'] == "conformed") {
+                    $pending_complete_msg = '<p style="font-size:10px;" class="text-primary">YOur product has been conformed. Delivery will be in 1 week.</p>';
+                } elseif ($row['o_orderStatus'] == "completed") {
+                    $pending_complete_msg = '<p style="font-size:10px;" class="text-success">Thank you for purchasing.</p>';
+                }
+
                 echo '
                     <tr>
                         <th scope="row">' . $i++ . '</th>
                         <td>' . $row['p_name'] . '</td>
                         <td>' . $row['o_shippingAddress'] . '</td>
                         <td>' . $row['o_quantity'] . '</td>
-                        <td>' .$pending_complete. '</td>
+                        <td>' .$pending_complete. ' '.$pending_complete_msg.'</td>
                         <td>' . $row['o_totalAmount'] . '</td>
                         <td>' . $row['o_date'] . '</td>
                         
