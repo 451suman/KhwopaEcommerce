@@ -8,12 +8,38 @@ include "./layout/customer_session.php";
 
 if (isset($_GET['conform_order_btn'])) {
   $pid = $_GET['pid'];
-  $sql = "INSERT INTO orders (oid, uid, pid, o_totalAmount, o_shippingAddress, o_orderStatus, o_quantity, o_date) 
+  $sql = "INSERT INTO orders (oid, uid, pid, o_totalAmount, o_shippingAddress, o_orderStatus, o_quantity, o_date)
   VALUES (NULL, '', '', '', '', '', '', current_timestamp())";
 }
-
-
 ?>
+
+<?php
+if (isset($_POST['review_submit'])) {
+  $pid = $_POST['pid'];
+  $uid = $_POST['uid'];
+  $review_msg = $_POST['review_msg'];
+  $rating = $_POST['rating'];
+  echo $pid . "  /" . $uid . "  /" . $review_msg . " rat=" . $rating;
+  die();
+  $sql_review = "INSERT INTO reviews ( uid, pid, r_ratingValue, r_comment, r_revievStatus) 
+                  VALUES '$uid', '$pid', '$rating', '$review_msg', '0')";
+  $result = $conn->query($sql_review);
+  if ($result) {
+    $icon = "success";
+    $msg = "Thank you for Review";
+    $loc = "product_single.php";
+    msg_loc($icon, $msg, $loc);
+  } else {
+    $icon = "error";
+    $msg = " Review failed";
+    $loc = "product_single.php";
+    msg_loc($icon, $msg, $loc);
+  }
+}
+?>
+
+
+
 <?php
 // passing pid from products.php using <a  href="product_single.php?pid='.$row['pid'].'" class="btn btn-primary"> tag
 if (isset($_GET["pid"])) {
@@ -31,7 +57,7 @@ if (isset($_GET["pid"])) {
 <div class="container mt-5">
   <div class="row">
     <div class="col-md-6">
-      <div class=""  style="border:1px solid black !important">
+      <div class="" style="border:1px solid black !important">
         <img style="height:450px" src="../image/product/<?php echo $row['p_image']; ?>" class="d-block w-100"
           alt="Sweatshirt Image 1">
       </div>
@@ -120,19 +146,59 @@ if (isset($_GET["pid"])) {
         </div>
       </div>
     </div>
-    <div class="col">
-      <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">GIVE REVIEW OF PRODUCTS</p>
-      <form style="border:1px solid black; padding:10px;" class="bg-info" action="">
-        <div>
-          <input type="text" class="form-control" id="exampleInputEmail1" placeholder="">
-          <br>
-          <input type="submit" class="btn btn-primary" value="SUBMIT REVIEW" name="" id="">
+    <!-- review form -->
+    <?php
+    $sql_check_review = "SELECT * FROM reviews WHERE pid=$pid AND uid=$uid";
+    $result = $conn->query($sql_check_review);
+    if ($result->num_rows > 0) {
+      echo '
+      <div class="col">
+        <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">GIVE REVIEW OF PRODUCTS</p>
+        <ul class="list-group">
+          
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Morbi leo risus
+          </li>
+        </ul>
+        <br>
         </div>
-      </form>
+        ';
+
+    } else {
+      echo '
+      <div class="col">
+      <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">GIVE REVIEW OF PRODUCTS</p>
+       <form id="reviewForm" style="border:1px solid black; padding:10px;" class="bg-info" method="post" action="product_single.php">
+        <div>
+            <input type="text" name="review_msg" class="form-control" placeholder="Review this products" required>
+                <br>
+                <label for="rating">Rating:</label>
+                <div class="rating">
+                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                </div>
+
+                <input type="hidden" name="pid" value="' . $pid . '" id="">
+                <input type="hidden" name="uid" value=" ' . $uid . '" id="">
+                <input type="submit" class="btn btn-primary" value="SUBMIT REVIEW" name="review_submit" id="review_btn_id" disabled>
+            </div>
+        </form>
       <br>
+      </div>
+      ';
+
+    }
+
+    ?>
+    <!-- https://bbbootstrap.com/snippets/bootstrap-rate-your-experience-template-star-ratings-30972576# -->
+    <!-- review form ends -->
 
 
-    </div>
+
+
   </div>
 </div>
 <br>
@@ -151,54 +217,30 @@ if (isset($_GET["pid"])) {
         necessitatibus, cupiditate consequuntur quae fugiat quibusdam dicta atque quod quam animi rerum corrupti
         quidem, assumenda quos voluptatum. Facere aperiam quis eaque repellendus.</p>
     </div>
-    <div style="border:1px solid red; padding:5px;margin:5px" class="bg-secondary ">
-      <p class="text-primary" style="font-size:20px">Name of Customer</p>
-      <p class="text-primary" style="font-size:20px">RATING = 5</p>
-      <p class=" edit_headings" style="border:1px solid black; padding:10px;">Lorem ipsum dolor, sit amet
-        consectetur adipisicing elit. Tempora illum voluptate praesentium quibusdam accusantium officia
-        reprehenderit esse doloremque eveniet, corporis explicabo! Tenetur nam amet quasi voluptate eaque, minus
-        necessitatibus, cupiditate consequuntur quae fugiat quibusdam dicta atque quod quam animi rerum corrupti
-        quidem, assumenda quos voluptatum. Facere aperiam quis eaque repellendus.</p>
-    </div>
-    <div style="border:1px solid red; padding:5px;margin:5px" class="bg-secondary ">
-      <p class="text-primary" style="font-size:20px">Name of Customer</p>
-      <p class="text-primary" style="font-size:20px">RATING = 5</p>
-      <p class=" edit_headings" style="border:1px solid black; padding:10px;">Lorem ipsum dolor, sit amet
-        consectetur adipisicing elit. Tempora illum voluptate praesentium quibusdam accusantium officia
-        reprehenderit esse doloremque eveniet, corporis explicabo! Tenetur nam amet quasi voluptate eaque, minus
-        necessitatibus, cupiditate consequuntur quae fugiat quibusdam dicta atque quod quam animi rerum corrupti
-        quidem, assumenda quos voluptatum. Facere aperiam quis eaque repellendus.</p>
-    </div>
-    <div style="border:1px solid red; padding:5px;margin:5px" class="bg-secondary ">
-      <p class="text-primary" style="font-size:20px">Name of Customer</p>
-      <p class="text-primary" style="font-size:20px">RATING = 5</p>
-      <p class=" edit_headings" style="border:1px solid black; padding:10px;">Lorem ipsum dolor, sit amet
-        consectetur adipisicing elit. Tempora illum voluptate praesentium quibusdam accusantium officia
-        reprehenderit esse doloremque eveniet, corporis explicabo! Tenetur nam amet quasi voluptate eaque, minus
-        necessitatibus, cupiditate consequuntur quae fugiat quibusdam dicta atque quod quam animi rerum corrupti
-        quidem, assumenda quos voluptatum. Facere aperiam quis eaque repellendus.</p>
-    </div>
-    <div style="border:1px solid red; padding:5px;margin:5px" class="bg-secondary ">
-      <p class="text-primary" style="font-size:20px">Name of Customer</p>
-      <p class="text-primary" style="font-size:20px">RATING = 5</p>
-      <p class=" edit_headings" style="border:1px solid black; padding:10px;">Lorem ipsum dolor, sit amet
-        consectetur adipisicing elit. Tempora illum voluptate praesentium quibusdam accusantium officia
-        reprehenderit esse doloremque eveniet, corporis explicabo! Tenetur nam amet quasi voluptate eaque, minus
-        necessitatibus, cupiditate consequuntur quae fugiat quibusdam dicta atque quod quam animi rerum corrupti
-        quidem, assumenda quos voluptatum. Facere aperiam quis eaque repellendus.</p>
-    </div>
-    <div style="border:1px solid red; padding:5px;margin:5px" class="bg-secondary ">
-      <p class="text-primary" style="font-size:20px">Name of Customer</p>
-      <p class="text-primary" style="font-size:20px">RATING = 5</p>
-      <p class=" edit_headings" style="border:1px solid black; padding:10px;">Lorem ipsum dolor, sit amet
-        consectetur adipisicing elit. Tempora illum voluptate praesentium quibusdam accusantium officia
-        reprehenderit esse doloremque eveniet, corporis explicabo! Tenetur nam amet quasi voluptate eaque, minus
-        necessitatibus, cupiditate consequuntur quae fugiat quibusdam dicta atque quod quam animi rerum corrupti
-        quidem, assumenda quos voluptatum. Facere aperiam quis eaque repellendus.</p>
-    </div>
   </div>
 </div>
 
+<script>
+    // Get the submit button
+    var submitButton = document.getElementById('review_btn_id');
+
+    // Function to check if any rating is selected
+    function checkRatingSelected() {
+        // Get the value of the selected radio button
+        var selectedRating = document.querySelector('input[name="rating"]:checked');
+
+        // Enable or disable the submit button based on whether a rating is selected
+        submitButton.disabled = !selectedRating;
+    }
+
+    // Add change event listener to all radio buttons
+    document.querySelectorAll('input[name="rating"]').forEach(function(radio) {
+        radio.addEventListener('change', checkRatingSelected);
+    });
+
+    // Check on page load
+    checkRatingSelected();
+</script>
 
 
 

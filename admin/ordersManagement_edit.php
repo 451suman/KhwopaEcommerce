@@ -103,10 +103,10 @@ if (isset($_GET['order_Edit_btn'])) {
             <form action="ordersManagement_edit.php" method="get">
                 <div>
                     <h2> <label for="exampleSelect1" class="form-label mt-4">Order Status</label></h2>
-                    <select class="form-select bg-light " value="<?php echo $row['o_orderStatus']; ?>" name="orderstatus" id="exampleSelect1">
-                        <option value="pending" class=" bg-danger">Order Pending</option>
-                        <option value="conformed" class=" bg-warning">Order Conformed</option>
-                        <option value="completed" class=" bg-success">Order Completed</option>
+                    <select class="form-select " value="<?php echo $row['o_orderStatus']; ?>" name="orderstatus" id="exampleSelect1">
+                        <option value="pending" class=" text-danger">Order Pending</option>
+                        <option value="conformed" class=" text-warning">Order Conformed</option>
+                        <option value="completed" class=" text-success">Order Completed</option>
                     </select>
                 </div>
                 <p id="totalprice" class="text-danger" style="font-size: 30px;"></p>
