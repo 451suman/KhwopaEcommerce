@@ -1,6 +1,11 @@
+<?php
+$title = "Home";
+?>
 <?php include "./layout/header.php";
 include "../database/db.php";
 ?>
+
+
 
 <!-- signup back end -->
 <?php
@@ -171,7 +176,7 @@ if (isset($_POST["login_submit"])) {
   }
 }
 
- // Close the database connection
+// Close the database connection
 ?>
 
 
@@ -181,26 +186,52 @@ if (isset($_POST["login_submit"])) {
 
 
 
-<div class="card card_float" style="width: 18rem;">
-  <img
-    src="https://images.unsplash.com/photo-1521093470119-a3acdc43374a?q=80&w=1651&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-    </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
-<div class="card card_float" style="width: 18rem;">
-  <img
-    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-    </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
+  <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+
+
+  <!-- loop here -->
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <!-- Product Image -->
+        <img src="../image/product/product_image_1722065288.jpg" class="card-img-top" >
+         
+          
+        <div class="card-body">
+          <!-- Product Name -->
+          <h5 class="card-title bg-primary text-light" style="text-align:center;">
+            <!-- <strong><?php echo $row['p_name']; ?></strong> -->
+             name
+          </h5>
+
+          <!-- Product Description (Model, etc.) -->
+          <p class="card-text">
+            <strong>Brand:</strong> < ?php echo $row['p_brand']; ?><br>
+            <strong>Model No:</strong> < ?php echo $row['p_model']; ?><br>
+            <strong>Stock Quantity:</strong> < ?php echo $row['p_stocksQuantity']; ?>
+
+          </p>
+          <p class="card-text text-primary" style="text-align: center; font-size: 20px;">
+            <strong>Price:</strong> < ?php echo 'Rs ' . $row['p_price']; ?>
+          </p>
+
+          <!-- Action Button -->
+          <div class="text-center my-4">
+            <a href="product_single.php?pid=< ?php echo $row['pid']; ?>" class="btn btn-primary">Checkoffer</a>
+          </div>
+
+          <!-- Optional Footer Icons -->
+          <div class="clearfix mb-1">
+            <span class="float-start">
+              <i class="far fa-question-circle"></i>
+            </span>
+            <span class="float-end">
+              <i class="fas fa-plus"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

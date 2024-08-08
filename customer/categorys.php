@@ -12,7 +12,7 @@ $result = $conn->query($Selectsql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo '
-            <div class="card bg-secondary category_card_customer mb-3" style="max-width: 540px;">
+            <div class="card bg-light category_card_customer mb-3" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
                 <img src="../image/category/' . $row['c_img'] . '" class="img-fluid rounded-start" alt="...">

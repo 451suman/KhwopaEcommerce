@@ -15,19 +15,21 @@ if (isset($_GET['conform_order_btn'])) {
 
 <?php
 if (isset($_POST['review_submit'])) {
-  $pid = $_POST['pid'];
-  $uid = $_POST['uid'];
-  $review_msg = $_POST['review_msg'];
-  $rating = $_POST['rating'];
-  echo $pid . "  /" . $uid . "  /" . $review_msg . " rat=" . $rating;
-  die();
-  $sql_review = "INSERT INTO reviews ( uid, pid, r_ratingValue, r_comment, r_revievStatus) 
-                  VALUES '$uid', '$pid', '$rating', '$review_msg', '0')";
+  $pid = mysqli_real_escape_string($conn, $_POST['pid']);
+  $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+  $review_msg = mysqli_real_escape_string($conn, $_POST['review_msg']);
+  $rating = mysqli_real_escape_string($conn, $_POST['rating']);
+  // echo $pid . "  /" . $uid . "  /" . $review_msg . " rat=" . $rating;
+//   die();
+  $sql_review = "INSERT INTO reviews (uid, pid, r_ratingValue, r_comment, r_revievStatus) 
+                  VALUES ('$uid', '$pid', '$rating', '$review_msg', '0')";
+
   $result = $conn->query($sql_review);
+
   if ($result) {
     $icon = "success";
     $msg = "Thank you for Review";
-    $loc = "product_single.php";
+    $loc = "product_single.php?pid=$pid";
     msg_loc($icon, $msg, $loc);
   } else {
     $icon = "error";
@@ -37,6 +39,7 @@ if (isset($_POST['review_submit'])) {
   }
 }
 ?>
+
 
 
 
@@ -151,24 +154,29 @@ if (isset($_GET["pid"])) {
     $sql_check_review = "SELECT * FROM reviews WHERE pid=$pid AND uid=$uid";
     $result = $conn->query($sql_check_review);
     if ($result->num_rows > 0) {
+
+      $row = $result->fetch_assoc();
+
       echo '
       <div class="col">
         <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">GIVE REVIEW OF PRODUCTS</p>
         <ul class="list-group">
-          
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            Morbi leo risus
-          </li>
+            ' . $row['r_comment'] . '
+            Rating = ' . $row['r_ratingValue'] . '
         </ul>
         <br>
-        </div>
-        ';
+      </div>
+    ';
+
 
     } else {
+      // review comment and ratu=ing star form
       echo '
       <div class="col">
       <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">GIVE REVIEW OF PRODUCTS</p>
-       <form id="reviewForm" style="border:1px solid black; padding:10px;" class="bg-info" method="post" action="product_single.php">
+       
+      <form id="reviewForm" method="post" action="product_single.php" style="border:1px solid black; padding:10px;" class="bg-info" >
         <div>
             <input type="text" name="review_msg" class="form-control" placeholder="Review this products" required>
                 <br>
@@ -180,7 +188,6 @@ if (isset($_GET["pid"])) {
                     <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
                     <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
                 </div>
-
                 <input type="hidden" name="pid" value="' . $pid . '" id="">
                 <input type="hidden" name="uid" value=" ' . $uid . '" id="">
                 <input type="submit" class="btn btn-primary" value="SUBMIT REVIEW" name="review_submit" id="review_btn_id" disabled>
@@ -189,6 +196,8 @@ if (isset($_GET["pid"])) {
       <br>
       </div>
       ';
+      // review comment and ratu=ing star form ends
+    
 
     }
 
@@ -202,44 +211,66 @@ if (isset($_GET["pid"])) {
   </div>
 </div>
 <br>
-<hr><br>
-<div style="margin-left: 10% !important;margin-right: 10%  !important;">
+<hr>
+<?php
+// Assuming $conn is your database connection
+$select_review = "SELECT * FROM reviews ORDER BY r_ratingValue DESC";
+$result = $conn->query($select_review);
 
-  <div style="border:1px solid black; padding:10px;">
-    <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">PRODUCT REVIEW</p>
-    <!-- while{} -->
-    <div style="border:1px solid red; padding:5px;margin:5px" class="bg-secondary ">
-      <p class="text-primary" style="font-size:20px">Name of Customer</p>
-      <p class="text-primary" style="font-size:20px">RATING = 5</p>
-      <p class=" edit_headings" style="border:1px solid black; padding:10px;">Lorem ipsum dolor, sit amet
-        consectetur adipisicing elit. Tempora illum voluptate praesentium quibusdam accusantium officia
-        reprehenderit esse doloremque eveniet, corporis explicabo! Tenetur nam amet quasi voluptate eaque, minus
-        necessitatibus, cupiditate consequuntur quae fugiat quibusdam dicta atque quod quam animi rerum corrupti
-        quidem, assumenda quos voluptatum. Facere aperiam quis eaque repellendus.</p>
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    ?>
+    <div class="container-fluid">
+      <div class="card mb-3 p-2" style="width: 100%;">
+        <div class="row g-0">
+          <div class="col-md-12">
+            <div class="card-body">
+              <h5 class="card-title text-success"><?php echo $row['uid']; ?></h5>
+              <?php
+              // Display star rating based on the r_ratingValue
+              for ($i = 0; $i < $row['r_ratingValue']; $i++) {
+                echo '⭐';
+              }
+              ?>
+              <p class="card-text text-justify">
+                <?php echo htmlspecialchars($row['r_comment']); ?>
+              </p>
+              <p class="card-text"><small class="text-body-secondary">
+                  <?php echo date("F j, Y, g:i a", strtotime($row['r_dateAndTime'])); ?>
+                </small></p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+    <?php
+  }
+} else {
+  echo "";
+}
+?>
+
 
 <script>
-    // Get the submit button
-    var submitButton = document.getElementById('review_btn_id');
+  // Get the submit button
+  var submitButton = document.getElementById('review_btn_id');
 
-    // Function to check if any rating is selected
-    function checkRatingSelected() {
-        // Get the value of the selected radio button
-        var selectedRating = document.querySelector('input[name="rating"]:checked');
+  // Function to check if any rating is selected
+  function checkRatingSelected() {
+    // Get the value of the selected radio button
+    var selectedRating = document.querySelector('input[name="rating"]:checked');
 
-        // Enable or disable the submit button based on whether a rating is selected
-        submitButton.disabled = !selectedRating;
-    }
+    // Enable or disable the submit button based on whether a rating is selected
+    submitButton.disabled = !selectedRating;
+  }
 
-    // Add change event listener to all radio buttons
-    document.querySelectorAll('input[name="rating"]').forEach(function(radio) {
-        radio.addEventListener('change', checkRatingSelected);
-    });
+  // Add change event listener to all radio buttons
+  document.querySelectorAll('input[name="rating"]').forEach(function (radio) {
+    radio.addEventListener('change', checkRatingSelected);
+  });
 
-    // Check on page load
-    checkRatingSelected();
+  // Check on page load
+  checkRatingSelected();
 </script>
 
 

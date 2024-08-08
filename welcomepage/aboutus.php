@@ -1,3 +1,7 @@
+
+<?php 
+$title = "About US";
+?>
 <?php include "./layout/header.php";
 include "../database/db.php";
 ?>

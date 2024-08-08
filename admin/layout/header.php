@@ -75,4 +75,4 @@
 
     <?php include "adminFunction.php"; ?>
     <?php include "../messageFunction/messageFunction.php"; ?>
-    <div id="main_body">
+    <div id="main_body"  class="bg-secondary">
