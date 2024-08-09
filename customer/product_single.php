@@ -4,16 +4,10 @@ include "./layout/header.php";
 include "./layout/customer_session.php";
 
 ?>
-<?php
 
-if (isset($_GET['conform_order_btn'])) {
-  $pid = $_GET['pid'];
-  $sql = "INSERT INTO orders (oid, uid, pid, o_totalAmount, o_shippingAddress, o_orderStatus, o_quantity, o_date)
-  VALUES (NULL, '', '', '', '', '', '', current_timestamp())";
-}
-?>
 
 <?php
+//review comment and rating backend
 if (isset($_POST['review_submit'])) {
   $pid = mysqli_real_escape_string($conn, $_POST['pid']);
   $uid = mysqli_real_escape_string($conn, $_POST['uid']);
@@ -38,6 +32,8 @@ if (isset($_POST['review_submit'])) {
     msg_loc($icon, $msg, $loc);
   }
 }
+//review comment and rating backend ends
+
 ?>
 
 
@@ -95,6 +91,7 @@ if (isset($_GET["pid"])) {
         </div>
       </form>
 
+      <!-- calculate price JS -->
       <script>
         var price = <?php echo $price; ?>;
         var quantityElement = document.getElementById("quantity");
@@ -119,7 +116,135 @@ if (isset($_GET["pid"])) {
 
 <div class="container text-center">
   <div class="row align-items-start">
+
+
+    <!-- col 1 -->
+    <!-- <div class="col">
+      <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">Average Ratings</p>
+
+
+      <?php
+      // Initialize variables for calculating the average
+      $total_rating = 0;
+      $rating_count = 0;
+
+      // Retrieve all the ratings for the product
+      $stmt = $conn->prepare("SELECT r_ratingValue FROM reviews WHERE pid = ?");
+      $stmt->bind_param("i", $pid);
+      $stmt->execute();
+      $result = $stmt->get_result();
+
+      // Sum all the ratings and count the number of ratings
+      while ($row = $result->fetch_assoc()) {
+        $total_rating += $row['r_ratingValue'];
+        $rating_count++;
+      }
+
+      // Calculate the average rating
+      if ($rating_count > 0) {
+        $average_rating = $total_rating / $rating_count;
+      } else {
+        $average_rating = null;
+      }
+
+      // Create the star string based on the average rating
+      $star_rating = '';
+      if ($average_rating !== null) {
+        // Round the average rating to the nearest whole number
+        $rounded_rating = round($average_rating);
+        echo $rounded_rating;
+        // Generate the star string
+        for ($i = 1; $i <= 5; $i++) {
+          if ($i <= $rounded_rating) {
+            $star_rating .= '⭐'; // Full star
+          } else {
+            $star_rating .= '☆'; // Empty star
+          }
+        }
+      } else {
+        $star_rating = 'No ratings yet'; // In case there are no ratings
+      }
+
+      // Display the star rating
+      echo "<div style='font-size: 48px;'>$star_rating</div>";
+
+      ?>
+
+
+    </div> -->
+
+
+
     <div class="col">
+      <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">Average Ratings</p>
+
+      <div class="container-fluid">
+        <div class="card mb-3 p-2" style="width: 100%;">
+          <div class="row g-0">
+            <div class="col-md-12">
+              <div class="card-body" style="text-align: center;">
+                <!-- < ?php echo '⭐'; ?> -->
+
+
+                <?php
+                // Initialize variables for calculating the average
+                $total_rating = 0;
+                $rating_count = 0;
+
+                // Retrieve all the ratings for the product
+                $stmt = $conn->prepare("SELECT r_ratingValue FROM reviews WHERE pid = ?");
+                $stmt->bind_param("i", $pid);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                // Sum all the ratings and count the number of ratings
+                while ($row = $result->fetch_assoc()) {
+                  $total_rating += $row['r_ratingValue'];
+                  $rating_count++;
+                }
+
+                // Calculate the average rating
+                if ($rating_count > 0) {
+                  $average_rating = $total_rating / $rating_count;
+                } else {
+                  $average_rating = null;
+                }
+
+                // Create the star string based on the average rating
+                $star_rating = '';
+                if ($average_rating !== null) {
+                  // Round the average rating to the nearest whole number
+                  $rounded_rating = round($average_rating);
+                  echo $rounded_rating;
+                  // Generate the star string
+                  for ($i = 1; $i <= 5; $i++) {
+                    if ($i <= $rounded_rating) {
+                      $star_rating .= '⭐'; // Full star
+                    } else {
+                      $star_rating .= '☆'; // Empty star
+                    }
+                  }
+                } else {
+                  $star_rating = 'No ratings yet'; // In case there are no ratings
+                }
+
+                // Display the star rating
+                echo "<div style='font-size: 48px;'>$star_rating</div>";
+
+                ?>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+    <!-- rating bar   Col 2     -->
+    <!-- <div class="col">
       <div style="margin-left: 10% !important;margin-right: 10%  !important;">
         <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">TOTAL Ratings</p>
         <strong>Rating 5</strong>
@@ -130,7 +255,7 @@ if (isset($_GET["pid"])) {
         <strong>Rating 4</strong>
         <div class="progress">
           <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0"
-            aria-valuemax="100"></div>
+            aria-valuemax="100"> total 4 ⭐ rating </div>
         </div>
         <strong>Rating 3</strong>
         <div class="progress">
@@ -148,7 +273,11 @@ if (isset($_GET["pid"])) {
             aria-valuemin="0" aria-valuemax="100"></div>
         </div>
       </div>
-    </div>
+    </div> -->
+
+    <!-- rating bar ends -->
+
+
     <!-- review form -->
     <?php
     $sql_check_review = "SELECT * FROM reviews WHERE pid=$pid AND uid=$uid";
@@ -170,7 +299,8 @@ if (isset($_GET["pid"])) {
     ';
 
 
-    } else {
+    } else {  
+       //col 3
       // review comment and ratu=ing star form
       echo '
       <div class="col">
@@ -196,26 +326,30 @@ if (isset($_GET["pid"])) {
       <br>
       </div>
       ';
-      // review comment and ratu=ing star form ends
-    
-
+      // review comment and rating star form ends
     }
-
     ?>
     <!-- https://bbbootstrap.com/snippets/bootstrap-rate-your-experience-template-star-ratings-30972576# -->
     <!-- review form ends -->
-
-
-
-
   </div>
 </div>
 <br>
 <hr>
+
+
+
+
+<!-- review and rating  display rating startshere -->
 <?php
-// Assuming $conn is your database connection
-$select_review = "SELECT * FROM reviews ORDER BY r_ratingValue DESC";
+$select_review = "SELECT users.uid, users.first_name, users.last_name, reviews.rid, reviews.uid AS review_uid, reviews.pid, reviews.r_ratingValue, 
+                  reviews.r_comment, reviews.r_revievStatus,  reviews.r_dateAndTime
+                 FROM reviews 
+                 INNER JOIN users ON users.uid = reviews.uid
+                 WHERE reviews.pid = $pid 
+                 ORDER BY reviews.r_ratingValue DEsc";
+
 $result = $conn->query($select_review);
+
 
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
@@ -225,7 +359,7 @@ if ($result->num_rows > 0) {
         <div class="row g-0">
           <div class="col-md-12">
             <div class="card-body">
-              <h5 class="card-title text-success"><?php echo $row['uid']; ?></h5>
+              <h5 class="card-title text-success"><?php echo $row['first_name'] . " " . $row['last_name']; ?></h5>
               <?php
               // Display star rating based on the r_ratingValue
               for ($i = 0; $i < $row['r_ratingValue']; $i++) {
@@ -249,6 +383,9 @@ if ($result->num_rows > 0) {
   echo "";
 }
 ?>
+<!-- review and display rating ends here -->
+
+
 
 
 <script>
