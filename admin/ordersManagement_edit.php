@@ -109,8 +109,8 @@ if (isset($_GET['order_Edit_btn'])) {
                     <select class="form-select " value="<?php echo $row['o_orderStatus']; ?>" name="orderstatus"
                         id="exampleSelect1">
                         <option value="pending" class=" text-warning">Order Pending</option>
-                        <option value="completed" class=" text-success">Order Completed</option>
                         <option value="conformed" class=" text-primary">Order Conformed</option>
+                        <option value="completed" class=" text-success">Order Completed</option>
                     </select>
                 </div>
                 <p id="totalprice" class="text-danger" style="font-size: 30px;"></p>

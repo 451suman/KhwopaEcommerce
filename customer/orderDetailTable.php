@@ -95,14 +95,29 @@ if (isset($_GET['cancell_order'])) {
                                 <input type="submit" value="Cancel Order" name="cancell_order" class="btn btn-danger">
                             </form>
                         </td>';
-                } else {
-                    echo '
+                } elseif($row['o_orderStatus'] == "completed") {
+                        echo '
                         <td>
-                            <form action="orderDetailTable.php" method="get">
-                                <input type="hidden" name="oid" value="' . $row['oid'] . '">
-                                <input type="submit" value="Cancelled" name="cancell_order" class="btn btn-danger" disabled>
-                            </form>
+                        ' . $row['pid'] . ' ' . $uid . '<br>
+                        <a href="product_single.php?pid=' . $row['pid'] . '" class="btn btn-primary">Give Review</a>
                         </td>';
+                                                    
+                    // echo '
+                    //     <td>
+                    //     '.$row['pid']." ". $uid.'
+                    //         <form action="orderDetailTable.php" method="get">
+                    //             <input type="hidden" name="oid" value="' . $row['pid'] . '">
+                    //             <input type="hidden" name="oid" value="' . $row['uid'] . '">
+                    //             <input type="submit" value="Give Review" name="review_button" class="btn btn-success">
+                    //         </form>
+                    //     </td>';
+                }
+                else{
+                    echo '
+                    <td>
+                        <p class="text-warning">Cancell button is unavailable </p>
+                    </td>';
+
                 }
 
                 echo '</tr>';

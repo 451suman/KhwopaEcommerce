@@ -183,7 +183,7 @@ if (isset($_GET["pid"])) {
           <div class="row g-0">
             <div class="col-md-12">
               <div class="card-body" style="text-align: center;">
-               
+
 
 
                 <?php
@@ -280,53 +280,73 @@ if (isset($_GET["pid"])) {
 
     <!-- review form -->
     <?php
-    $sql_check_review = "SELECT * FROM reviews WHERE pid=$pid AND uid=$uid";
-    $result = $conn->query($sql_check_review);
-    if ($result->num_rows > 0) {
 
-      $row = $result->fetch_assoc();
+    // Check if the order exists for the given product and user
+    $order_check_sql = "SELECT * FROM orders WHERE pid=$pid AND uid=$uid";
+    $result2 = $conn->query($order_check_sql);
 
-      echo '
-      <div class="col">
-        <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">GIVE REVIEW OF PRODUCTS</p>
-        <ul class="list-group">
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            ' . $row['r_comment'] . '
-            Rating = ' . $row['r_ratingValue'] . '
-        </ul>
-        <br>
-      </div>
-    ';
+    if ($result2->num_rows != 0) {
+      $row2 = $result2->fetch_assoc();
 
+      // Proceed only if the order status is 'completed'
+      if ($row2['o_orderStatus'] == 'completed') {
 
-    } else {  
-       //col 3
-      // review comment and ratu=ing star form
-      echo '
-      <div class="col">
-      <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">GIVE REVIEW OF PRODUCTS</p>
-       
-      <form id="reviewForm" method="post" action="product_single.php" style="border:1px solid black; padding:10px;" class="bg-info" >
-        <div>
-            <input type="text" name="review_msg" class="form-control" placeholder="Review this products" required>
-                <br>
-                <label for="rating">Rating:</label>
-                <div class="rating">
-                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
-                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
-                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
-                </div>
-                <input type="hidden" name="pid" value="' . $pid . '" id="">
-                <input type="hidden" name="uid" value=" ' . $uid . '" id="">
-                <input type="submit" class="btn btn-primary" value="SUBMIT REVIEW" name="review_submit" id="review_btn_id" disabled>
+        // Check if the user has already reviewed the product
+        $sql_check_review = "SELECT * FROM reviews WHERE pid=$pid AND uid=$uid";
+        $result = $conn->query($sql_check_review);
+
+        if ($result->num_rows > 0) {
+          // Fetch the review details
+          $row = $result->fetch_assoc();
+          $rating = '';
+          for ($i = 0; $i < $row['r_ratingValue']; $i++) {
+              $rating .= "⭐"; // Use .= for string concatenation
+          }
+          
+          echo '
+            <div class="col">
+                <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">YOUR REVIEW OF THIS PRODUCT</p>
+                 <div class="container-fluid">
+                    <div class="card mb-3 p-2" style="width: 100%;">
+                      <div class="row g-0">
+                        <div class="col-md-12">
+                          <div class="card-body" style="text-align: center;">
+                            <p>Comment<br>' . $row['r_comment'] . ' <br> 
+                            <span>Rating: ' . $rating . '</span></p>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
             </div>
-        </form>
-      <br>
-      </div>
-      ';
-      // review comment and rating star form ends
+            ';
+        } else {
+          // Review comment and rating star form
+          echo '
+            <div class="col">
+                <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">GIVE REVIEW OF THIS PRODUCT</p>
+                <form id="reviewForm" method="post" action="product_single.php" style="border:1px solid black; padding:10px;" class="bg-info">
+                    <div>
+                        <input type="text" name="review_msg" class="form-control" placeholder="Review this product" required>
+                        <br>
+                        <label for="rating">Rating:</label>
+                        <div class="rating">
+                            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                        </div>
+                        <input type="hidden" name="pid" value="' . $pid . '">
+                        <input type="hidden" name="uid" value="' . $uid . '">
+                        <input type="submit" class="btn btn-primary" value="SUBMIT REVIEW" name="review_submit" id="review_btn_id">
+                    </div>
+                </form>
+                <br>
+            </div>
+            ';
+        }
+      }
     }
     ?>
     <!-- https://bbbootstrap.com/snippets/bootstrap-rate-your-experience-template-star-ratings-30972576# -->
