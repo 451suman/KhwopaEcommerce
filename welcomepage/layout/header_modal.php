@@ -2,7 +2,7 @@
 <div class="modal fade" id="signup" tabindex="-1" aria-labelledby="signupLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header bg-primary">
         <h5 class="modal-title" id="signupLabel">Signup</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -39,11 +39,16 @@
             <input name="city" type="text" class="form-control" id="floatingInputPasswordSignup" placeholder="City">
             <label for="floatingInputPasswordSignup">City</label>
           </div>
+
           <div class="modal-footer">
+            <p class="text-info">Already have a account. Click <a href="#" class="text-warning" data-bs-toggle="modal"
+                data-bs-target="#login"> <u>Login </u> </a></p>
+
             <button type="submit" name="signup_submit" class="btn btn-primary">Signup</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
           </div>
         </form>
+
 
         <!-- Signup form ends -->
       </div>
@@ -59,7 +64,7 @@
 <div class="modal fade" id="login" tabindex="-1" aria-labelledby="loginLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header bg-primary">
         <h5 class="modal-title" id="loginLabel">Login</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -76,8 +81,16 @@
             <label for="floatingInputPasswordLogin">Password</label>
           </div>
           <div class="modal-footer">
+            <p class="text-info">
+              No account? Please
+              <a href="#" class="text-warning" data-bs-toggle="modal" data-bs-target="#signup">
+                <u>sign up</u>
+              </a>
+            </p>
+
+
             <button type="submit" name="login_submit" class="btn btn-primary">Login</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
           </div>
         </form>
         <!-- Login form ends -->

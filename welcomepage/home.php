@@ -180,8 +180,36 @@ if (isset($_POST["login_submit"])) {
 ?>
 
 
+<!-- carousel start from here -->
 
+<div class="carousel_image_div">
+  <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
 
+      <?php for ($i = 1; $i <= 44; $i++) { ?>
+
+        <div class="carousel-item <?php echo $i === 1 ? 'active' : ''; ?>" data-bs-interval="10000">
+          <img class="carousel_image_slide d-block w-100" src="../image/product/product_image_1722065288.jpg"
+            alt="Product Image <?php echo $i; ?>">
+          <div class="carousel-caption d-none d-md-block">
+            <h5><?php echo $i;?></h5>
+            <p class="text-warning"> <br> placeholder content for <br> the first slide.</p>
+          </div>
+        </div>
+
+      <?php } ?>
+
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
 
 
 
@@ -190,29 +218,33 @@ if (isset($_POST["login_submit"])) {
   <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
 
 
-  <!-- loop here -->
+    <!-- loop here -->
     <div class="col">
       <div class="card h-100 shadow-sm">
         <!-- Product Image -->
-        <img src="../image/product/product_image_1722065288.jpg" class="card-img-top" >
-         
-          
+        <img src="../image/product/product_image_1722065288.jpg" class="card-img-top">
+
+
         <div class="card-body">
           <!-- Product Name -->
           <h5 class="card-title bg-primary text-light" style="text-align:center;">
             <!-- <strong><?php echo $row['p_name']; ?></strong> -->
-             name
+            name
           </h5>
 
           <!-- Product Description (Model, etc.) -->
           <p class="card-text">
-            <strong>Brand:</strong> < ?php echo $row['p_brand']; ?><br>
-            <strong>Model No:</strong> < ?php echo $row['p_model']; ?><br>
-            <strong>Stock Quantity:</strong> < ?php echo $row['p_stocksQuantity']; ?>
+            <strong>Brand:</strong>
+            < ?php echo $row['p_brand']; ?><br>
+              <strong>Model No:</strong>
+              < ?php echo $row['p_model']; ?><br>
+                <strong>Stock Quantity:</strong>
+                < ?php echo $row['p_stocksQuantity']; ?>
 
           </p>
           <p class="card-text text-primary" style="text-align: center; font-size: 20px;">
-            <strong>Price:</strong> < ?php echo 'Rs ' . $row['p_price']; ?>
+            <strong>Price:</strong>
+            < ?php echo 'Rs ' . $row['p_price']; ?>
           </p>
 
           <!-- Action Button -->

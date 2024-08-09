@@ -183,7 +183,7 @@ if (isset($_GET["pid"])) {
           <div class="row g-0">
             <div class="col-md-12">
               <div class="card-body" style="text-align: center;">
-                <!-- < ?php echo '⭐'; ?> -->
+               
 
 
                 <?php
@@ -229,7 +229,7 @@ if (isset($_GET["pid"])) {
                 }
 
                 // Display the star rating
-                echo "<div style='font-size: 48px;'>$star_rating</div>";
+                echo "<div style='font-size: 38px;'>$star_rating</div>";
 
                 ?>
               </div>
