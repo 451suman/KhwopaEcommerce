@@ -10,7 +10,9 @@ function category_product_display($cid, $conn)
         return null;
     }
 
-    $sql = "SELECT * FROM products WHERE cid = $cid && p_stocksQuantity > 0";
+    $sql = "SELECT * FROM products
+             WHERE cid = $cid && p_stocksQuantity > 0
+             ORDER BY RAND()";
     $result = $conn->query($sql);
     return $result;
 }
@@ -23,7 +25,7 @@ function selectProducts($conn) //from products.php page -> products.php ma janch
     FROM products
     INNER JOIN categorys ON products.cid = categorys.cid
     WHERE p_stocksQuantity > 0
-    ORDER BY categorys.c_name ASC";
+    ORDER BY categorys.c_name ASC, RAND()";
     $result = $conn->query($Selectsql);
     return $result;
 

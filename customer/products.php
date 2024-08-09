@@ -22,28 +22,7 @@ if (isset($_GET['category_single']) && isset($_GET['cid'])) {
             <?php
             // Check if $result is not null before using it
             if ($result && $result->num_rows > 0) {
-                // while ($row = $result->fetch_assoc()) {
-                //     echo '
-                //     <div class="card bg-secondary card_float" style="width: 18rem;">
-                //         <img src="../image/product/'.$row['p_image'].'" class="card-img-top" alt="Card image">
-                //         <div class="card-body">
-                //             <h5 class="card-title"><strong>'.$row['p_name'].'</strong></h5>
-                //             <p class="card-text">
-                //               <strong>Brand=</strong> '.$row['p_brand'].'<br> 
-                //               <strong>Model no=</strong> '.$row['p_model'].'<br>
-                //             </p>
-                //             <p class="card-text" style="text-align: center; font-size: 20px;"><strong>
-                //             Stock Quantity= '.$row['p_stocksQuantity'].'
-                //             </strong></p>
-                //             <p class="card-text" style="text-align: center; font-size: 20px;"><strong>
-                //             Price= Rs '.$row['p_price'].'
-                //             </strong></p>
-                //             <a href="product_single.php?pid='.$row['pid'].'" class="btn btn-primary">View Details</a>
-                //         </div>
-                //     </div>
-                //   ';
-                // }
-            
+                       
                 while ($row = $result->fetch_assoc()) {
                     ?>
 
