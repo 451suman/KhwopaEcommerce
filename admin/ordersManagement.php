@@ -4,9 +4,6 @@ include "./layout/admin_session.php";
 ?>
 
 
-
-
-
 <?php
 $sql = "SELECT orders.oid, orders.uid, orders.pid, orders.o_shippingAddress, 
        orders.o_quantity, orders.o_orderStatus, orders.o_totalAmount, 
@@ -21,8 +18,7 @@ $sql = "SELECT orders.oid, orders.uid, orders.pid, orders.o_shippingAddress,
 
 $result = $conn->query($sql);
 ?>
-<?php
-echo '<form action="" method="get">
+<form action="" method="get">
     <input type="hidden" name="pid" value="<?php echo $pid; ?>">
     <button type="submit" name="pid_stock_buy_btn" class="btn btn-warning form_btn_stock">PENDINNG</button>
     </form>
@@ -36,10 +32,8 @@ echo '<form action="" method="get">
     <!-- Form for ALL DETAIL -->
     <form action="" method="get">
         <input type="hidden" name="pid" value="<?php echo $pid; ?>">
-        <button type="submit" name="pid_product_page" class="btn btn-primary form_btn_stock">ALL DETAIL</button>
-    </form>';
-    ?>
-
+        <button type="submit" name="pid_product_page" class="btn btn-danger form_btn_stock">Cancelled</button>
+    </form>
 
 <table class="table table-bordered table-striped table-hover">
     <thead>
@@ -70,19 +64,14 @@ echo '<form action="" method="get">
             $pending_complete = '';
             if ($row['o_orderStatus'] == "pending") {
                 $pending_complete = '<p style="font-size:20px;" class="text-warning"><strong>' . $row['o_orderStatus'] . '</strong></p>';
-            } elseif ($row['o_orderStatus'] == "conformed") {
-                $pending_complete = '<p style="font-size:20px;" class="text-primary"><strong>' . $row['o_orderStatus'] . '</strong></p>';
+            } elseif ($row['o_orderStatus'] == "cancelled") {
+                $pending_complete = '<p style="font-size:20px;" class="text-danger"><strong>' . $row['o_orderStatus'] . '</strong></p>';
             } elseif ($row['o_orderStatus'] == "completed") {
                 $pending_complete = '<p style="font-size:20px;" class="text-success"><strong>' . $row['o_orderStatus'] . '</strong></p>';
-            }
-            $pending_complete_msg = '';
-            if ($row['o_orderStatus'] == "pending") {
-                $pending_complete_msg = '<p style="font-size:10px;" class="text-warning"></p>';
             } elseif ($row['o_orderStatus'] == "conformed") {
-                $pending_complete_msg = '<p style="font-size:10px;" class="text-primary"></p>';
-            } elseif ($row['o_orderStatus'] == "completed") {
-                $pending_complete_msg = '<p style="font-size:10px;" class="text-success"></p>';
+                $pending_complete = '<p style="font-size:20px;" class="text-primary"><strong>' . $row['o_orderStatus'] . '</strong></p>';
             }
+           
             echo '
                     <tr>
                         <th scope="row">' . $i++ . '</th>
@@ -94,14 +83,14 @@ echo '<form action="" method="get">
                         <td>' . $row['o_shippingAddress'] . '</td>
                         <td>' . $row['p_stocksQuantity'] . '</td>
                         <td>' . $row['o_quantity'] . '</td>
-                        <td>' . $pending_complete . '<br>' . $pending_complete_msg . '</td>
+                        <td>' . $pending_complete . '</td>
                         <td>' . $row['o_totalAmount'] . '</td>
                         <td>' . $row['o_date'] . '</td>
                          <td><img class="Product_table_image" src="../image/product/' . $row['p_image'] . '"></td>
                         <td> ';
 
 
-            if ($row['o_orderStatus'] != "completed") { //if order status is not completed then only display button
+            if ($row['o_orderStatus'] != "completed" && $row['o_orderStatus'] != "cancelled") { //if order status is not completed then only display button
                 echo '
                         <form action="ordersManagement_edit.php" method="get">
                             

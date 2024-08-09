@@ -60,15 +60,17 @@ if (isset($_GET['order_Edit_btn'])) {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
     }
-       // if o_orderstatus == pendinng then display pending with red color else displau complete with green color 
-            $pending_complete = '';
-            if ($row['o_orderStatus'] == "pending") {
-                $pending_complete = '<p style="font-size:20px;" class="text-warning"><strong>' . $row['o_orderStatus'] . '</strong></p>';
-            } elseif ($row['o_orderStatus'] == "conformed") {
-                $pending_complete = '<p style="font-size:20px;" class="text-primary"><strong>' . $row['o_orderStatus'] . '</strong></p>';
-            } elseif ($row['o_orderStatus'] == "completed") {
-                $pending_complete = '<p style="font-size:20px;" class="text-success"><strong>' . $row['o_orderStatus'] . '</strong></p>';
-            }
+    // if o_orderstatus == pendinng then display pending with red color else displau complete with green color 
+    $pending_complete = '';
+    if ($row['o_orderStatus'] == "pending") {
+        $pending_complete = '<p style="font-size:20px;" class="text-warning"><strong>' . $row['o_orderStatus'] . '</strong></p>';
+    } elseif ($row['o_orderStatus'] == "completed") {
+        $pending_complete = '<p style="font-size:20px;" class="text-success"><strong>' . $row['o_orderStatus'] . '</strong></p>';
+    } elseif ($row['o_orderStatus'] == "cancelled") {
+        $pending_complete = '<p style="font-size:20px;" class="text-danger"><strong>' . $row['o_orderStatus'] . '</strong></p>';
+    } elseif ($row['o_orderStatus'] == "conformed") {
+        $pending_complete = '<p style="font-size:20px;" class="text-primary"><strong>' . $row['o_orderStatus'] . '</strong></p>';
+    }
 
 }
 ?>
@@ -99,14 +101,16 @@ if (isset($_GET['order_Edit_btn'])) {
             <div class="options">
             </div>
             <hr>
-            <div style="background-color:#c2e2ef;"><strong> Order Status: <?php echo $pending_complete; ?></strong></div>
+            <div style="background-color:#c2e2ef;"><strong> Order Status: <?php echo $pending_complete; ?></strong>
+            </div>
             <form action="ordersManagement_edit.php" method="get">
                 <div>
                     <h2> <label for="exampleSelect1" class="form-label mt-4">Order Status</label></h2>
-                    <select class="form-select " value="<?php echo $row['o_orderStatus']; ?>" name="orderstatus" id="exampleSelect1">
-                        <option value="pending" class=" text-danger">Order Pending</option>
-                        <option value="conformed" class=" text-warning">Order Conformed</option>
+                    <select class="form-select " value="<?php echo $row['o_orderStatus']; ?>" name="orderstatus"
+                        id="exampleSelect1">
+                        <option value="pending" class=" text-warning">Order Pending</option>
                         <option value="completed" class=" text-success">Order Completed</option>
+                        <option value="conformed" class=" text-primary">Order Conformed</option>
                     </select>
                 </div>
                 <p id="totalprice" class="text-danger" style="font-size: 30px;"></p>
