@@ -13,7 +13,7 @@ include "./layout/admin_session.php";
     <?php
 
 
-    
+
 
 
     // add category
@@ -34,28 +34,18 @@ include "./layout/admin_session.php";
                     $Insertsql = "INSERT INTO categorys (c_name,c_img) VALUES ( '$c_name','$newFileName')";
                     $result = $conn->query($Insertsql);
                     if ($result) {
-                        $icon = "success";
-                        $msg = "Category added into Database Successfully.";
-                        msg($icon, $msg);
+                        msg("success", "Category added into Database Successfully.");
                     } else {
-                        $icon = "error";
-                        $msg = "Failed to add Category into Database..";
-                        msg($icon, $msg);
+                        msg("error", "Failed to add Category into Database..");
                     }
                 } else {
-                    $icon = "error";
-                    $msg = "Error moving uploaded file.";
-                    msg($icon, $msg);
+                    msg("error", "Error moving uploaded file.");
                 }
             } else {
-                $icon = "error";
-                $msg = "File size exceeds the maximum limit.";
-                msg($icon, $msg);
+                msg("error", "File size exceeds the maximum limit.");
             }
         } else {
-            $icon = "error";
-            $msg = "No file uploaded or there was an error uploading the file.";
-            msg($icon, $msg);
+            msg("error", "No file uploaded or there was an error uploading the file.");
         }
 
 
@@ -77,13 +67,9 @@ include "./layout/admin_session.php";
                     $deleteSql = "DELETE FROM categorys WHERE cid = $cid";
                     $result = $conn->query($deleteSql);
                     if ($result) {
-                        $icon = "success";
-                        $msg = "Delete Category form Database Successfully.";
-                        msg($icon, $msg);
+                        msg("success", "Delete Category form Database Successfully.");
                     } else {
-                        $icon = "error";
-                        $msg = "Delete Category form Database Failed.";
-                        msg($icon, $msg);
+                        msg("error", "Delete Category form Database Failed.");
                     }
                 }
             }
@@ -179,89 +165,71 @@ include "./layout/admin_session.php";
 
 <!-- // Edit/update category -->
 <?php
-    if (isset($_POST["edit_category_submit"])) {
-      
-        // Sanitize input
-        $c_name =$_POST['c_name'];
-        $cid = $_POST['cid'];
-        $old_image = $_POST['old_image'];
+if (isset($_POST["edit_category_submit"])) {
 
-        $edit_image_file = $old_image;
+    // Sanitize input
+    $c_name = $_POST['c_name'];
+    $cid = $_POST['cid'];
+    $old_image = $_POST['old_image'];
 
-        if (!empty($_FILES["new_image_file"]["name"])) {
-            $file_name = $_FILES["new_image_file"]["name"];
-            $file_size = $_FILES["new_image_file"]["size"];
-            $file_tmp = $_FILES["new_image_file"]["tmp_name"];
-            $fileType = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+    $edit_image_file = $old_image;
 
-            $allowed_types = ['jpg', 'jpeg', 'png'];
-            if (in_array($fileType, $allowed_types)) {
-                $newFileName = "category_image_" . time() . '.' . $fileType;
-                $destination = "../image/category/" . $newFileName;
+    if (!empty($_FILES["new_image_file"]["name"])) {
+        $file_name = $_FILES["new_image_file"]["name"];
+        $file_size = $_FILES["new_image_file"]["size"];
+        $file_tmp = $_FILES["new_image_file"]["tmp_name"];
+        $fileType = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-                $file_size_limit = 5242880; // 5MB
-                if ($file_size <= $file_size_limit) {
-                    if (move_uploaded_file($file_tmp, $destination)) {
-                        // Successfully moved the uploaded file
-                        $edit_image_file = $newFileName;
+        $allowed_types = ['jpg', 'jpeg', 'png'];
+        if (in_array($fileType, $allowed_types)) {
+            $newFileName = "category_image_" . time() . '.' . $fileType;
+            $destination = "../image/category/" . $newFileName;
 
-                        // Delete old image if it exists
-                        $old_img_path = '../image/category/' . $old_image;
-                        if (file_exists($old_img_path) && $old_image !== '') {
-                            if (!unlink($old_img_path)) {
-                                $icon = "error";
-                                $msg = "Error deleting old uploaded image.";
-                                $loc = "category.php";
-                                msg_loc($icon, $msg, $loc);
-                                exit;
-                            }
+            $file_size_limit = 5242880; // 5MB
+            if ($file_size <= $file_size_limit) {
+                if (move_uploaded_file($file_tmp, $destination)) {
+                    // Successfully moved the uploaded file
+                    $edit_image_file = $newFileName;
+
+                    // Delete old image if it exists
+                    $old_img_path = '../image/category/' . $old_image;
+                    if (file_exists($old_img_path) && $old_image !== '') {
+                        if (!unlink($old_img_path)) {
+                            msg_loc("error", "Error deleting old uploaded image.", "category.php");
+                            exit;
                         }
-                    } else {
-                        // Error moving the uploaded file
-                        $icon = "error";
-                        $msg = "Error moving uploaded image.";
-                        $loc = "category.php";
-                        msg_loc($icon, $msg, $loc);
-                        exit;
                     }
                 } else {
-                    // File size exceeds limit
-                    $icon = "error";
-                    $msg = "File size exceeds the 5MB limit.";
-                    $loc = "category.php";
-                    msg_loc($icon, $msg, $loc);
+                    // Error moving the uploaded file
+                    msg_loc("error", "Error moving uploaded image.", "category.php");
                     exit;
                 }
             } else {
-                // Invalid file type
-                $icon = "error";
-                $msg = "Invalid file type. Only jpg, jpeg, and png files are allowed.";
-                $loc = "category.php";
-                msg_loc($icon, $msg, $loc);
+                // File size exceeds limit
+                msg_loc("error", "File size exceeds the 5MB limit.", "category.php");
                 exit;
             }
-        }
-
-        // Update category
-        $updateSql = "UPDATE categorys SET c_name = ?, c_img = ? WHERE cid = ?";
-        $stmt = $conn->prepare($updateSql);
-        $stmt->bind_param("ssi", $c_name, $edit_image_file, $cid);
-
-        if ($stmt->execute()) {
-            $icon = "success";
-            $msg = "The category has been updated.";
-            $loc = "category.php";
-            msg_loc($icon, $msg, $loc);
         } else {
-            $icon = "error";
-            $msg = "Failed to update the category.";
-            $loc = "category.php";
-            msg_loc($icon, $msg, $loc);
+            // Invalid file type
+            msg_loc("error", "Invalid file type. Only jpg, jpeg, and png files are allowed.", "category.php");
+            exit;
         }
-
-        $stmt->close();
-        $conn->close();
     }
-    ?>
+
+    // Update category
+    $updateSql = "UPDATE categorys SET c_name = ?, c_img = ? WHERE cid = ?";
+    $stmt = $conn->prepare($updateSql);
+    $stmt->bind_param("ssi", $c_name, $edit_image_file, $cid);
+
+    if ($stmt->execute()) {
+        msg_loc("success", "The category has been updated.", "category.php");
+    } else {
+        msg_loc("error", "Failed to update the category.", "category.php");
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
 
 <?php include "./layout/footer.php" ?>

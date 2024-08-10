@@ -3,7 +3,7 @@ include "./layout/header.php";
 include "./layout/customer_session.php";
 
 
-
+// when buy button is clicked form orderConformationPage.php to placed order 
 if (isset($_GET['conform_order_btn'])) {
     $shipping_address = $_GET['shipping_address'];
     $quantity = $_GET['quantity'];
@@ -17,31 +17,13 @@ if (isset($_GET['conform_order_btn'])) {
     $order_insert = "INSERT INTO orders (uid, pid, o_totalAmount, o_shippingAddress, o_orderStatus, o_quantity)
      VALUES (' $uid', ' $pid', '$total_price', ' $shipping_address', 'pending', '$quantity')";
 
-
-
-
     $orderRes = $conn->query($order_insert);
 
     if ($orderRes) {
-        $icon = "success";
-        $msg = "Order confirmed.Delivery will be in 2 - 3 days.";
-        $loc = "orderDetailTable.php";
-        msg_loc($icon, $msg, $loc);
+        msg_loc("success", "Order confirmed.Delivery will be in 1 Weeks after order is Confrmed.", "orderDetailTable.php");
     } else {
-        $icon = "success";
-        $msg = "Order failed.";
-        $loc = "products.php";
-        msg_loc($icon, $msg, $loc);
+        msg_loc("success", "Order failed.", "products.php");
     }
-
-
-
-    // echo"<br><br> aaba sql query lekha <br><br>
-    //     to inser data in  order table and <br><br>
-    //     multiply price * total quntity<br><br>
-    //      the subract total quantity in product table quntity<br><br>
-    // ";
-    // die();
 }
 
 if (isset($_GET['BUT_IT'])) {
@@ -62,21 +44,14 @@ if (isset($_GET['BUT_IT'])) {
             $user = $result1->fetch_assoc();
             $row = $result2->fetch_assoc();
         } else {
-            $icon = 'error';
-            $msg = "User or product not found. Returning to Home page.";
-            $loc = "home.php";
-            msg_loc($icon, $msg, $loc);
+            msg_loc('error', "User or product not found. Returning to Home page.", "home.php");
 
         }
     } catch (Exception $e) {
         // Handle exceptions
-        $icon = 'error';
-        $msg = "An error occurred: " . $e->getMessage() . "<br> Returning to Home page.";
-        $loc = "home.php";
-        msg_loc($icon, $msg, $loc);
+        msg_loc('error', "An error occurred: " . $e->getMessage() . "<br> Returning to Home page.", "home.php");
     }
 }
-
 ?>
 
 <p class="alert-primary edit_headings" style="color:white; font-size:20px; margin-left:10%; margin-right:10%;">

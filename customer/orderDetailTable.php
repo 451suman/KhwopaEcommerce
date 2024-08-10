@@ -6,13 +6,10 @@ include "./layout/customer_session.php";
 <?php
 if (isset($_GET['cancell_order'])) {
     $oid = $_GET['oid'];
-    $cancell_order_sql="UPDATE orders SET o_orderStatus = 'cancelled' WHERE oid = $oid";
-    $result=$conn->query($cancell_order_sql);
-    if($result) {
-        $icon="error";
-        $msg="Order cancelled";
-        $loc="orderDetailTable.php";
-    msg_loc($icon,$msg,$loc);
+    $cancell_order_sql = "UPDATE orders SET o_orderStatus = 'cancelled' WHERE oid = $oid";
+    $result = $conn->query($cancell_order_sql);
+    if ($result) {
+        msg_loc("error", "Order cancelled", "orderDetailTable.php");
     }
 }
 ?>
@@ -69,8 +66,7 @@ if (isset($_GET['cancell_order'])) {
                 } elseif ($row['o_orderStatus'] == "completed") {
                     $pending_complete = '<p style="font-size:20px;" class="text-success"><strong>' . $row['o_orderStatus'] . '</strong></p>';
                     $pending_complete_msg = '<p style="font-size:10px;" class="text-success">Thank you for your purchase.</p>';
-                }
-                elseif ($row['o_orderStatus'] == "conformed") {
+                } elseif ($row['o_orderStatus'] == "conformed") {
                     $pending_complete = '<p style="font-size:20px;" class="text-primary"><strong>' . $row['o_orderStatus'] . '</strong></p>';
                     $pending_complete_msg = '<p style="font-size:10px;" class="text-primary">Thank you for your purchase.</p>';
 
@@ -95,31 +91,19 @@ if (isset($_GET['cancell_order'])) {
                                 <input type="submit" value="Cancel Order" name="cancell_order" class="btn btn-danger">
                             </form>
                         </td>';
-                } elseif($row['o_orderStatus'] == "completed") {
-                        echo '
+                } elseif ($row['o_orderStatus'] == "completed") {
+                    echo '
                         <td>
-                        ' . $row['pid'] . ' ' . $uid . '<br>
-                        <a href="product_single.php?pid=' . $row['pid'] . '" class="btn btn-primary">Give Review</a>
+                               <a href="product_single.php?pid=' . $row['pid'] . '" class="btn btn-primary">Give Review</a>
                         </td>';
-                                                    
-                    // echo '
-                    //     <td>
-                    //     '.$row['pid']." ". $uid.'
-                    //         <form action="orderDetailTable.php" method="get">
-                    //             <input type="hidden" name="oid" value="' . $row['pid'] . '">
-                    //             <input type="hidden" name="oid" value="' . $row['uid'] . '">
-                    //             <input type="submit" value="Give Review" name="review_button" class="btn btn-success">
-                    //         </form>
-                    //     </td>';
-                }
-                else{
+                    // this a herf tag will Tale u to product_single. php page with id in ti to display that id Product in that page
+        
+                } else {
                     echo '
                     <td>
                         <p class="text-warning">Cancell button is unavailable </p>
                     </td>';
-
                 }
-
                 echo '</tr>';
             }
         } else {

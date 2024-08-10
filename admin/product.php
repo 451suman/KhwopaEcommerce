@@ -38,30 +38,20 @@ include "./layout/admin_session.php";
                     $old_img_path = '../image/product/' . $old_image;
                     if (file_exists($old_img_path)) {
                         if (!unlink($old_img_path)) {
-                            $icon = "error";
-                            $msg = "Error deleting old uploaded image.";
-                            $loc = "product.php";
-                            msg($icon, $msg);
+                            msg_loc("error","Error deleting old uploaded image.","product.php");
                         }
                     }
                 } else {
                     // Error moving the uploaded file
-                    $icon = "error";
-                    $msg = "Error moving uploaded image.";
-                    $loc = "product.php";
-                    msg_loc($icon, $msg, $loc);
+                    msg_loc("error", "Error moving uploaded image.","product.php");
                     $edit_image_file = $old_image;
                 }
             } else {
                 // File size exceeds limit
-                $icon = "error";
-                $msg = "File size exceeds the 5MB limit.";
-                $loc = "product.php";
-                msg_loc($icon, $msg, $loc);
+                msg_loc("error", "File size exceeds the 5MB limit.", "product.php");
                 $edit_image_file = $old_image;
             }
         }
-
         // Prepare SQL statement for updating product
         $updateSql = "UPDATE products 
                     SET p_name = ?, cid = ?, p_model = ?, p_brand = ?, p_description = ?, p_price = ?, p_image = ? 
@@ -72,13 +62,9 @@ include "./layout/admin_session.php";
 
         // Execute the statement
         if ($stmt->execute()) {
-            $icon = "success";
-            $msg = "Update successful.";
-            msg($icon, $msg);
+            msg("success", "Update successful.");
         } else {
-            $icon = "error";
-            $msg = "Update Failed.";
-            msg($icon, $msg);
+            msg("error", "Update Failed.");
         }
 
         // Close the statement
@@ -115,29 +101,19 @@ include "./layout/admin_session.php";
                     $result = $conn->query($Insertsql);
 
                     if ($result) {
-                        $icon = "success";
-                        $msg = "Product added into Database Successfully.";
-                        msg($icon, $msg);
+                        msg("success", "Product added into Database Successfully.");
                     } else {
-                        $icon = "error";
-                        $msg = "Failed to add Product into Database.";
-                        msg($icon, $msg);
+                        msg("error", "Failed to add Product into Database.");
 
                     }
                 } else {
-                    $icon = "error";
-                    $msg = "Error moving uploaded file.";
-                    msg($icon, $msg);
+                    msg("error", "Error moving uploaded file.");
                 }
             } else {
-                $icon = "error";
-                $msg = "File size exceeds the maximum limit.";
-                msg($icon, $msg);
+                msg("error", "File size exceeds the maximum limit.");
             }
         } else {
-            $icon = "error";
-            $msg = "No file uploaded or there was an error uploading the file.";
-            msg($icon, $msg);
+            msg("error", "No file uploaded or there was an error uploading the file.");
         }
     }
     ?>
@@ -159,13 +135,9 @@ include "./layout/admin_session.php";
                     $deleteSql = "DELETE FROM products WHERE pid = $pid";
                     $result = $conn->query($deleteSql);
                     if ($result) {
-                        $icon = "success";
-                        $msg = "Delete products form Database Successfully.";
-                        msg($icon, $msg);
+                        msg("success", "Delete products form Database Successfully.");
                     } else {
-                        $icon = "error";
-                        $msg = "Delete products form Database Failed.";
-                        msg($icon, $msg);
+                        msg("error", "Delete products form Database Failed.");
                     }
                 }
             }
@@ -331,7 +303,8 @@ include "./layout/admin_session.php";
                     $check = $conn->query($stockSql);
                     if ($check->num_rows > 0) {
                         $row2 = $check->fetch_assoc();
-                        echo ' <form action="stockManagement_update.php"  method="post">
+                        echo ' 
+                        <form action="stockManagement_update.php"  method="post">
                         <input type="hidden" name="pid" value="' . $row2["pid"] . '">
                         <input type="hidden" name="sid" value="' . $row2["sid"] . '">
                         <input type="hidden" name="s_quantity" value="' . $row2["s_quantity"] . '">
@@ -349,7 +322,7 @@ include "./layout/admin_session.php";
                     ';
 
                     } else {
-                        echo ' <form action="stockManagement.php"   method="post" >
+                        echo ' <form action="stockManagement_insert.php"   method="post" >
                                 <input type="hidden" name="pid" value="' . $row["pid"] . '">
                                 <button style="width:100% !important; margin:2px;" type="submit" name="insert_stocks_btn" 
                                 class="btn btn-primary btn-sm">Insert Stocks</button>

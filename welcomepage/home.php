@@ -189,7 +189,7 @@ if (isset($_POST["login_submit"])) {
       <?php for ($i = 1; $i <= 44; $i++) { ?>
 
         <div class="carousel-item <?php echo $i === 1 ? 'active' : ''; ?>" data-bs-interval="10000">
-          <img class="carousel_image_slide d-block w-100" src="../image/product/product_image_1722065288.jpg"
+          <img class="carousel_image_slide d-block w-100" src="../image/product/product_image_1723222698.jpg"
             alt="Product Image <?php echo $i; ?>">
           <div class="carousel-caption d-none d-md-block">
             <h5><?php echo $i;?></h5>
@@ -222,7 +222,7 @@ if (isset($_POST["login_submit"])) {
     <div class="col">
       <div class="card h-100 shadow-sm">
         <!-- Product Image -->
-        <img src="../image/product/product_image_1722065288.jpg" class="card-img-top">
+        <img src="../image/product/product_image_1723222698.jpg" class="card-img-top">
 
 
         <div class="card-body">

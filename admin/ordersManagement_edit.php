@@ -21,25 +21,31 @@ if (isset($_GET['update_orderStatus_btn'])) {
     $sqlproduct = "UPDATE products SET p_stocksQuantity = '$left_product_quantity' WHERE pid = $pid";
     $sqlstock = "INSERT INTO stocks (pid, s_quantity, s_in_out,  s_productPrice) VALUES ('$pid', '$o_quantity', '1','$o_totalAmount')";
 
-    if ($orderstatus == "completed") { // if order is completed then run this code
-        // Update product stock quantity
-        if ($conn->query($sqlproduct) && $conn->query($sqlupdate_orderStatus) && $conn->query($sqlstock)) {
-            $icon = "success";
-            $msg = "Order status of $oid is $orderstatus";
-            $loc = "ordersManagement.php";
-            msg_loc($icon, $msg, $loc);
+    if ($orderstatus == "completed") {
+        if ($p_stocksQuantity - $o_quantity < 0) {
+            msg_loc("error", "NOt enough products in stock", "ordersManagement.php");
         }
-    } elseif ($conn->query($sqlupdate_orderStatus)) {
-        $icon = "success";
-        $msg = "Order status of $oid is $orderstatus"; //for pending and conformed ordered
-        $loc = "ordersManagement.php";
-        msg_loc($icon, $msg, $loc);
+        // if order is completed then run this code
+        // Update product stock quantity
+        elseif ($conn->query($sqlproduct) && $conn->query($sqlupdate_orderStatus) && $conn->query($sqlstock)) {
+            msg_loc("success", "Order status of $oid is $orderstatus", "ordersManagement.php");
+        }
+    } elseif ($orderstatus == "conformed") {
+
+        if ($p_stocksQuantity - $o_quantity < 0) {
+
+            msg_loc("error", "NOt enough products in stock", "ordersManagement.php");
+        } else {
+            $conn->query($sqlupdate_orderStatus); //for pending and conformed ordered
+            msg_loc("success", "Order status of $oid is $orderstatus", "ordersManagement.php");
+        }
+    } elseif ($orderstatus == "pending") {
+        if ($conn->query($sqlupdate_orderStatus))
+            msg_loc("info", "Order status change into pending", "ordersManagement.php");
     } else {
-        $icon = "error";
-        $msg = "Failed to update order status for order";
-        $loc = "ordersManagement.php";
-        msg_loc($icon, $msg, $loc);
+        msg_loc("error", "Failed to update order status for order", "ordersManagement.php");
     }
+
 
 }
 

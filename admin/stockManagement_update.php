@@ -22,16 +22,10 @@ if(isset($_POST['update_submit_stocks']))
     $sqlProduct="UPDATE products SET p_stocksQuantity = '$new_quantity' WHERE pid = $pid";
     if($conn->query($sqlStock) && $conn->query($sqlProduct))
     {
-        $icon = "success";
-        $msg = "Update Stock Of " . $p_name . " id Successfull";
-        $loc = "product.php";
-        msg_loc($icon, $msg, $loc);
+        msg_loc("success", "Update Stock Of " . $p_name . " Successfull", "product.php");
     }
     else{
-        $icon = "error";
-        $msg = "Insert Stock Failed Of " . $p_name . " ";
-        $loc = "product.php";
-        msg_loc($icon, $msg, $loc);
+        msg_loc("error", "Insert Stock Failed Of " . $p_name . " ", "product.php");
     }
 }
 
@@ -39,7 +33,7 @@ if(isset($_POST['update_submit_stocks']))
 
 
 <?php
-
+//  when buttonis clickec from product.php page
      if (isset($_POST['update_stocks_btn'])) {
         $sid = $_POST["sid"];
         $pid = $_POST["pid"];

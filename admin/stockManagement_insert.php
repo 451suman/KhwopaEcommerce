@@ -20,15 +20,9 @@ if (isset($_POST['Insert_submit_stock'])) {
 
     // Execute queries
     if ($conn->query($sqlInsertStock) && $conn->query($sqlUpdateProduct)) {
-        $icon = "success";
-        $msg = "Insert Stock Of " . htmlspecialchars($p_name) . " Successful";
-        $loc = "product.php";
-        msg_loc($icon, $msg, $loc);
+        msg_loc("success", "Insert Stock Of " . htmlspecialchars($p_name) . " Successful", "product.php");
     } else {
-        $icon = "error";
-        $msg = "Insert Stock Failed Of " . htmlspecialchars($p_name);
-        $loc = "product.php";
-        msg_loc($icon, $msg, $loc);
+        msg_loc("error", "Insert Stock Failed Of $p_name", "product.php");
     }
 }
 ?>
@@ -36,6 +30,7 @@ if (isset($_POST['Insert_submit_stock'])) {
 
 
 <?php
+// inen (insert stock) btn is clicked 
 if (isset($_POST['insert_stocks_btn'])) {
     $pid = $_POST["pid"];
    
@@ -61,7 +56,7 @@ if (isset($_POST['insert_stocks_btn'])) {
                 class="img-fluid">
         </div>
         <div class="col">
-            <form method="post" action="stockManagement.php">
+            <form method="post" action="stockManagement_insert.php">
 
                 <p class="alert-primary edit_headings" style="color:white; font-size:20px;"><strong>Insert Product Stock
                         Quantity</strong></p>

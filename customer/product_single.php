@@ -21,23 +21,14 @@ if (isset($_POST['review_submit'])) {
   $result = $conn->query($sql_review);
 
   if ($result) {
-    $icon = "success";
-    $msg = "Thank you for Review";
-    $loc = "product_single.php?pid=$pid";
-    msg_loc($icon, $msg, $loc);
+    msg_loc("success", "Thank you for Review", "product_single.php?pid=$pid");
   } else {
-    $icon = "error";
-    $msg = " Review failed";
-    $loc = "product_single.php";
-    msg_loc($icon, $msg, $loc);
+    msg_loc("error", " Review failed", "product_single.php");
   }
 }
 //review comment and rating backend ends
 
 ?>
-
-
-
 
 <?php
 // passing pid from products.php using <a  href="product_single.php?pid='.$row['pid'].'" class="btn btn-primary"> tag
