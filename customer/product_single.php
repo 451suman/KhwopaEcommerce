@@ -107,65 +107,7 @@ if (isset($_GET["pid"])) {
 
 <div class="container text-center">
   <div class="row align-items-start">
-
-
-    <!-- col 1 -->
-    <!-- <div class="col">
-      <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">Average Ratings</p>
-
-
-      <?php
-      // Initialize variables for calculating the average
-      $total_rating = 0;
-      $rating_count = 0;
-
-      // Retrieve all the ratings for the product
-      $stmt = $conn->prepare("SELECT r_ratingValue FROM reviews WHERE pid = ?");
-      $stmt->bind_param("i", $pid);
-      $stmt->execute();
-      $result = $stmt->get_result();
-
-      // Sum all the ratings and count the number of ratings
-      while ($row = $result->fetch_assoc()) {
-        $total_rating += $row['r_ratingValue'];
-        $rating_count++;
-      }
-
-      // Calculate the average rating
-      if ($rating_count > 0) {
-        $average_rating = $total_rating / $rating_count;
-      } else {
-        $average_rating = null;
-      }
-
-      // Create the star string based on the average rating
-      $star_rating = '';
-      if ($average_rating !== null) {
-        // Round the average rating to the nearest whole number
-        $rounded_rating = round($average_rating);
-        echo $rounded_rating;
-        // Generate the star string
-        for ($i = 1; $i <= 5; $i++) {
-          if ($i <= $rounded_rating) {
-            $star_rating .= '⭐'; // Full star
-          } else {
-            $star_rating .= '☆'; // Empty star
-          }
-        }
-      } else {
-        $star_rating = 'No ratings yet'; // In case there are no ratings
-      }
-
-      // Display the star rating
-      echo "<div style='font-size: 48px;'>$star_rating</div>";
-
-      ?>
-
-
-    </div> -->
-
-
-
+<!-- col 1 -->
     <div class="col">
       <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">Average Ratings</p>
 
@@ -174,9 +116,6 @@ if (isset($_GET["pid"])) {
           <div class="row g-0">
             <div class="col-md-12">
               <div class="card-body" style="text-align: center;">
-
-
-
                 <?php
                 // Initialize variables for calculating the average
                 $total_rating = 0;
@@ -206,7 +145,7 @@ if (isset($_GET["pid"])) {
                 if ($average_rating !== null) {
                   // Round the average rating to the nearest whole number
                   $rounded_rating = round($average_rating);
-                  echo $rounded_rating;
+                  echo "<p style='font-size:20px; margin:0px;'><strong>".$rounded_rating."</strong></p>";
                   // Generate the star string
                   for ($i = 1; $i <= 5; $i++) {
                     if ($i <= $rounded_rating) {
@@ -253,11 +192,11 @@ if (isset($_GET["pid"])) {
           // Fetch the review details
           $row = $result->fetch_assoc();
           $rating = '';
-          for ($i = 0; $i < $row['r_ratingValue']; $i++) {
+          for ($i = 1; $i <= $row['r_ratingValue']; $i++) {
             $rating .= "⭐"; // Use .= for string concatenation
           }
 
-          // col 2 review form
+          // col 2 review  if review is already given
           echo '
             <div class="col">
                 <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">YOUR REVIEW OF THIS PRODUCT</p>
@@ -276,7 +215,7 @@ if (isset($_GET["pid"])) {
             </div>
             ';
         } else {
-          // Review comment and rating star form
+          // Review comment and rating star form.
           echo '
             <div class="col">
                 <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">GIVE REVIEW OF THIS PRODUCT</p>
