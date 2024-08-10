@@ -232,43 +232,6 @@ if (isset($_GET["pid"])) {
     </div>
 
 
-
-
-    <!-- rating bar   Col 2     -->
-    <!-- <div class="col">
-      <div style="margin-left: 10% !important;margin-right: 10%  !important;">
-        <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">TOTAL Ratings</p>
-        <strong>Rating 5</strong>
-        <div class="progress">
-          <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25"
-            aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <strong>Rating 4</strong>
-        <div class="progress">
-          <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0"
-            aria-valuemax="100"> total 4 ⭐ rating </div>
-        </div>
-        <strong>Rating 3</strong>
-        <div class="progress">
-          <div class="progress-bar bg-warning" role="progressbar" style="width: 75%;" aria-valuenow="75"
-            aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <strong>Rating 2</strong>
-        <div class="progress">
-          <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100"
-            aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <strong>Rating 1</strong>
-        <div class="progress">
-          <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100"
-            aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- rating bar ends -->
-
-
     <!-- review form -->
     <?php
 
@@ -291,9 +254,10 @@ if (isset($_GET["pid"])) {
           $row = $result->fetch_assoc();
           $rating = '';
           for ($i = 0; $i < $row['r_ratingValue']; $i++) {
-              $rating .= "⭐"; // Use .= for string concatenation
+            $rating .= "⭐"; // Use .= for string concatenation
           }
-          
+
+          // col 2 review form
           echo '
             <div class="col">
                 <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">YOUR REVIEW OF THIS PRODUCT</p>
