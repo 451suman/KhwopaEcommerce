@@ -75,4 +75,5 @@
 
     <?php include "adminFunction.php"; ?>
     <?php include "../messageFunction/messageFunction.php"; ?>
-    <div id="main_body"  class="bg-secondary">
+    <div  class="bg-secondary">
+    <div id="main_body">

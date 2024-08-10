@@ -1,8 +1,9 @@
 /* nav */
-.active_nav{
+.active_nav {
     color: white !important;
 }
-.active_nav:hover{
+
+.active_nav:hover {
     color: rgb(0, 0, 0) !important;
 }
 
@@ -18,7 +19,9 @@
     }
 }
 
-.card-img,.card-img-bottom,.card-img-top {
+.card-img,
+.card-img-bottom,
+.card-img-top {
     width: 100%;
     height: 250px;
 }
@@ -68,38 +71,45 @@ a {
     height: 175px;
     width: 250px;
 }
-.edit_headings{
+
+.edit_headings {
     margin-top: 5px;
     text-align: center;
 }
-.form_btn_stock{
+
+.form_btn_stock {
     float: left;
-    margin:5px
+    margin: 5px
 }
 
 
-#main_body{
-min-height: 593px !important;
+#main_body {
+    min-height: 593px !important;
+    margin-left: 2% !important;
+    margin-right: 2% !important;
+    text-align: justify;
+    margin-top:1% ;
+
 }
 
 /* star rating */
 
-body{
+body {
 
-	background-color: #f7f6f6;
+    background-color: #f7f6f6;
 }
 
-.card{
+.card {
 
-	width: 350px;
-	border: none;
-	box-shadow: 5px 6px 6px 2px #e9ecef;
-	border-radius: 12px;
+    width: 350px;
+    border: none;
+    box-shadow: 5px 6px 6px 2px #e9ecef;
+    border-radius: 12px;
 }
 
-.circle-image img{
+.circle-image img {
 
-	border: 6px solid #fff;
+    border: 6px solid #fff;
     border-radius: 100%;
     padding: 0px;
     top: -28px;
@@ -115,7 +125,7 @@ body{
 
 
 .dot {
-      height: 18px;
+    height: 18px;
     width: 18px;
     background-color: blue;
     border-radius: 50%;
@@ -127,31 +137,31 @@ body{
     z-index: 1000;
 }
 
-.name{
-	margin-top: -21px;
-	font-size: 18px;
+.name {
+    margin-top: -21px;
+    font-size: 18px;
 }
 
 
-.fw-500{
-	font-weight: 500 !important;
+.fw-500 {
+    font-weight: 500 !important;
 }
 
 
-.start{
+.start {
 
-	color: rgba(0, 128, 0, 0);
+    color: rgba(0, 128, 0, 0);
 }
 
-.stop{
-	color: red;
+.stop {
+    color: red;
 }
 
 
-.rate{
+.rate {
 
-	border-bottom-right-radius: 12px;
-	border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
 
 }
 
@@ -196,32 +206,39 @@ body{
 }
 
 
-.buttons{
-	top: 36px;
+.buttons {
+    top: 36px;
     position: relative;
 }
 
 
-.rating-submit{
-	border-radius: 15px;
-	color: #fff;
-	    height: 49px;
+.rating-submit {
+    border-radius: 15px;
+    color: #fff;
+    height: 49px;
 }
 
 
-.rating-submit:hover{
-	
-	color: #fff;
+.rating-submit:hover {
+
+    color: #fff;
 }
 
-.carousel_image_div{
-    margin-left:2% !important;
-    margin-right:2% !important;
+.carousel_image_div {
+    margin-left: 2% !important;
+    margin-right: 2% !important;
     margin-top: 20px !important;
 
 }
-.carousel_image_slide{
-    height:500px;
+
+.carousel_image_slide {
+    height: 500px;
     width: 100%;
 
+}
+
+.footer_text{
+    text-align: center;
+   padding: 5px;
+   
 }

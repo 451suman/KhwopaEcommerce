@@ -74,4 +74,5 @@
 
     <?php include "../messagefunction/messagefunction.php"; ?>
     <?php include "function.php"; ?>
-    <div id="main_body" class="bg-secondary">
+    <div class="bg-secondary">
+    <div id="main_body">
