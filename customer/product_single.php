@@ -17,9 +17,7 @@ if (isset($_POST['review_submit'])) {
 //   die();
   $sql_review = "INSERT INTO reviews (uid, pid, r_ratingValue, r_comment, r_revievStatus) 
                   VALUES ('$uid', '$pid', '$rating', '$review_msg', '0')";
-
   $result = $conn->query($sql_review);
-
   if ($result) {
     msg_loc("success", "Thank you for Review", "product_single.php?pid=$pid");
   } else {
@@ -27,7 +25,6 @@ if (isset($_POST['review_submit'])) {
   }
 }
 //review comment and rating backend ends
-
 ?>
 
 <?php
@@ -135,7 +132,7 @@ if (isset($_GET["pid"])) {
 
                 // Calculate the average rating
                 if ($rating_count > 0) {
-                  $average_rating = $total_rating / $rating_count;
+                  $average_rating = $total_rating / $rating_count; 
                 } else {
                   $average_rating = null;
                 }
@@ -155,7 +152,7 @@ if (isset($_GET["pid"])) {
                     }
                   }
                 } else {
-                  $star_rating = 'No ratings yet'; // In case there are no ratings
+                  $star_rating = '☆ ☆ ☆ ☆ ☆'; // In case there are no ratings
                 }
 
                 // Display the star rating
@@ -299,30 +296,6 @@ if ($result->num_rows > 0) {
 ?>
 <!-- review and display rating ends here -->
 
-
-
-
-<script>
-  // Get the submit button
-  var submitButton = document.getElementById('review_btn_id');
-
-  // Function to check if any rating is selected
-  function checkRatingSelected() {
-    // Get the value of the selected radio button
-    var selectedRating = document.querySelector('input[name="rating"]:checked');
-
-    // Enable or disable the submit button based on whether a rating is selected
-    submitButton.disabled = !selectedRating;
-  }
-
-  // Add change event listener to all radio buttons
-  document.querySelectorAll('input[name="rating"]').forEach(function (radio) {
-    radio.addEventListener('change', checkRatingSelected);
-  });
-
-  // Check on page load
-  checkRatingSelected();
-</script>
 
 
 

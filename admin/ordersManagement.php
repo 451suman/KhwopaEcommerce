@@ -18,22 +18,44 @@ $sql = "SELECT orders.oid, orders.uid, orders.pid, orders.o_shippingAddress,
 
 $result = $conn->query($sql);
 ?>
-<form action="" method="get">
+
+<form action="" method = "get">
+<i class="bi bi-filter">Filter</i>
+    <select class="form-select" value="<?php  ?>" name="orderstatus"
+        id="exampleSelect1">
+        <option value="all" class=" text-warning">All Order</option>
+        <option value="pending" class=" text-warning">Order Pending</option>
+        <option value="conformed" class=" text-primary" >Order Conformed</option>
+        <option value="completed" class=" text-success">Order Completed</option>
+        <option value="cancelled" class=" text-danger">Order Completed</option>
+    </select>
+    <button type="submit" name="filter_btn" class="btn btn-info form_btn_stock">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+  <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+</svg> Filter
+</button>
+
+</form>
+
+
+
+<!-- <form action="" method="get">
     <input type="hidden" name="pid" value="<?php echo $pid; ?>">
+    
     <button type="submit" name="pid_stock_buy_btn" class="btn btn-warning form_btn_stock">PENDINNG</button>
-    </form>
+    </form> -->
 
     <!-- Form for SELL DETAIL -->
-    <form action="" method="get">
+    <!-- <form action="" method="get">
         <input type="hidden" name="pid" value="<?php echo $pid; ?>">
         <button type="submit" name="pid_stock_SELL_btn" class="btn btn-success form_btn_stock">Complete</button>
-    </form>
+    </form> -->
 
     <!-- Form for ALL DETAIL -->
-    <form action="" method="get">
+    <!-- <form action="" method="get">
         <input type="hidden" name="pid" value="<?php echo $pid; ?>">
         <button type="submit" name="pid_product_page" class="btn btn-danger form_btn_stock">Cancelled</button>
-    </form>
+    </form> -->
 
 <table class="table table-bordered table-striped table-hover">
     <thead>
