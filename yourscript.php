@@ -1,17 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
 <?php
-$i = $i !== null ? $i : 1;
 
-$to = 'sumanmuahya@gmail.com'; // Replace with the recipient's email address
-$subject = 'Test Email';
-$message = 'This is a test email sent from PHP  !'.$i;
-$headers = 'From: orozmush@gmail.com'; // Replace with the sender's email address
-
-
-// Send email
-if (mail($to, $subject, $message, $headers)) {
-    echo 'Email sent successfully.';
-    
-} else {
-    echo 'Failed to send email.';
+// Define the function first
+function msg($msg)
+{
+    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  $msg
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
 }
+
+// Function call
+$icon = "success";
+$msg = "Asdasdasd";
+msg($msg);
+
 ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>

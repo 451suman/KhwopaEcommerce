@@ -63,8 +63,8 @@
                         <a class="nav-link active_nav" href="#">Contact</a>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-sm-2" type="search" placeholder="Search">
+                <form class="d-flex" method="get" action="products.php" >
+                    <input class="form-control me-sm-2" type="search" name="search" placeholder="Search">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 <button type="button" class="btn btn-danger" style="margin-left:10px;"><a
@@ -73,6 +73,8 @@
         </div>
     </nav>
 
+
+ 
 
     <?php include "../messagefunction/messagefunction.php"; ?>
     <?php include "function.php"; ?>

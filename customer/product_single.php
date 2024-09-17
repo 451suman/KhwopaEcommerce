@@ -60,7 +60,7 @@ if (isset($_GET["pid"])) {
       <p><strong>Model no </strong>: <?php echo $row['p_model']; ?></p>
       <p><strong>Brand</strong> : <?php echo $row['p_brand']; ?></p>
       <p><strong>Left in Stocks</strong> : <?php echo $row['p_stocksQuantity']; ?></p>
-      <p><strong>Description</strong> : <?php echo $row['p_description']; ?></p>
+      <p><strong>Description:</strong> <?php echo nl2br(htmlspecialchars($row['p_description'])); ?></p>
       <div class="options">
       </div>
       <hr>

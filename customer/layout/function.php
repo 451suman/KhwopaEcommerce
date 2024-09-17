@@ -10,8 +10,12 @@ function category_product_display($cid, $conn)
         return null;
     }
 
-    $sql = "SELECT * FROM products
-             WHERE cid = $cid && p_stocksQuantity > 0";
+    $sql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, products.p_price,
+     products.p_stocksQuantity, products.p_image,
+    categorys.c_name
+    FROM products
+    INNER JOIN categorys ON products.cid = categorys.cid
+    WHERE categorys.cid = $cid && products.p_stocksQuantity > 0";
     $result = $conn->query($sql);
     return $result;
 }
@@ -29,6 +33,30 @@ function selectProducts($conn) //from products.php page -> products.php ma janch
     return $result;
 
 }
+
+// Function to search products
+function SearchFunction($searchTerm, $conn) {
+    // Escape the search term to prevent SQL injection
+    $searchTerm = $conn->real_escape_string($searchTerm);
+
+    // Construct the SQL query
+    $query = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, 
+                     products.p_price, products.p_stocksQuantity, products.p_image, categorys.c_name
+              FROM products
+              INNER JOIN categorys ON products.cid = categorys.cid
+              WHERE products.p_stocksQuantity > 0 
+                AND (products.p_name LIKE '%$searchTerm%' 
+                OR products.p_description LIKE '%$searchTerm%')";
+
+    // Execute the query
+    $result = $conn->query($query);
+
+    // Return the result
+    return $result;
+}
+
+
+
 ?>
 
 <!-- ORDER BY RAND() -->

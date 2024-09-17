@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,11 +23,11 @@
             xhr.send();
 
             // The function will call itself every 1 minute (60000 milliseconds)
-            setTimeout(myFunction, 60000);
+            setTimeout(myFunction, 600);
         }
 
         // Start the recursive function call
         myFunction();
     </script>
 </body>
-</html>
+</html> -->
