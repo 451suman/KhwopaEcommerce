@@ -1,5 +1,5 @@
 <?php
-
+include "../database/db.php";
 
 // form category.php page bata -> products.php ma jancha
 function category_product_display($cid, $conn)

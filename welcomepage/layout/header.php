@@ -54,7 +54,7 @@ function title($title)
                         <a class="nav-link active_nav" href="./home.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active_nav" href="./categorys.php">Category</a>
+                        <a class="nav-link active_nav" href="./category.php">Category</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active_nav" href="./aboutus.php">About us</a>
@@ -63,8 +63,8 @@ function title($title)
                         <a class="nav-link active_nav" href="#">Contact</a>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-sm-2" type="search" placeholder="Search">
+                <form class="d-flex" action="home.php" method="get">
+                    <input class="form-control me-sm-2" type="search" name="search" placeholder="Search">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 <ul class="navbar-nav">

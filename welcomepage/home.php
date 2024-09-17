@@ -3,6 +3,7 @@ $title = "Home";
 ?>
 <?php include "./layout/header.php";
 include "../database/db.php";
+include "functions.php";
 ?>
 
 
@@ -133,8 +134,10 @@ if (isset($_POST["signup_submit"])) {
   }
 }
 ?>
-<!-- login back end -->
 
+<!-- signup back end -->
+
+<!-- login back end -->
 <?php
 // Start the session at the beginning
 session_start(); // Ensure session_start is at the beginning of the file
@@ -158,7 +161,7 @@ if (isset($_POST["login_submit"])) {
 
     // Redirect based on role
     if ($role == 0) {
-      header("Location: ../admin/home.php");
+      header("Location: ../admin/ordersManagement.php");
       exit();
     }
     if ($role == 1) {
@@ -176,96 +179,105 @@ if (isset($_POST["login_submit"])) {
   }
 }
 
-// Close the database connection
+
 ?>
-
-
-<!-- carousel start from here -->
-
-<div class="carousel_image_div">
-  <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-
-      <?php for ($i = 1; $i <= 44; $i++) { ?>
-
-        <div class="carousel-item <?php echo $i === 1 ? 'active' : ''; ?>" data-bs-interval="10000">
-          <img class="carousel_image_slide d-block w-100" src="../image/product/product_image_1723222698.jpg"
-            alt="Product Image <?php echo $i; ?>">
-          <div class="carousel-caption d-none d-md-block">
-            <h5><?php echo $i;?></h5>
-            <p class="text-warning"> <br> placeholder content for <br> the first slide.</p>
-          </div>
-        </div>
-
-      <?php } ?>
-
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-</div>
+<!-- login back end -->
 
 
 
+<!-- data display code  -->
+
+<?php
+if (isset($_GET['category_single']) && isset($_GET['cid'])) {
+  // customer/categorys.php vayeko specic cid vayeko button click vayo vane 
+  $cid = $_GET['cid'];
+  $result = category_product_display($cid, $conn);
+  // customer/categorys.php vayeko specic cid vayeko button click vayo vane 
+
+} else if (isset($_GET['search'])) {
+
+  // nav bar bata search gareko 
+  $searchTerm = $_GET['search'];
+  $result = SearchFunction($searchTerm, $conn);
+  // nav bar bata search gareko 
+
+} else {
+  // all product from product table 
+  $result = selectProducts($conn);
+  // all product from product table 
+}
+?>
 
 <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
   <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+    <?php
+    // Check if $result is not null before using it
+    if ($result && $result->num_rows > 0) {
 
+      while ($row = $result->fetch_assoc()) {
+        ?>
 
-    <!-- loop here -->
-    <div class="col">
-      <div class="card h-100 shadow-sm">
-        <!-- Product Image -->
-        <img src="../image/product/product_image_1723222698.jpg" class="card-img-top">
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <!-- Product Image -->
+            <img src="../image/product/<?php echo $row['p_image']; ?>" class="card-img-top"
+              alt="<?php echo $row['p_name']; ?>">
+            <div class="card-body">
+              <!-- Product Name -->
+              <h5 class="card-title bg-primary text-light" style="text-align:center;">
+                <strong><?php echo $row['p_name']; ?></strong>
+              </h5>
 
+              <!-- Product Description (Model, etc.) -->
+              <p class="card-text">
+                <strong>Brand:</strong> <?php echo $row['p_brand']; ?><br>
+                <strong>Model No:</strong> <?php echo $row['p_model']; ?><br>
+                <strong>Stock Quantity:</strong> <?php echo $row['p_stocksQuantity']; ?> <br>
+                <strong>category:</strong> <?php echo $row['c_name']; ?>
+              </p>
+              <p class="card-text text-primary" style="text-align: center; font-size: 20px;">
+                <strong>Price:</strong> <?php echo 'Rs ' . $row['p_price']; ?>
+              </p>
 
-        <div class="card-body">
-          <!-- Product Name -->
-          <h5 class="card-title bg-primary text-light" style="text-align:center;">
-            <!-- <strong><?php echo $row['p_name']; ?></strong> -->
-            name
-          </h5>
+              <!-- Action Button -->
+              <div class="text-center my-4">
+              <button type="button" class="btn btn-primary formBtnPadding" data-bs-toggle="modal"
+                            data-bs-target="#login">
+                            Details
+                        </button>
+              
+              </div>
 
-          <!-- Product Description (Model, etc.) -->
-          <p class="card-text">
-            <strong>Brand:</strong>
-            < ?php echo $row['p_brand']; ?><br>
-              <strong>Model No:</strong>
-              < ?php echo $row['p_model']; ?><br>
-                <strong>Stock Quantity:</strong>
-                < ?php echo $row['p_stocksQuantity']; ?>
-
-          </p>
-          <p class="card-text text-primary" style="text-align: center; font-size: 20px;">
-            <strong>Price:</strong>
-            < ?php echo 'Rs ' . $row['p_price']; ?>
-          </p>
-
-          <!-- Action Button -->
-          <div class="text-center my-4">
-            <a href="product_single.php?pid=< ?php echo $row['pid']; ?>" class="btn btn-primary">Checkoffer</a>
-          </div>
-
-          <!-- Optional Footer Icons -->
-          <div class="clearfix mb-1">
-            <span class="float-start">
-              <i class="far fa-question-circle"></i>
-            </span>
-            <span class="float-end">
-              <i class="fas fa-plus"></i>
-            </span>
+              <!-- Optional Footer Icons -->
+              <div class="clearfix mb-1">
+                <span class="float-start">
+                  <i class="far fa-question-circle"></i>
+                </span>
+                <span class="float-end">
+                  <i class="fas fa-plus"></i>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+
+        <?php
+      }
+
+
+    } else {
+      echo '<p>No products available.</p>';
+    }
+    ?>
+
+
+
+
+
   </div>
 </div>
+
+
 
 
 
