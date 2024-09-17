@@ -1,9 +1,7 @@
 <?php include "./layout/header.php";
 include "./layout/admin_session.php";
 ?>
-
-<div class="container mt-4">
-    <h2>Product Management</h2>
+<div class="backencode">
     <?php
     // EDIT PRODUCT back end
     if (isset($_POST['edit_product_submit'])) {
@@ -38,12 +36,12 @@ include "./layout/admin_session.php";
                     $old_img_path = '../image/product/' . $old_image;
                     if (file_exists($old_img_path)) {
                         if (!unlink($old_img_path)) {
-                            msg_loc("error","Error deleting old uploaded image.","product.php");
+                            msg_loc("error", "Error deleting old uploaded image.", "product.php");
                         }
                     }
                 } else {
                     // Error moving the uploaded file
-                    msg_loc("error", "Error moving uploaded image.","product.php");
+                    msg_loc("error", "Error moving uploaded image.", "product.php");
                     $edit_image_file = $old_image;
                 }
             } else {
@@ -70,11 +68,11 @@ include "./layout/admin_session.php";
         // Close the statement
         $stmt->close();
     }
+    // EDIT PRODUCT back end
     ?>
 
     <!-- // Add product -->
     <?php
-
     if (isset($_POST["Product_submit"])) {
         $category = $_POST["category"];
         $p_name = $_POST["p_name"];
@@ -119,8 +117,9 @@ include "./layout/admin_session.php";
     ?>
     <!-- // end add product -->
 
+
+    <!-- // delete product -->
     <?php
-    // delete product
     if (isset($_POST['delete_product'])) {
         $pid = $_POST["pid"];
         $imgSQL = "SELECT * FROM products WHERE pid = '$pid'";
@@ -144,100 +143,60 @@ include "./layout/admin_session.php";
         }
 
     }
-    // delete product end
     ?>
-    <!-- Add Product Button -->
-    <div class="mb-4">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
-    </div>
-
-    <!-- Add Product Modal -->
-    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addCategoryModalLabel">Add New Product</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="addCategoryForm" method="post" action="product.php" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="ProductName" class="form-label">Product Name</label>
-                            <input type="text" name="p_name" class="form-control" id="ProductName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ProductName" class="form-label">Category</label>
-                        </div>
-                        <div class="container">
-                            <div class="row">
-                                <?php
-                                $sql = "SELECT * FROM categorys ORDER BY c_name ASC";
-                                $result = $conn->query($sql);
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo '
-                                            <div class="col-md-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="category" id="optionsRadios' . $row['cid'] . '" value="' . $row['cid'] . '">
-                                                    <label class="form-check-label" for="optionsRadios' . $row['cid'] . '">
-                                                        ' . $row['c_name'] . '
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        ';
-                                    }
-                                }
-                                ?>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="Color" class="form-label">Model No</label>
-                            <input type="text" name="model" class="form-control" id="Color" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="Brand" class="form-label">Brand</label>
-                            <input type="text" name="brand" class="form-control" id="Brand" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="Description" class="form-label">Description</label>
-                            <textarea class="form-control" name="description" id="Description" rows="3" placeholder="describe about products, like size,color etc"
-                                required></textarea>
-                            <!-- <input type="text" name="description" class="form-control" id="Description"  required> -->
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="price" class="form-label">Price</label>
-                            <input type="number" name="price" class="form-control" id="price" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ProductImageurl" class="form-label">Upload Image</label>
-                            <input type="file" name="image_file" class="form-control" id="ProductImageurl"
-                                accept=".jpg,.png,.jpeg" required>
-
-                        </div>
-
-                        <button type="submit" name="Product_submit" class="btn btn-primary">Add Category</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Add Product Modal ends -->
+    <!-- // delete product end -->
 
 
-    <!-- Search  button -->
-    <div style="margin-bottom:5px">
-    <form class="d-flex " action="" method="">
-        <input class="form-control bg-info me-sm-2" type="search" placeholder="Search">
-        <button class="btn btn-primary my-2 my-sm-0"   type="submit">Search</button>
-      </form>
-    </div>
-    <!-- Search  button -->
+</div>
 
 
+<div class="functions">
+    <?php
+    function productsView($conn)
+    {
+        $Selectsql = "SELECT products.pid, products.p_stocksQuantity, products.cid, products.p_name, products.p_model, 
+        products.p_brand, products.p_description, products.p_price, products.p_dateAndTime, products.p_image,
+            categorys.c_name
+            FROM products
+            INNER JOIN categorys ON products.cid = categorys.cid
+            ORDER BY products.p_stocksQuantity ASC";
+        // Execute the query
+        $r = $conn->query($Selectsql);
+        return $r;
+    }
+    function productsSearchView($conn, $searchTerm)
+    {
+        // Sanitize the search term to prevent SQL injection
+        $searchTerm = $conn->real_escape_string($searchTerm);
+
+        // Define the SQL query
+        $Selectsql = "SELECT products.pid, products.p_stocksQuantity, products.cid, products.p_name, products.p_model, 
+            products.p_brand, products.p_description, products.p_price, products.p_dateAndTime, products.p_image,
+            categorys.c_name
+            FROM products
+            INNER JOIN categorys ON products.cid = categorys.cid
+            WHERE (products.p_name LIKE '%$searchTerm%' 
+            OR products.p_description LIKE '%$searchTerm%')
+            ORDER BY products.p_stocksQuantity ASC";
+
+        // Execute the query
+        $r = $conn->query($Selectsql);
+        return $r;
+    }
+
+    ?>
+</div>
+<!-- search form backend  -->
+
+<!-- search form backend  -->
+
+<div class="container mt-4">
+
+    <?php
+    include 'productpage/products_add_Create.php';
+    include 'productpage/products_page_Search.php';
+    ?>
+    <h2>Product Management</h2>
     <!-- Product Table -->
     <table class="table table-bordered table-striped table-hover">
         <thead>
@@ -258,15 +217,14 @@ include "./layout/admin_session.php";
 
 
             <?php
-            
-            $Selectsql = "SELECT products.pid, products.p_stocksQuantity, products.cid, products.p_name, products.p_model, 
-            products.p_brand, products.p_description, products.p_price, products.p_dateAndTime, products.p_image,
-                categorys.c_name
-                FROM products
-                INNER JOIN categorys ON products.cid = categorys.cid
-                ORDER BY products.p_stocksQuantity ASC";
+            // search form of product .ph of admin pane data comes from productpagefolder/product addsearch ehich is includen inline 196 and 197
+            if (isset($_GET["search_form"])) {
 
-            $result = $conn->query($Selectsql);
+                $search = $_GET["search"];
+                $result = productsSearchView($conn, $search);
+            } else {
+                $result = productsView($conn);
+            }
             if ($result->num_rows > 0) {
                 $i = 1;
 
@@ -329,19 +287,16 @@ include "./layout/admin_session.php";
                             </form>';
                     }
                     echo "   
-                    
-
-
                             </td>
                                 </tr>
                         ";
                 }
             } else {
-                echo '<tr><td colspan="10" class="text-center">No products found</td></tr>';
+                echo '<tr><td colspan="10" class=" bg-danger bg-opacity-25 text-center">No products found</td></tr>';
             }
             $conn->close(); // Close the database connection
             ?>
         </tbody>
     </table>
-    
+
     <?php include "./layout/footer.php" ?>
