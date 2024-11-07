@@ -21,6 +21,8 @@ if (isset($_GET['update_orderStatus_btn'])) {
     $sqlproduct = "UPDATE products SET p_stocksQuantity = '$left_product_quantity' WHERE pid = $pid";
     $sqlstock = "INSERT INTO stocks (pid, s_quantity, s_in_out,  s_productPrice) VALUES ('$pid', '$o_quantity', '1','$o_totalAmount')";
 
+    //  1 means stock out  0 means stock in
+
     if ($orderstatus == "completed") {
         if ($p_stocksQuantity - $o_quantity < 0) {
             msg_loc("error", "NOt enough products in stock", "ordersManagement.php");
@@ -28,16 +30,27 @@ if (isset($_GET['update_orderStatus_btn'])) {
         // if order is completed then run this code
         // Update product stock quantity
         elseif ($conn->query($sqlproduct) && $conn->query($sqlupdate_orderStatus) && $conn->query($sqlstock)) {
-            msg_loc("success", "Order status of $oid is $orderstatus", "ordersManagement.php");
+
+
+            msg_loc("success", "Order status is $orderstatus", "ordersManagement.php");
         }
     } elseif ($orderstatus == "conformed") {
 
         if ($p_stocksQuantity - $o_quantity < 0) {
 
-            msg_loc("error", "NOt enough products in stock", "ordersManagement.php");
-        } else {
-            $conn->query($sqlupdate_orderStatus); //for pending and conformed ordered
-            msg_loc("success", "Order status of $oid is $orderstatus", "ordersManagement.php");
+            msg_loc("error", "Not enough products in stock", "ordersManagement.php");
+        } else if ($conn->query($sqlupdate_orderStatus)) {
+            // $headers = "From: orozmush@yourwebsite.com";
+            // $to = "sumanmushyakhwo@gmail.com";
+            // $subject = 'Ordered Conformed';
+            // $message = "Product ID: $pid has been confirmed.";
+
+            // if (!mail($to, $subject, $message, $headers)) {
+            //     throw new Exception("Failed to send email!");
+            // }
+
+
+            msg_loc("success", "Order status is $orderstatus", "ordersManagement.php");
         }
     } elseif ($orderstatus == "pending") {
         if ($conn->query($sqlupdate_orderStatus))

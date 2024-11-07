@@ -118,11 +118,8 @@ if (isset($_GET["pid"])) {
                 $total_rating = 0;
                 $rating_count = 0;
 
-                // Retrieve all the ratings for the product
-                $stmt = $conn->prepare("SELECT r_ratingValue FROM reviews WHERE pid = ?");
-                $stmt->bind_param("i", $pid);
-                $stmt->execute();
-                $result = $stmt->get_result();
+                $sql = "SELECT r_ratingValue FROM reviews WHERE pid = $pid";
+                $result - $conn->query($sql);
 
                 // Sum all the ratings and count the number of ratings
                 while ($row = $result->fetch_assoc()) {
@@ -176,7 +173,7 @@ if (isset($_GET["pid"])) {
     $result2 = $conn->query($order_check_sql);
 
     if ($result2->num_rows != 0) {
-      $row2 = $result2->fetch_assoc();
+      
 
       // Proceed only if the order status is 'completed'
       if ($row2['o_orderStatus'] == 'completed') {

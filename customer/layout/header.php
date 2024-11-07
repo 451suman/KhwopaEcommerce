@@ -67,6 +67,7 @@
                     <input class="form-control me-sm-2" type="search" name="search" placeholder="Search">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
+                
                 <button type="button" class="btn btn-danger" style="margin-left:10px;"><a
                         href="./logout.php">Logout</a></button>
             </div>
