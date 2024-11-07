@@ -14,16 +14,6 @@ if (isset($_GET['cancell_order'])) {
 }
 ?>
 
-<!-- Buttons to handle stock buy/sell -->
-<form action="" method="get">
-    <input type="hidden" name="pid" value="<?php echo $pid; ?>">
-    <button type="submit" name="pid_stock_buy_btn" class="btn btn-warning form_btn_stock">PENDING</button>
-</form>
-
-<form action="" method="get">
-    <input type="hidden" name="pid" value="<?php echo $pid; ?>">
-    <button type="submit" name="pid_stock_SELL_btn" class="btn btn-success form_btn_stock">Complete</button>
-</form>
 
 <!-- Table displaying order details -->
 <table class="table table-bordered table-striped table-hover">
@@ -85,12 +75,9 @@ if (isset($_GET['cancell_order'])) {
                 // Action buttons
                 if ($row['o_orderStatus'] == "pending") {
                     echo '
-                        <td>
-                            <form action="orderDetailTable.php" method="get">
-                                <input type="hidden" name="oid" value="' . $row['oid'] . '">
-                                <input type="submit" value="Cancel Order" name="cancell_order" class="btn btn-danger">
-                            </form>
-                        </td>';
+                    <td>
+                        <p class="text-warning">review botton will be available when order is completed</p>
+                    </td>';
                 } elseif ($row['o_orderStatus'] == "completed") {
                     echo '
                         <td>
@@ -101,7 +88,7 @@ if (isset($_GET['cancell_order'])) {
                 } else {
                     echo '
                     <td>
-                        <p class="text-warning">Cancell button is unavailable </p>
+                        <p class="text-warning">review botton will be available when order is completed</p>
                     </td>';
                 }
                 echo '</tr>';

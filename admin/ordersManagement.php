@@ -18,7 +18,7 @@ $sql = "SELECT orders.oid, orders.uid, orders.pid, orders.o_shippingAddress,
 
 $result = $conn->query($sql);
 ?>
-
+<!-- 
 <form action="" method = "get">
 <i class="bi bi-filter">Filter</i>
     <select class="form-select" value="<?php  ?>" name="orderstatus"
@@ -35,7 +35,7 @@ $result = $conn->query($sql);
 </svg> Filter
 </button>
 
-</form>
+</form> -->
 
 
 
