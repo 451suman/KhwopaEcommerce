@@ -104,7 +104,7 @@ if (isset($_GET["pid"])) {
 
 <div class="container text-center">
   <div class="row align-items-start">
-<!-- col 1 -->
+    <!-- col 1 -->
     <div class="col">
       <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">Average Ratings</p>
 
@@ -118,8 +118,11 @@ if (isset($_GET["pid"])) {
                 $total_rating = 0;
                 $rating_count = 0;
 
-                $sql = "SELECT r_ratingValue FROM reviews WHERE pid = $pid";
-                $result - $conn->query($sql);
+                // Retrieve all the ratings for the product
+                $stmt = $conn->prepare("SELECT r_ratingValue FROM reviews WHERE pid = ?");
+                $stmt->bind_param("i", $pid);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
                 // Sum all the ratings and count the number of ratings
                 while ($row = $result->fetch_assoc()) {
@@ -129,7 +132,7 @@ if (isset($_GET["pid"])) {
 
                 // Calculate the average rating
                 if ($rating_count > 0) {
-                  $average_rating = $total_rating / $rating_count; 
+                  $average_rating = $total_rating / $rating_count;
                 } else {
                   $average_rating = null;
                 }
@@ -139,7 +142,7 @@ if (isset($_GET["pid"])) {
                 if ($average_rating !== null) {
                   // Round the average rating to the nearest whole number
                   $rounded_rating = round($average_rating);
-                  echo "<p style='font-size:20px; margin:0px;'><strong>".$rounded_rating."</strong></p>";
+                  echo $rounded_rating;
                   // Generate the star string
                   for ($i = 1; $i <= 5; $i++) {
                     if ($i <= $rounded_rating) {
@@ -149,11 +152,11 @@ if (isset($_GET["pid"])) {
                     }
                   }
                 } else {
-                  $star_rating = '☆ ☆ ☆ ☆ ☆'; // In case there are no ratings
+                  $star_rating = 'No ratings yet'; // In case there are no ratings
                 }
 
                 // Display the star rating
-                echo "<div style='font-size: 38px;'>$star_rating</div>";
+                echo "<div style='font-size: 48px;'>$star_rating</div>";
 
                 ?>
               </div>
@@ -173,7 +176,7 @@ if (isset($_GET["pid"])) {
     $result2 = $conn->query($order_check_sql);
 
     if ($result2->num_rows != 0) {
-      
+
 
       // Proceed only if the order status is 'completed'
       if ($row2['o_orderStatus'] == 'completed') {
