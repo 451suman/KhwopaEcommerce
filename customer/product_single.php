@@ -17,15 +17,27 @@ if (isset($_POST['review_submit'])) {
 //   die();
   $sql_review = "INSERT INTO reviews (uid, pid, r_ratingValue, r_comment, r_revievStatus) 
                   VALUES ('$uid', '$pid', '$rating', '$review_msg', '0')";
+
   $result = $conn->query($sql_review);
+
   if ($result) {
-    msg_loc("success", "Thank you for Review", "product_single.php?pid=$pid");
+    $icon = "success";
+    $msg = "Thank you for Review";
+    $loc = "product_single.php?pid=$pid";
+    msg_loc($icon, $msg, $loc);
   } else {
-    msg_loc("error", " Review failed", "product_single.php");
+    $icon = "error";
+    $msg = " Review failed";
+    $loc = "product_single.php";
+    msg_loc($icon, $msg, $loc);
   }
 }
 //review comment and rating backend ends
+
 ?>
+
+
+
 
 <?php
 // passing pid from products.php using <a  href="product_single.php?pid='.$row['pid'].'" class="btn btn-primary"> tag
@@ -60,7 +72,7 @@ if (isset($_GET["pid"])) {
       <p><strong>Model no </strong>: <?php echo $row['p_model']; ?></p>
       <p><strong>Brand</strong> : <?php echo $row['p_brand']; ?></p>
       <p><strong>Left in Stocks</strong> : <?php echo $row['p_stocksQuantity']; ?></p>
-      <p><strong>Description:</strong> <?php echo nl2br(htmlspecialchars($row['p_description'])); ?></p>
+      <p><strong>Description</strong> : <?php echo $row['p_description']; ?></p>
       <div class="options">
       </div>
       <hr>
@@ -104,7 +116,65 @@ if (isset($_GET["pid"])) {
 
 <div class="container text-center">
   <div class="row align-items-start">
+
+
     <!-- col 1 -->
+    <!-- <div class="col">
+      <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">Average Ratings</p>
+
+
+      <?php
+      // Initialize variables for calculating the average
+      $total_rating = 0;
+      $rating_count = 0;
+
+      // Retrieve all the ratings for the product
+      $stmt = $conn->prepare("SELECT r_ratingValue FROM reviews WHERE pid = ?");
+      $stmt->bind_param("i", $pid);
+      $stmt->execute();
+      $result = $stmt->get_result();
+
+      // Sum all the ratings and count the number of ratings
+      while ($row = $result->fetch_assoc()) {
+        $total_rating += $row['r_ratingValue'];
+        $rating_count++;
+      }
+
+      // Calculate the average rating
+      if ($rating_count > 0) {
+        $average_rating = $total_rating / $rating_count;
+      } else {
+        $average_rating = null;
+      }
+
+      // Create the star string based on the average rating
+      $star_rating = '';
+      if ($average_rating !== null) {
+        // Round the average rating to the nearest whole number
+        $rounded_rating = round($average_rating);
+        echo $rounded_rating;
+        // Generate the star string
+        for ($i = 1; $i <= 5; $i++) {
+          if ($i <= $rounded_rating) {
+            $star_rating .= '⭐'; // Full star
+          } else {
+            $star_rating .= '☆'; // Empty star
+          }
+        }
+      } else {
+        $star_rating = 'No ratings yet'; // In case there are no ratings
+      }
+
+      // Display the star rating
+      echo "<div style='font-size: 48px;'>$star_rating</div>";
+
+      ?>
+
+
+    </div> -->
+
+
+
     <div class="col">
       <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">Average Ratings</p>
 
@@ -113,6 +183,9 @@ if (isset($_GET["pid"])) {
           <div class="row g-0">
             <div class="col-md-12">
               <div class="card-body" style="text-align: center;">
+                <!-- < ?php echo '⭐'; ?> -->
+
+
                 <?php
                 // Initialize variables for calculating the average
                 $total_rating = 0;
@@ -168,80 +241,117 @@ if (isset($_GET["pid"])) {
     </div>
 
 
-    <!-- review form -->
-    <?php
-
-    // Check if the order exists for the given product and user
-    $order_check_sql = "SELECT * FROM orders WHERE pid=$pid AND uid=$uid";
-    $result2 = $conn->query($order_check_sql);
-
-    if ($result2->num_rows != 0) {
 
 
-      // Proceed only if the order status is 'completed'
-      if ($row2['o_orderStatus'] == 'completed') {
+    <!-- rating bar   Col 2     -->
+    <!-- <div class="col">
+      <div style="margin-left: 10% !important;margin-right: 10%  !important;">
+        <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">TOTAL Ratings</p>
+        <strong>Rating 5</strong>
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <strong>Rating 4</strong>
+        <div class="progress">
+          <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0"
+            aria-valuemax="100"> total 4 ⭐ rating </div>
+        </div>
+        <strong>Rating 3</strong>
+        <div class="progress">
+          <div class="progress-bar bg-warning" role="progressbar" style="width: 75%;" aria-valuenow="75"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <strong>Rating 2</strong>
+        <div class="progress">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <strong>Rating 1</strong>
+        <div class="progress">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div> -->
 
-        // Check if the user has already reviewed the product
-        $sql_check_review = "SELECT * FROM reviews WHERE pid=$pid AND uid=$uid";
-        $result = $conn->query($sql_check_review);
+    <!-- rating bar ends -->
 
-        if ($result->num_rows > 0) {
-          // Fetch the review details
-          $row = $result->fetch_assoc();
-          $rating = '';
-          for ($i = 1; $i <= $row['r_ratingValue']; $i++) {
-            $rating .= "⭐"; // Use .= for string concatenation
-          }
 
-          // col 2 review  if review is already given
-          echo '
-            <div class="col">
-                <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">YOUR REVIEW OF THIS PRODUCT</p>
-                 <div class="container-fluid">
-                    <div class="card mb-3 p-2" style="width: 100%;">
-                      <div class="row g-0">
-                        <div class="col-md-12">
-                          <div class="card-body" style="text-align: center;">
-                            <p>Comment<br>' . $row['r_comment'] . ' <br> 
-                            <span>Rating: ' . $rating . '</span></p>
-                            </div>
+<!-- review form -->
+<?php
+
+// Check if the order exists for the given product and user
+$order_check_sql = "SELECT * FROM orders WHERE pid=$pid AND uid=$uid";
+$result2 = $conn->query($order_check_sql);
+
+if ($result2->num_rows != 0) {
+  $row2 = $result2->fetch_assoc();
+
+  // Proceed only if the order status is 'completed'
+  if ($row2['o_orderStatus'] == 'completed') {
+
+    // Check if the user has already reviewed the product
+    $sql_check_review = "SELECT * FROM reviews WHERE pid=$pid AND uid=$uid";
+    $result = $conn->query($sql_check_review);
+
+    if ($result->num_rows > 0) {
+      // Fetch the review details
+      $row = $result->fetch_assoc();
+      $rating = '';
+      for ($i = 1; $i <= $row['r_ratingValue']; $i++) {
+        $rating .= "⭐"; // Use .= for string concatenation
+      }
+
+      // col 2 review  if review is already given
+      echo '
+        <div class="col">
+            <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">YOUR REVIEW OF THIS PRODUCT</p>
+             <div class="container-fluid">
+                <div class="card mb-3 p-2" style="width: 100%;">
+                  <div class="row g-0">
+                    <div class="col-md-12">
+                      <div class="card-body" style="text-align: center;">
+                        <p>Comment<br>' . $row['r_comment'] . ' <br> 
+                        <span>Rating: ' . $rating . '</span></p>
                         </div>
-                      </div>
                     </div>
                   </div>
-            </div>
-            ';
-        } else {
-          // Review comment and rating star form.
-          echo '
-            <div class="col">
-                <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">GIVE REVIEW OF THIS PRODUCT</p>
-                <form id="reviewForm" method="post" action="product_single.php" style="border:1px solid black; padding:10px;" class="bg-info">
-                    <div>
-                        <input type="text" name="review_msg" class="form-control" placeholder="Review this product" required>
-                        <br>
-                        <label for="rating">Rating:</label>
-                        <div class="rating">
-                            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
-                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
-                            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-                            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
-                        </div>
-                        <input type="hidden" name="pid" value="' . $pid . '">
-                        <input type="hidden" name="uid" value="' . $uid . '">
-                        <input type="submit" class="btn btn-primary" value="SUBMIT REVIEW" name="review_submit" id="review_btn_id">
+                </div>
+              </div>
+        </div>
+        ';
+    } else {
+      // Review comment and rating star form.
+      echo '
+        <div class="col">
+            <p class="alert-primary edit_headings" style="color: white; font-size: 20px;">GIVE REVIEW OF THIS PRODUCT</p>
+            <form id="reviewForm" method="post" action="product_single.php" style="border:1px solid black; padding:10px;" class="bg-info">
+                <div>
+                    <input type="text" name="review_msg" class="form-control" placeholder="Review this product" required>
+                    <br>
+                    <label for="rating">Rating:</label>
+                    <div class="rating">
+                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
                     </div>
-                </form>
-                <br>
-            </div>
-            ';
-        }
-      }
+                    <input type="hidden" name="pid" value="' . $pid . '">
+                    <input type="hidden" name="uid" value="' . $uid . '">
+                    <input type="submit" class="btn btn-primary" value="SUBMIT REVIEW" name="review_submit" id="review_btn_id">
+                </div>
+            </form>
+            <br>
+        </div>
+        ';
     }
-    ?>
-    <!-- https://bbbootstrap.com/snippets/bootstrap-rate-your-experience-template-star-ratings-30972576# -->
-    <!-- review form ends -->
+  }
+}
+?>
+<!-- https://bbbootstrap.com/snippets/bootstrap-rate-your-experience-template-star-ratings-30972576# -->
+<!-- review form ends -->
   </div>
 </div>
 <br>
@@ -296,6 +406,30 @@ if ($result->num_rows > 0) {
 ?>
 <!-- review and display rating ends here -->
 
+
+
+
+<script>
+  // Get the submit button
+  var submitButton = document.getElementById('review_btn_id');
+
+  // Function to check if any rating is selected
+  function checkRatingSelected() {
+    // Get the value of the selected radio button
+    var selectedRating = document.querySelector('input[name="rating"]:checked');
+
+    // Enable or disable the submit button based on whether a rating is selected
+    submitButton.disabled = !selectedRating;
+  }
+
+  // Add change event listener to all radio buttons
+  document.querySelectorAll('input[name="rating"]').forEach(function (radio) {
+    radio.addEventListener('change', checkRatingSelected);
+  });
+
+  // Check on page load
+  checkRatingSelected();
+</script>
 
 
 
