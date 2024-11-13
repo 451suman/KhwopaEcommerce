@@ -85,7 +85,6 @@ if (isset($_GET['BUT_IT'])) {
                     <p class="text-warning">If this address is not where you want to ship, please change the
                         address.<br>
                         Example: Bhaktapur,kamablinyak
-
                     </p>
                 </div>
 

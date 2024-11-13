@@ -160,16 +160,11 @@ include "./layout/admin_session.php";
             FROM products
             INNER JOIN categorys ON products.cid = categorys.cid
             ORDER BY products.p_stocksQuantity ASC";
-        // Execute the query
         $r = $conn->query($Selectsql);
         return $r;
     }
     function productsSearchView($conn, $searchTerm)
     {
-        // Sanitize the search term to prevent SQL injection
-        $searchTerm = $conn->real_escape_string($searchTerm);
-
-        // Define the SQL query
         $Selectsql = "SELECT products.pid, products.p_stocksQuantity, products.cid, products.p_name, products.p_model, 
             products.p_brand, products.p_description, products.p_price, products.p_dateAndTime, products.p_image,
             categorys.c_name
@@ -179,7 +174,6 @@ include "./layout/admin_session.php";
             OR products.p_description LIKE '%$searchTerm%')
             ORDER BY products.p_stocksQuantity ASC";
 
-        // Execute the query
         $r = $conn->query($Selectsql);
         return $r;
     }
@@ -193,7 +187,9 @@ include "./layout/admin_session.php";
 <div class="container mt-4">
 
     <?php
+    // ------------------------------------------ add product -------------------------------
     include 'productpage/products_add_Create.php';
+    // ------------------------------------------ search product -------------------------------
     include 'productpage/products_page_Search.php';
     ?>
     <h2>Product Management</h2>

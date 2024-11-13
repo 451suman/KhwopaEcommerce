@@ -1,8 +1,6 @@
 <?php include "./layout/header.php";
 include "./layout/admin_session.php";
-
 ?>
-
 
 <?php
 $sql = "SELECT orders.oid, orders.uid, orders.pid, orders.o_shippingAddress, 
@@ -13,9 +11,7 @@ $sql = "SELECT orders.oid, orders.uid, orders.pid, orders.o_shippingAddress,
        INNER JOIN products ON products.pid = orders.pid
        INNER JOIN users ON users.uid = orders.uid
        ORDER BY orders.o_date DESC
-       
        ";
-
 $result = $conn->query($sql);
 ?>
 <!-- 
@@ -81,7 +77,6 @@ $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
         $i = 1;
         while ($row = $result->fetch_assoc()) {
-
             // if o_orderstatus == pendinng then display pending with red color else displau complete with green color 
             $pending_complete = '';
             if ($row['o_orderStatus'] == "pending") {
@@ -93,7 +88,6 @@ $result = $conn->query($sql);
             } elseif ($row['o_orderStatus'] == "conformed") {
                 $pending_complete = '<p style="font-size:20px;" class="text-primary"><strong>' . $row['o_orderStatus'] . '</strong></p>';
             }
-           
             echo '
                     <tr>
                         <th scope="row">' . $i++ . '</th>
@@ -110,8 +104,6 @@ $result = $conn->query($sql);
                         <td>' . $row['o_date'] . '</td>
                          <td><img class="Product_table_image" src="../image/product/' . $row['p_image'] . '"></td>
                         <td> ';
-
-
             if ($row['o_orderStatus'] != "completed" && $row['o_orderStatus'] != "cancelled") { //if order status is not completed then only display button
                 echo '
                         <form action="ordersManagement_edit.php" method="get">
@@ -127,12 +119,7 @@ $result = $conn->query($sql);
     } else {
         echo '<tr><td colspan="5">No stock details found.</td></tr>';
     }
-
     ?>
     </tbody>
 </table>
-
-
-
-
 <?php include "./layout/footer.php" ?>

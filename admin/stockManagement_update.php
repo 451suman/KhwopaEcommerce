@@ -31,7 +31,6 @@ if(isset($_POST['update_submit_stocks']))
 
 ?>
 
-
 <?php
 //  when buttonis clickec from product.php page
      if (isset($_POST['update_stocks_btn'])) {
@@ -41,7 +40,6 @@ if(isset($_POST['update_submit_stocks']))
         $p_stocksQuantity = $_POST["p_stocksQuantity"];
         // echo"sid= ".$sid." pid=" .$pid." quantity = ".$s_quantity." balance =".$p_stocksQuantity;
         // die();
-
         $sql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand,
                             products.p_description, products.p_price, products.p_dateAndTime, products.p_image,products.p_stocksQuantity,
                             categorys.c_name
@@ -52,10 +50,7 @@ if(isset($_POST['update_submit_stocks']))
                 if ($result = $conn->query($sql)) {
                     $row = $result->fetch_assoc();
                 }
-       
     }
-
-
 ?>
 
 <div class="container text-center">
@@ -67,7 +62,6 @@ if(isset($_POST['update_submit_stocks']))
         </div>
         <div class="col">
             <form method="post" action="stockManagement_update.php">
-
                 <p class="alert-primary edit_headings" style="color:white; font-size:20px;"><strong>Insert Product Stock
                         Quantity</strong></p>
                 <p style="font-size:20px;"><strong>Product Name : </strong><?php echo $row['p_name']; ?></p>
@@ -85,18 +79,13 @@ if(isset($_POST['update_submit_stocks']))
                     <label for="" class="form-label mt-4"><strong>Enter a New Additional Stock Quantity</strong></label>
                     <input type="number" name="addtional_quantity" class="form-control" min="0" id="uqntity">
                 </div>
-
                 <br>
                 <input type="hidden" name="pid" value="<?php echo $pid; ?>" id="">
                 <input type="hidden" name="p_name" value="<?php echo $row['p_name']; ?>" id="">
                 <input type="hidden" name="p_price" value="<?php echo $row['p_price']; ?>" id="">
                 <button type='submit' name='update_submit_stocks' class='btn btn-primary'>update</button>
-
-
-
             </form>
         </div>
-
     </div>
 </div>
 

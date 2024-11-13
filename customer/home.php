@@ -40,20 +40,20 @@ include "./layout/customer_session.php";
         <div class="col">
           <div class="card h-100 shadow-sm">
             <!-- Product Image -->
-            <img src="../image/product/<?php echo htmlspecialchars($row['p_image']); ?>" class="card-img-top"
-              alt="<?php echo htmlspecialchars($row['p_name']); ?>">
+            <img src="../image/product/<?php echo $row['p_image']; ?>" class="card-img-top"
+              alt="<?php echo $row['p_name']; ?>">
             <div class="card-body">
               <!-- Product Name -->
               <h5 class="card-title bg-primary text-light text-center">
-                <strong><?php echo htmlspecialchars($row['p_name']); ?></strong>
+                <strong><?php echo $row['p_name']; ?></strong>
               </h5>
 
               <!-- Product Description (Model, etc.) -->
               <p class="card-text">
-                <strong>Brand:</strong> <?php echo htmlspecialchars($row['p_brand']); ?><br>
-                <strong>Model No:</strong> <?php echo htmlspecialchars($row['p_model']); ?><br>
-                <strong>Stock Quantity:</strong> <?php echo htmlspecialchars($row['p_stocksQuantity']); ?><br>
-                <strong>Category:</strong> <?php echo htmlspecialchars($row['c_name']); ?>
+                <strong>Brand:</strong> <?php echo $row['p_brand']; ?><br>
+                <strong>Model No:</strong> <?php echo $row['p_model']; ?><br>
+                <strong>Stock Quantity:</strong> <?php echo $row['p_stocksQuantity']; ?><br>
+                <strong>Category:</strong> <?php echo $row['c_name']; ?>
               </p>
               <p class="card-text text-primary text-center" style="font-size: 20px;">
                 <strong>Price:</strong> <?php echo 'Rs ' . htmlspecialchars($row['p_price']); ?>

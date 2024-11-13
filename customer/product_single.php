@@ -9,10 +9,10 @@ include "./layout/customer_session.php";
 <?php
 //review comment and rating backend
 if (isset($_POST['review_submit'])) {
-  $pid = mysqli_real_escape_string($conn, $_POST['pid']);
-  $uid = mysqli_real_escape_string($conn, $_POST['uid']);
-  $review_msg = mysqli_real_escape_string($conn, $_POST['review_msg']);
-  $rating = mysqli_real_escape_string($conn, $_POST['rating']);
+  $pid = ($_POST['pid']);
+  $uid = ($_POST['uid']);
+  $review_msg = ($_POST['review_msg']);
+  $rating = ($_POST['rating']);
   // echo $pid . "  /" . $uid . "  /" . $review_msg . " rat=" . $rating;
 //   die();
   $sql_review = "INSERT INTO reviews (uid, pid, r_ratingValue, r_comment, r_revievStatus) 

@@ -7,15 +7,7 @@ include "./layout/admin_session.php";
 <div class="container mt-4">
     <h2>Category Management</h2>
 
-
-
-
     <?php
-
-
-
-
-
     // add category
     if (isset($_POST["category_submit"])) {
         $c_name = $_POST["c_name"];
