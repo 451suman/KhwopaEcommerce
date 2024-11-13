@@ -20,18 +20,21 @@ function category_product_display($cid, $conn)
     return $result;
 }
 
-function selectProducts($conn) //from products.php page -> products.php ma jancha
+function selectProducts($conn)
 {
-    $Selectsql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, products.p_price,
-     products.p_stocksQuantity, products.p_image,
-    categorys.c_name
-    FROM products
-    INNER JOIN categorys ON products.cid = categorys.cid
-    WHERE p_stocksQuantity > 0
-    ORDER BY categorys.c_name ASC";
-    $result = $conn->query($Selectsql);
-    return $result;
+    // Use prepared statements for security
+    $sql = "SELECT products.pid, products.cid, products.p_name, products.p_model, products.p_brand, 
+                   products.p_price, products.p_stocksQuantity, products.p_image, categorys.c_name
+            FROM products
+            INNER JOIN categorys ON products.cid = categorys.cid
+            WHERE products.p_stocksQuantity > 0
+            ORDER BY categorys.c_name ASC";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
+    return $result;
 }
 
 // Function to search products

@@ -3,8 +3,6 @@ include"./layout/admin_session.php";
 
 ?>
 
-
-
 <h1> RECOMMENDATION FOR YOU Costomer Home Page.</h1>
 <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
   <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
@@ -60,7 +58,7 @@ include"./layout/admin_session.php";
 
               <!-- Average Rating -->
               <p class="card-text text-warning text-center" style="font-size: 18px;">
-                <strong>Average Rating:</strong> <?php echo number_format($row['avg_rating'], 2); ?> / 5
+                <strong>Average Rating:</strong> <?php echo number_format($row['avg_rating'], 0); ?> / 5
               </p>
 
               <!-- Action Button -->

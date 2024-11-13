@@ -2,7 +2,7 @@
 </div>
 <footer>
   <br>
-  <div class="bg-primary" id="footer_div"><p class="footer_text"> © 2021 khwopa Store, Bhaktapur</p></div>
+  <div class="bg-info" id="footer_div"><p class="footer_text"> © 2021 khwopa Store, Bhaktapur</p></div>
   </footer>
   <script src="../js/bootstrap.bundle.min.js" ></script>
 

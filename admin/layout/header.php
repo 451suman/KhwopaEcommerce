@@ -35,7 +35,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-info" data-bs-theme="dark">
         <div class="container-fluid">
             <!-- <a class="navbar-brand" href="#">Navbar</a> -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
@@ -56,13 +56,13 @@
                     <li class="nav-item">
                         <a class="nav-link active_nav" href="./ordersManagement.php">Orders</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link active_nav" href="./aboutus.php">About us</a>
-                    </li>
+                    </li> -->
                   
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link active_nav" href="./contact.php">Contact</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link active_nav" href="./customer.php">Customer</a>
                     </li>

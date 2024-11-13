@@ -61,7 +61,7 @@ include "./layout/customer_session.php";
 
               <!-- Average Rating -->
               <p class="card-text text-warning text-center" style="font-size: 18px;">
-                <strong>Average Rating:</strong> <?php echo number_format($row['avg_rating'], 2); ?> / 5
+              <strong>Average Rating:</strong> <?php echo number_format($row['avg_rating'], 0); ?> / 5
               </p>
 
               <!-- Action Button -->
