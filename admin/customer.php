@@ -29,6 +29,7 @@ include "./layout/admin_session.php";
       <th scope="col">Email</th>
       <th scope="col">Phone</th>
       <th scope="col">Address</th>
+      <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
@@ -48,12 +49,18 @@ include "./layout/admin_session.php";
               <td>' . $row["email"] . '</td>
               <td>' . $row["phone"] . '</td>
               <td>' . $row["district"] . ', ' . $row["city"] . '</td>
+              <td>  
+                <form action="editcustomer.php">
+                  <input type="hidden" name="cid" value="" id="">
+                  <input class="btn btn-primary" value="EDIT" name="" id="" disable>
+                </form>
+              
+              </td>
             </tr>
           ';
 
       }
     }
-
 
     ?>
 

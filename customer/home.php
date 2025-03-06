@@ -27,7 +27,7 @@ include "./layout/customer_session.php";
             products.pid, products.p_name, categorys.c_name
         ORDER BY 
             avg_rating DESC
-          LIMIT 4";
+          LIMIT 8";
 
     $result = $conn->query($sql);
 
@@ -61,7 +61,7 @@ include "./layout/customer_session.php";
 
               <!-- Average Rating -->
               <p class="card-text text-warning text-center" style="font-size: 18px;">
-              <strong>Average Rating:</strong> <?php echo number_format($row['avg_rating'], 0); ?> / 5
+              <strong>Average Rating:</strong> <?php echo round($row['avg_rating']); ?> / 5
               </p>
 
               <!-- Action Button -->

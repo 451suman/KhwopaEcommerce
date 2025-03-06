@@ -24,7 +24,7 @@ include"./layout/admin_session.php";
             products.pid, products.p_name, categorys.c_name
         ORDER BY 
             avg_rating DESC
-          LIMIT 4";
+          LIMIT 8";
 
     $result = $conn->query($sql);
 
@@ -61,12 +61,7 @@ include"./layout/admin_session.php";
                 <strong>Average Rating:</strong> <?php echo number_format($row['avg_rating'], 0); ?> / 5
               </p>
 
-              <!-- Action Button -->
-              <div class="text-center my-4">
-                <a href="product_single.php?pid=<?php echo $row['pid']; ?>" class="btn btn-primary">View
-                  Details</a>
-              </div>
-
+             
               <!-- Optional Footer Icons -->
               <div class="clearfix mb-1">
                 <span class="float-start">
